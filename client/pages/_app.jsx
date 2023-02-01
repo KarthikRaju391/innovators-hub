@@ -1,12 +1,18 @@
-import '../styles/globals.css'
-import { SessionProvider } from 'next-auth/react'
+import { ChainId, ThirdwebProvider } from '@thirdweb-dev/react';
+import Layout from '../components/Layout';
+import "../styles/globals.css";
 
-function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+// This is the chainId your dApp will work on.
+const activeChainId = ChainId.Goerli;
+
+function MyApp({ Component, pageProps }) {
   return (
-    <SessionProvider session={session}>
-      <Component {...pageProps} />
-    </SessionProvider>
-  )
+    <ThirdwebProvider desiredChainId={activeChainId}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ThirdwebProvider>
+  );
 }
 
 export default MyApp

@@ -1,23 +1,14 @@
-import Head from 'next/head'
-import { signIn, signOut, useSession } from 'next-auth/react'
+import { ConnectWallet } from "@thirdweb-dev/react";
+import React from 'react'
+import { CampaignDetails } from '../pages/CampaignDetails'
+import { CreateCampaign } from './CreateCampaign'
+import { Profile } from './Profile'
+
 
 const Home = () => {
-  const { data: session } = useSession();
-
-  if (session) {
-    return (
-      <>
-        Signed in as {session.user.email} <br />
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    )
-  }
   return (
-    <>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
-    </>
+    <div>App</div>
   )
 }
 
-export default Home
+export default Home;
