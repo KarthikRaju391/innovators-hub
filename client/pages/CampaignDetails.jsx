@@ -6,4 +6,4 @@ const CampaignDetails = () => {
     )
 }
 
-export default CampaignDetails
+export default CampaignDetails;
