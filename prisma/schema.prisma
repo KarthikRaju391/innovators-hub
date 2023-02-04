@@ -11,7 +11,7 @@ datasource db {
 }
 
 model Account {
-  id                String  @id @default(cuid())
+  id                String  @id @default(uuid())
   userId            String
   type              String
   provider          String
@@ -30,7 +30,7 @@ model Account {
 }
 
 model Session {
-  id           String   @id @default(cuid())
+  id           String   @id @default(uuid())
   sessionToken String   @unique
   userId       String
   expires      DateTime
@@ -38,13 +38,152 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(uuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
+  password      String?    @db.Text
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  Order         Order[]
+  Backers       Backers[]
+  Cart          Cart[]
+  Comments      Comments[]
+}
+
+model Posts {
+  id        String     @id @default(uuid())
+  title     String
+  content   String
+  startupId String?
+  campignId String?
+  campaign  Campaign?  @relation(fields: [campignId], references: [id])
+  userId    String
+  image     String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Comments  Comments[]
+}
+
+model Comments {
+  id        String   @id @default(uuid())
+  content   String
+  postId    String
+  userId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  post      Posts    @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Campaign {
+  id          String    @id @default(uuid())
+  title       String
+  content     String
+  startupId   String?
+  fundingGoal Int?
+  backers     Backers[]
+  userId      String
+  image       String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  Posts       Posts[]
+}
+
+model Backers {
+  id         String   @id @default(uuid())
+  campaignId String
+  userId     String
+  amount     Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  Campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Product {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  startupId   String
+  category    String
+  price       Int
+  image       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Startup     Startup  @relation(fields: [startupId], references: [id])
+  Order       Order[]
+  Cart        Cart[]
+}
+
+model Startup {
+  id          String    @id @default(uuid())
+  name        String
+  description String
+  image       String
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  panNumber   String
+}
+
+model Order {
+  id                String           @id @default(uuid())
+  userId            String
+  productId         String
+  quantity          Int
+  deliverTo         String
+  deliveryDate      DateTime
+  deliveryStatus    Status           @default(PENDING)
+  createdAt         DateTime         @default(now())
+  updatedAt         DateTime         @updatedAt
+  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product           Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
+  deliveryPartner   DeliveryPartner? @relation(fields: [deliveryPartnerId], references: [id])
+  deliveryPartnerId String?
+}
+
+model DeliveryPartner {
+  id          String   @id @default(uuid())
+  name        String
+  email       String   @unique
+  password    String   @db.Text
+  phoneNumber String
+  image       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  Order       Order[]
+  manager     Manager? @relation(fields: [managerId], references: [id])
+  managerId   String?
+}
+
+model Manager {
+  id              String            @id @default(uuid())
+  name            String
+  email           String            @unique
+  password        String            @db.Text
+  phoneNumber     String
+  image           String
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  DeliveryPartner DeliveryPartner[]
+}
+
+model Cart {
+  id        String  @id @default(uuid())
+  userId    String
+  productId String
+  startupId String
+  quantity  Int
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+}
+
+enum Status {
+  PENDING
+  COMPLETED
+  CANCELLED
 }
 
 model VerificationToken {
