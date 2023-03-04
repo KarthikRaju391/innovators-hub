@@ -1,5 +1,8 @@
 import Head from 'next/head'
 import { signIn, signOut, useSession } from 'next-auth/react'
+import Login from '../components/Login';
+import AddPost from '../components/AddPost';
+import ListComments from '../components/ListComments';
 
 const Home = () => {
   const { data: session } = useSession();
@@ -8,6 +11,9 @@ const Home = () => {
     return (
       <>
         Signed in as {session.user.email} <br />
+
+        {!session.user.pan ? <Login /> : null}
+        <AddPost />
         <button onClick={() => signOut()}>Sign out</button>
       </>
     )
@@ -19,5 +25,6 @@ const Home = () => {
     </>
   )
 }
+
 
 export default Home

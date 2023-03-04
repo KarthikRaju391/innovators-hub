@@ -38,43 +38,60 @@ model Session {
 }
 
 model User {
-  id            String     @id @default(uuid())
-  name          String?
-  email         String?    @unique
-  password      String?    @db.Text
-  emailVerified DateTime?
+  id            String    @id @default(uuid())
+  bio           String?
+  name          String
+  email         String    @unique
+  emailVerified String?
+  password      String?   @db.Text
   image         String?
+  panNumber     String?
   accounts      Account[]
   sessions      Session[]
-  Order         Order[]
-  Backers       Backers[]
-  Cart          Cart[]
-  Comments      Comments[]
-}
+  order         Order[]
+  backers       Backers[]
+  cart          Cart[]
+  comments      Comment[]
+  post          Post[]
 
-model Posts {
-  id        String     @id @default(uuid())
-  title     String
-  content   String
-  startupId String?
-  campignId String?
-  campaign  Campaign?  @relation(fields: [campignId], references: [id])
-  userId    String
-  image     String
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  Comments  Comments[]
-}
-
-model Comments {
-  id        String   @id @default(uuid())
-  content   String
-  postId    String
-  userId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  post      Posts    @relation(fields: [postId], references: [id], onDelete: Cascade)
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Post {
+  id         String    @id @default(uuid())
+  title      String
+  body       String
+  permalink  String    @unique
+  startupId  String?
+  campaignId String?
+  campaign   Campaign? @relation(fields: [campaignId], references: [id])
+  userId     String
+  image      String?
+  comment    Comment[]
+  user       User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  Startup   Startup? @relation(fields: [startupId], references: [id])
+
+  @@unique([startupId, campaignId])
+}
+
+model Comment {
+  id     String @id @default(uuid())
+  body   String
+  postId String
+  userId String
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  children Comment[] @relation("Comment_children")
+  parent   Comment?  @relation("Comment_children", fields: [parentId], references: [id])
+  parentId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Campaign {
@@ -84,37 +101,63 @@ model Campaign {
   startupId   String?
   fundingGoal Int?
   backers     Backers[]
-  userId      String
+  reward      String[]
   image       String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  Posts       Posts[]
+  post        Post[]
+  Reward      Reward[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
-model Backers {
+model Reward {
   id         String   @id @default(uuid())
+  campaignId String
+  title      String
+  content    String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// many to many relation for campaign and backers
+model Backers {
+  id         String     @id @default(uuid())
   campaignId String
   userId     String
   amount     Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  Campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  User       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  campaign   Campaign[]
+  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Product {
-  id          String   @id @default(uuid())
+  id          String     @id @default(uuid())
   name        String
   description String
   startupId   String
-  category    String
   price       Int
-  image       String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  Startup     Startup  @relation(fields: [startupId], references: [id])
-  Order       Order[]
-  Cart        Cart[]
+  image       String[]
+  startup     Startup    @relation(fields: [startupId], references: [id])
+  order       Order[]
+  cart        Cart[]
+  category    Category[]
+  categoryId  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Category {
+  id      String    @id @default(uuid())
+  name    String
+  product Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Startup {
@@ -123,25 +166,38 @@ model Startup {
   description String
   image       String
   products    Product[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
   panNumber   String
+  post        Post[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Order {
   id                String           @id @default(uuid())
   userId            String
-  productId         String
   quantity          Int
   deliverTo         String
   deliveryDate      DateTime
   deliveryStatus    Status           @default(PENDING)
-  createdAt         DateTime         @default(now())
-  updatedAt         DateTime         @updatedAt
   user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product           Product          @relation(fields: [productId], references: [id], onDelete: Cascade)
+  products          Product[]
   deliveryPartner   DeliveryPartner? @relation(fields: [deliveryPartnerId], references: [id])
   deliveryPartnerId String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Cart {
+  id       String    @id @default(uuid())
+  userId   String
+  quantity Int
+  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product  Product[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model DeliveryPartner {
@@ -151,11 +207,12 @@ model DeliveryPartner {
   password    String   @db.Text
   phoneNumber String
   image       String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  Order       Order[]
+  order       Order[]
   manager     Manager? @relation(fields: [managerId], references: [id])
   managerId   String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Manager {
@@ -167,17 +224,7 @@ model Manager {
   image           String
   createdAt       DateTime          @default(now())
   updatedAt       DateTime          @updatedAt
-  DeliveryPartner DeliveryPartner[]
-}
-
-model Cart {
-  id        String  @id @default(uuid())
-  userId    String
-  productId String
-  startupId String
-  quantity  Int
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  deliveryPartner DeliveryPartner[]
 }
 
 enum Status {
