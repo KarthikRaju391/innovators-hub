@@ -1,8 +1,6 @@
-import Head from 'next/head'
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Login from '../components/Login';
 import AddPost from '../components/AddPost';
-import ListComments from '../components/ListComments';
 
 const Home = () => {
   const { data: session } = useSession();

@@ -38,12 +38,12 @@ const CommentForm = ({ parentId = null }) => {
     return (
         <div>
             <form className="" onSubmit={(e) => handleSubmit(e)}>
-                <textarea className="border-2 border-gray-500" required name="comment" id="comment" cols="30" rows="10"
+                <textarea className="border-2 border-gray-500" required name="comment" id="comment" cols="30"
                     placeholder="Write your comment here..."
                     onChange={(e) => { setBody(e.target.value) }}
                 ></textarea>
                 <button className="border-2 border-gray-800" type="submit">
-                    {parentId ? "Reply" : "Comment"}
+                    {parentId ? "Post Reply" : "Post Comment"}
                 </button>
             </form>
         </div>

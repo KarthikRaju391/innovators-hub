@@ -1,5 +1,5 @@
 import CommentForm from "../../components/CommentForm";
-import ListComments from "../../components/ListComments";
+import CommentSection from "../../components/CommentSection";
 import PostDetail from "../../components/PostDetail";
 import prisma from "../../lib/prisma";
 import { makeSerializable } from "../../lib/util";
@@ -8,8 +8,7 @@ const Post = ({ post, comments }) => {
     return (
         <div>
             <PostDetail post={post} />
-            <CommentForm />
-            <ListComments comments={comments} />
+            <CommentSection comments={comments} />
         </div>
     )
 }
@@ -33,6 +32,9 @@ export async function getStaticProps(context) {
             post: {
                 permalink: context.params.permalink
             }
+        },
+        include: {
+            user: true
         }
     })
 
