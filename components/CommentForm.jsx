@@ -1,9 +1,6 @@
 import { useRouter } from "next/router"
 import { useState } from "react";
 
-// let parentId be null by default
-// if it is null, then we know that the comment is a top level comment
-// if it is not null, then we know that the comment is a reply to another comment
 const CommentForm = ({ parentId = null }) => {
     const router = useRouter();
     const [body, setBody] = useState("");
@@ -32,8 +29,10 @@ const CommentForm = ({ parentId = null }) => {
             },
             body: JSON.stringify(payload)
         })
-        const data = await res.json();
-        console.log(data);
+
+        if (res.status === 200) {
+            router.replace(router.asPath)
+        }
     }
 
     return (
