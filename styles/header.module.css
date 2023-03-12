@@ -1,0 +1,43 @@
+.naver{
+    background-color: #e2e2e2;
+    margin: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    width: auto;
+    border-radius: 5px;
+}
+
+.name{
+    color: #333333;
+    font-size: 2rem;
+    font-weight: 600;
+    margin-right: 2rem;
+    font-family: "Syncopate";
+    cursor: default;
+}
+
+.uls{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items:center;
+    background-image: radial-gradient(100% 44171.21% at 0% -100%, rgba(143, 125, 252, 0.85) 0%, rgba(151, 137, 238, 0.6885) 34.11%, rgba(146, 69, 158, 0.493) 60.51%, rgba(138, 17, 181, 0.374) 100%);
+    border-radius: 5px;
+}
+
+.lis{
+    margin: 10px 20px;
+    color: #333333;
+    font-weight: 700;
+    font-size: large;
+    white-space:nowrap;
+    cursor: pointer;
+}
+
+.lis:hover{
+    text-decoration: underline;
+    text-decoration-color: #333333;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 5px;
+}

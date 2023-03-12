@@ -1,30 +1,28 @@
-import Head from 'next/head'
-import { signIn, signOut, useSession } from 'next-auth/react'
-import Login from '../components/Login';
-import AddPost from '../components/AddPost';
-import ListComments from '../components/ListComments';
+import * as React from "react";
+import Header from "../components/header";
+import SideNavUser from "../components/SideNav/SideNavUser";
 
-const Home = () => {
-  const { data: session } = useSession();
+function Home() {
 
-  if (session) {
+    const [isOpen, setIsOpen] = React.useState(false);
+
+    var handleOpen = () =>{
+        setIsOpen(false)
+    }
+
+    var openDraw = () =>{
+        setIsOpen(true)
+    }
+
     return (
-      <>
-        Signed in as {session.user.email} <br />
-
-        {!session.user.pan ? <Login /> : null}
-        <AddPost />
-        <button onClick={() => signOut()}>Sign out</button>
-      </>
-    )
-  }
-  return (
-    <>
-      Not signed in <br />
-      <button onClick={() => signIn()}>Sign in</button>
-    </>
-  )
+        <>
+            <SideNavUser open={isOpen} handleOpen={handleOpen}/>
+            <Header/>
+            <div className="home">
+                <button onClick={() => openDraw()}>Sign-In</button>
+            </div>
+        </>
+    );
 }
 
-
-export default Home
+export default Home;
