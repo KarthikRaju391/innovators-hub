@@ -34,8 +34,8 @@ function SideNavUser({open, handleOpen}) {
           title: "Settings",
           itemId: "",
           subNav: [
-            { title: "View Profile", itemId: "/user/viewprofile" },
-            { title: "Manage Profile", itemId: "/user/manageprofile" },
+            { title: "View Profile", itemId: "/user/settings/viewprofile" },
+            { title: "Manage Profile", itemId: "/user/settings/manageprofile" },
           ]
         },
       ]

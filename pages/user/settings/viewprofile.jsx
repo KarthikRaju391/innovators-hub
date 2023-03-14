@@ -1,4 +1,4 @@
-import LoginHeader from "../../components/LoginHeader";
+import LoginHeader from "../../../components/LoginHeader";
 import * as React from "react";
 import { Input } from "baseui/input";
 import { FormControl } from "baseui/form-control";
@@ -6,7 +6,7 @@ import { Textarea } from "baseui/textarea";
 // import { Select } from "baseui/select";
 // import { Button, SHAPE } from "baseui/button";
 // import { useRouter } from "next/router";
-import BackButton from "../../components/BackButton";
+import BackButton from "../../../components/BackButton";
 
 function viewprofile() {
 
