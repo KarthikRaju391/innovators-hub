@@ -41,9 +41,9 @@ function Dashboard() {
             <h3 className="select-none mx-[2rem] px-[2rem] mt-[1rem] pt-[1rem] ml-[0.5rem] pb-[.5rem] text-2xl cursor-default">Purchase</h3>
             <div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2">
                 <Card head={"Products"} para={"View Products In The Market"} url={"/user/purchase/products"} />
-                <Card head={"Cart"} para={"View Items In Cart"} />
+                <Card head={"Cart"} para={"View Items In Cart"} url={"/user/purchase/cart"}/>
                 <Card head={"Live Orders"} para={"Details About Orders"} />
-                <Card head={"Orders History"} para={"History Of Orders"} />
+                <Card head={"Orders History"} para={"History Of Orders"} url={"/user/purchase/ordershistory"}/>
             </div>
             <h3 className="select-none mx-[2rem] px-[2rem] mt-[1rem] pt-[1rem] ml-[0.5rem] pb-[.5rem] text-2xl cursor-default">Settings</h3>
             <div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">

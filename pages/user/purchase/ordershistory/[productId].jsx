@@ -30,8 +30,6 @@ function productId() {
         
     const [currentImage, setCurrentImage] = useState(0);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
-    const [load1, setLoad1] = useState(false);
-    const [load2, setLoad2] = useState(false);
 
     const openImageViewer = useCallback((index) => {
         setCurrentImage(index);
@@ -42,18 +40,6 @@ function productId() {
         setCurrentImage(0);
         setIsViewerOpen(false);
       };
-
-      const buyHandler = async() =>{
-        setLoad1(true)
-        await console.log(data.productId)
-        setLoad1(false)
-      }
-
-      const cartHandler = async() =>{
-        setLoad2(true)
-        await console.log(data.productId)
-        setLoad2(false)
-      }
 
     return (
         <>
@@ -87,7 +73,7 @@ function productId() {
             </div>
 
             {data.description && (<><p className="mx-10 cursor-default select-none text-center"><span className="text-xl cursor-default select-none">Description:</span> <br/>{data.description}</p><br/></>)}
-            <div className="flex gap-2 flex-wrap mb-2 pb-5 justify-center" >
+            <div className="flex gap-2 flex-wrap mb-2 pb-5 justify-center mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]" >
                 {data.build && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Build:</span> <br/>{data.build}</p><br/></>)}
                 {data.quality && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Quality:</span> <br/>{data.quality}</p><br/></>)}
                 {data.productPrice && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Prince:</span> <br/> ₹{data.productPrice}</p><br/></>)}
@@ -95,10 +81,10 @@ function productId() {
                 {data.startupName && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Startup:</span> <br/>{data.startupName}</p><br/></>)}
             </div>
 
-            <div className="flex justify-center gap-5 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
+            {/* <div className="flex justify-center gap-5 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
             <Button onClick={buyHandler} isLoading={load1}  overrides={{ BaseButton: { style: ({ $theme }) => ({ backgroundColor: $theme.colors.accent500, }) } }} startEnhancer={<BsFillCreditCard2BackFill style={{fontSize: "1.5rem"}} />} >Buy Now</Button>
             <Button onClick={cartHandler} isLoading={load2} overrides={{ BaseButton: { style: ({ $theme }) => ({ backgroundColor: $theme.colors.positive400, }) } }} startEnhancer={<GrCart style={{fontSize: "1.5rem"}} />} >Add To Cart</Button>
-            </div>
+            </div> */}
         </>
     );
 }

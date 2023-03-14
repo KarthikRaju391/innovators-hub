@@ -1,6 +1,9 @@
 import BackButton from "../../../../components/BackButton";
 import LoginHeader from "../../../../components/LoginHeader";
 import ProductCard from "../../../../components/ProductCard";
+import { Button } from "baseui/button";
+import {FaMoneyCheckAlt} from 'react-icons/fa';
+import { useState } from "react";
 
 function Products() {
 
@@ -10,7 +13,7 @@ function Products() {
         productName: "1",
         productId: "1",
         productPrice: "58",
-        url: "/user/purchase/products/9",
+        url: "/user/purchase/cart/9",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
         startupName: "E Raja",
         category: "andar tho aaja"
@@ -20,7 +23,7 @@ function Products() {
         productName: "2",
         productId: "2",
         productPrice: "58",
-        url: "/user/purchase/products/9",
+        url: "/user/purchase/cart/9",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
         startupName: "E Raja",
         category: "andar tho aaja"
@@ -30,7 +33,7 @@ function Products() {
         productName: "3",
         productId: "3",
         productPrice: "58",
-        url: "/user/purchase/products/9",
+        url: "/user/purchase/cart/9",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
         startupName: "E Raja",
         category: "andar tho aaja"
@@ -40,25 +43,37 @@ function Products() {
         productName: "4",
         productId: "4",
         productPrice: "58",
-        url: "/user/purchase/products/9",
+        url: "/user/purchase/cart/9",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
         startupName: "E Raja",
         category: "andar tho aaja"
     }
 ]
 
+    const [load1, setLoad1] = useState(false);
+
     const loadMore = () =>{
         console.log("Load More...")
     }
+
+    const buyAllHandler = async() =>{
+        setLoad1(true)
+        var items = data.map((i)=>i.productId)
+        await console.log(items)
+        setLoad1(false)
+      }
 
     return (
         <>
             <BackButton/>
             <LoginHeader/>
             <div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
-                <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">Product Catalog</h2>
-                {data.map(i => <ProductCard key={i.productId} data={i}/>)}
+                <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">Cart Items</h2>
+                {data.length>0 ? data.map(i => <ProductCard key={i.productId} data={i}/>) : <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center py-[30vh] h-[60vh] ">Hey!!! I'm Empty Here</h2>}
                 <p onClick={loadMore} className="select-none cursor-pointer mt-2 pt-2 text-center">Load More...</p>
+            </div>
+            <div className="flex justify-center gap-5 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
+                <Button onClick={buyAllHandler} isLoading={load1} overrides={{ BaseButton: { style: ({ $theme }) => ({ backgroundColor: $theme.colors.positive400, }) } }} startEnhancer={<FaMoneyCheckAlt style={{fontSize: "1.5rem"}} />} >Purchase All Items In Cart</Button>
             </div>
         </>
     );

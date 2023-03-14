@@ -4,7 +4,6 @@ import React, { useState, useCallback } from 'react';
 import ImageViewer from 'react-simple-image-viewer';
 import Image from "next/image"
 import { Button } from "baseui/button";
-import {GrCart} from 'react-icons/gr';
 import {BsFillCreditCard2BackFill} from 'react-icons/bs';
 
 function productId() {
@@ -31,7 +30,6 @@ function productId() {
     const [currentImage, setCurrentImage] = useState(0);
     const [isViewerOpen, setIsViewerOpen] = useState(false);
     const [load1, setLoad1] = useState(false);
-    const [load2, setLoad2] = useState(false);
 
     const openImageViewer = useCallback((index) => {
         setCurrentImage(index);
@@ -49,17 +47,11 @@ function productId() {
         setLoad1(false)
       }
 
-      const cartHandler = async() =>{
-        setLoad2(true)
-        await console.log(data.productId)
-        setLoad2(false)
-      }
-
     return (
         <>
             <BackButton/>
             <LoginHeader/>
-            <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">{data.productName}</h2>
+            <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">Cart Item: {data.productName}</h2>
             <div className="my-2 py-2 ml-5 pl-5 flex justify-center flex-wrap gap-2 grid-cols-2">
                 {data.images.map((src, index) => (
                     <Image
@@ -97,7 +89,7 @@ function productId() {
 
             <div className="flex justify-center gap-5 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
             <Button onClick={buyHandler} isLoading={load1}  overrides={{ BaseButton: { style: ({ $theme }) => ({ backgroundColor: $theme.colors.accent500, }) } }} startEnhancer={<BsFillCreditCard2BackFill style={{fontSize: "1.5rem"}} />} >Buy Now</Button>
-            <Button onClick={cartHandler} isLoading={load2} overrides={{ BaseButton: { style: ({ $theme }) => ({ backgroundColor: $theme.colors.positive400, }) } }} startEnhancer={<GrCart style={{fontSize: "1.5rem"}} />} >Add To Cart</Button>
+            {/* <Button onClick={() => alert("click")} isLoading={false} overrides={{ BaseButton: { style: ({ $theme }) => ({ backgroundColor: $theme.colors.positive400, }) } }} startEnhancer={<GrCart style={{fontSize: "1.5rem"}} />} >Add To Cart</Button> */}
             </div>
         </>
     );

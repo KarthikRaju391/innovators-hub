@@ -17,7 +17,7 @@ function ProductCard(props) {
       onClick={() => { props.data.url != undefined || props.data.url != null ? router.push(props.data.url) : router.push(router.asPath)}}
       paragraph={ `${props.data.description} | Startup: ${props.data.startupName} | Category: ${props.data.category}`}
       image={{
-            src: props.data.image,
+            src: props?.data?.image && props?.data?.image[0] ,
             layout: IMAGE_LAYOUT.trailing,
             ariaLabel:
             'Image of the product',

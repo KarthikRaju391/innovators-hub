@@ -27,7 +27,7 @@ function SideNavUser({open, handleOpen}) {
             { title: "Products", itemId: "/user/purchase/products" },
             { title: "Cart", itemId: "/user/purchase/cart" },
             { title: "Live Orders", itemId: "/user/purchase/liveorders" },
-            { title: "Order History", itemId: "/user/purchase/orderhistory" },
+            { title: "Order History", itemId: "/user/purchase/ordershistory" },
           ]
         },
         {
