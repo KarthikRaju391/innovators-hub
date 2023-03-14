@@ -15,19 +15,19 @@ function SideNavUser({open, handleOpen}) {
           title: "Investments",
           itemId: "",
           subNav: [
-            { title: "Investment History", itemId: "/user/investmenthistory" },
-            { title: "Venture", itemId: "/user/venture" },
-            { title: "Community Forum", itemId: "/user/forum" },
+            { title: "Investment History", itemId: "/user/investments/investmenthistory" },
+            { title: "Venture", itemId: "/user/investments/venture" },
+            { title: "Community Forum", itemId: "/user/investments/forum" },
           ]
         },
         {
           title: "Purchase",
           itemId: "",
           subNav: [
-            { title: "Products", itemId: "/user/products" },
-            { title: "Cart", itemId: "/user/cart" },
-            { title: "Live Orders", itemId: "/user/liveorders" },
-            { title: "Order History", itemId: "/user/orderhistory" },
+            { title: "Products", itemId: "/user/purchase/products" },
+            { title: "Cart", itemId: "/user/purchase/cart" },
+            { title: "Live Orders", itemId: "/user/purchase/liveorders" },
+            { title: "Order History", itemId: "/user/purchase/orderhistory" },
           ]
         },
         {
