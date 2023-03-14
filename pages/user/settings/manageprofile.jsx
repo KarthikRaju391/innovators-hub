@@ -31,7 +31,8 @@ function manage() {
         e.preventDefault()
         setLoad(true)
         console.log({name, bio, phno, email, address, pan, gender: gender[0]?.id})
-        router.push("/user")
+        router.back()
+        //push("/user")
       }
     return (
         <>
