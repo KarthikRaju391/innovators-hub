@@ -5,6 +5,7 @@ import { Provider as StyletronProvider } from 'styletron-react';
 import { DarkTheme, LightTheme, BaseProvider } from 'baseui';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Head from 'next/head';
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 
@@ -47,6 +48,10 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   
 
   return (
+    <>
+    <Head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+    </Head>
     <SessionProvider session={session}>
       <StyletronProvider value={styletron}>
         <BaseProvider theme={ theme===1 ? LightTheme : DarkTheme}>
@@ -54,6 +59,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         </BaseProvider>
       </StyletronProvider>
     </SessionProvider>
+    </>
   )
 }
 
