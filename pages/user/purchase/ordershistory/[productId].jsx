@@ -3,9 +3,9 @@ import LoginHeader from "../../../../components/LoginHeader";
 import React, { useState, useCallback } from 'react';
 import ImageViewer from 'react-simple-image-viewer';
 import Image from "next/image"
-import { Button } from "baseui/button";
-import {GrCart} from 'react-icons/gr';
-import {BsFillCreditCard2BackFill} from 'react-icons/bs';
+// import { Button } from "baseui/button";
+// import {GrCart} from 'react-icons/gr';
+// import {BsFillCreditCard2BackFill} from 'react-icons/bs';
 
 function productId() {
 
