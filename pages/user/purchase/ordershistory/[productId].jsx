@@ -19,7 +19,6 @@ function productId() {
         productName: "4",
         productId: "4",
         productPrice: "58",
-        url: "/user/purchase/products/9",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
         startupName: "E Raja",
         category: "andar tho aaja",
