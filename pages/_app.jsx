@@ -33,8 +33,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   const pag = ["/", "/login", "/verify", "/contact us"]
 
   useEffect(() => {
-    pag.includes(path) && document.body.classList.add('opback');
-  }, []);
+    pag.includes(path) ? document.body.classList.add('opback') : document.body.classList.remove("opback");
+  }, [path]);
 
   useEffect(()=>{
       if (theme === 0) {

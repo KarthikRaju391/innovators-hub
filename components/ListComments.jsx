@@ -18,24 +18,24 @@ function CommentActions({ commentId, replyCount }) {
 
 function Comment({ comment }) {
     return (
-        <div className="border-2 my-2 mx-4 py-2">
-            <div>
-                <h1>{comment.user.name}<span> | {new Date(comment.createdAt).toDateString()}</span></h1>
-                <h2>{comment.body}</h2>
-            </div>
-            <CommentActions commentId={comment.id} replyCount={comment.children.length} />
+            <div className=" my-2 mx-4 py-2">
+                <div>
+                    <h1>{comment.user.name}<span> | {new Date(comment.createdAt).toDateString()}</span></h1>
+                    <h2>{comment.body}</h2>
+                </div>
+                <CommentActions commentId={comment.id} replyCount={comment.children.length} />
 
-            <div className="ml-2">
-                {comment.children && comment.children.length > 0 && <ListComments comments={comment.children} />}
+                <div className="ml-2">
+                    {comment.children && comment.children.length > 0 && <ListComments comments={comment.children} />}
+                </div>
             </div>
-        </div>
     )
 }
 
 const ListComments = ({ comments }) => {
 
     return (
-        <div className="border mx-2 border-black mt-2">
+        <div className="mx-2 border-l-4 border-cyan-700 mt-2">
             {comments.map((comment) => (
                 <Comment key={comment.id} comment={comment} />
             ))}

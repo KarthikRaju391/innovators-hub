@@ -1,6 +1,7 @@
-import BackButton from "../../../../components/BackButton";
-import LoginHeader from "../../../../components/LoginHeader";
-import ProductCard from "../../../../components/ProductCard";
+import BackButton from "../../components/BackButton";
+import LoginHeader from "../../components/LoginHeader";
+import ProductCard from "../../components/ProductCard";
+
 
 function Products() {
 
@@ -57,7 +58,7 @@ function Products() {
             <LoginHeader/>
             <div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
                 <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">Product Catalog</h2>
-                {data.map(i => <ProductCard key={i.productId} data={i} url={`/user/purchase/products/${i.productId}`} />)}
+                {data.map(i => <ProductCard key={i.productId} data={i} url={`/products/${i.productId}`} />)}
                 <p onClick={loadMore} className="select-none cursor-pointer mt-2 pt-2 text-center">Load More...</p>
             </div>
         </>

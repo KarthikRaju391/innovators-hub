@@ -1,7 +1,11 @@
 import { useRouter } from "next/router"
 import { useState } from "react";
+import { Textarea } from "baseui/textarea";
+import { Button, SHAPE } from "baseui/button";
+import {useSession, signIn} from 'next-auth/react';
 
 const CommentForm = ({ parentId = null }) => {
+    const session = useSession()
     const router = useRouter();
     const [body, setBody] = useState("");
     const permalink = router.query.permalink;
@@ -13,6 +17,7 @@ const CommentForm = ({ parentId = null }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         let payload = {}
+        if(session.data){
         if (parentId) {
             payload = {
                 permalink,
@@ -35,24 +40,19 @@ const CommentForm = ({ parentId = null }) => {
         })
 
         if (res.status === 200) {
-            setBody("");
-            refreshData();
+                setBody("");
+                refreshData();
         }
+    }
+    else signIn()
     }
 
     return (
-        <div>
             <form className="" onSubmit={(e) => handleSubmit(e)}>
-                <textarea className="border-2 border-gray-500" required name="comment" id="comment" cols="30"
-                    placeholder="Write your comment here..."
-                    onChange={(e) => { setBody(e.target.value) }}
-                    value={body}
-                ></textarea>
-                <button className="border-2 border-gray-800" type="submit">
-                    {parentId ? "Post Reply" : "Post Comment"}
-                </button>
+                <div className="mx-4 my-3"><Textarea value={body} required name="comment" id="comment" onChange={e => setBody(e.target.value)} placeholder="Write your comment here..." clearOnEscape /></div> 
+                {/* w-[18rem] md:w-[22rem] */}
+                <div className="mx-4"><Button type="submit" shape={SHAPE.pill} > {parentId ? "Post Reply" : "Post Comment"} </Button></div>
             </form>
-        </div>
     )
 }
 
