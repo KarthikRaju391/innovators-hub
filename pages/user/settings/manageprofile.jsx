@@ -1,4 +1,4 @@
-import LoginHeader from "../../components/LoginHeader";
+import LoginHeader from "../../../components/LoginHeader";
 import * as React from "react";
 import { Input } from "baseui/input";
 import { FormControl } from "baseui/form-control";
@@ -6,10 +6,7 @@ import { Textarea } from "baseui/textarea";
 import { Select } from "baseui/select";
 import { Button, SHAPE } from "baseui/button";
 import { useRouter } from "next/router";
-import BackButton from "../../components/BackButton";
-import { getServerSession } from "next-auth";
-import { authOptions } from "../api/auth/[...nextauth]";
-import { makeSerializable } from "../../lib/util";
+import BackButton from "../../../components/BackButton";
 
 function manage({data}) {
     const router = useRouter()
@@ -33,8 +30,9 @@ function manage({data}) {
       const submit = async ( e ) =>{
         e.preventDefault()
         setLoad(true)
-        console.log({name, bio, phno, email, address, panNumber, gender: gender[0]?.id})
-        router.push("/user")
+        console.log({name, bio, phno, email, address, pan, gender: gender[0]?.id})
+        router.back()
+        //push("/user")
       }
     return (
         <>
