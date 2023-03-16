@@ -1,4 +1,3 @@
-import LoginHeader from "../../components/LoginHeader";
 import * as React from "react";
 import { Input } from "baseui/input";
 import { FormControl } from "baseui/form-control";
@@ -7,11 +6,12 @@ import { Textarea } from "baseui/textarea";
 // import { Button, SHAPE } from "baseui/button";
 // import { useRouter } from "next/router";
 import BackButton from "../../components/BackButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]";
+import { makeSerializable } from "../../lib/util";
 
-function viewprofile() {
-
+function viewprofile({user}) {
     // const router = useRouter()
-
     // const [name, setName] = React.useState("");
     // const [bio, setBio] = React.useState("");
     // const [phno, setPhno] = React.useState("");
@@ -48,7 +48,6 @@ function viewprofile() {
 
     return (
         <>
-            <LoginHeader/>
             <BackButton/>
             <h2 className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">View Profile</h2>
             <form className="mb-[3rem] pb-[3rem] md:mb-[0rem] md:pb-[0rem]"  >
@@ -59,7 +58,7 @@ function viewprofile() {
                             caption={() => "Name as per PAN Card"}
                             >
                             <Input
-                                value={data.name}
+                                value={user.name}
                                 disabled={true}
                                 overrides={{
                                     Root: {
@@ -101,7 +100,7 @@ function viewprofile() {
                             
                             <Input
                                 endEnhancer={<div className={`${data.emailVerified===true? "bg-green-700" : "bg-red-700"} w-[20px] h-[20px] rounded-full`}></div>}
-                                value={data.email}
+                                value={user.email}
                                 disabled={true}
                                 overrides={{
                                     Root: {
@@ -139,7 +138,7 @@ function viewprofile() {
                             >
                             <Input
                                 endEnhancer={<div className={`${data.panVerified===true? "bg-green-700" : "bg-red-700"} w-[20px] h-[20px] rounded-full`}></div>}
-                                value={data.pan}
+                                value={user.pan}
                                 disabled={true}
                                 overrides={{
                                     Root: {
@@ -153,6 +152,25 @@ function viewprofile() {
             </form>
         </>
     );
+}
+
+export async function getServerSideProps(context) {
+    const session = await getServerSession(context.req, context.res, authOptions)
+    console.log(session)
+    const res = await fetch(`http://localhost:3000/api/users/${session.user.id}`, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        }
+    })
+
+    const user = await res.json(); 
+
+    return {
+        props: {
+            user: makeSerializable(user)
+        }
+    }
 }
 
 export default viewprofile;

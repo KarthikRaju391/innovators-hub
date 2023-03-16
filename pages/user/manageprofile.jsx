@@ -7,30 +7,33 @@ import { Select } from "baseui/select";
 import { Button, SHAPE } from "baseui/button";
 import { useRouter } from "next/router";
 import BackButton from "../../components/BackButton";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../api/auth/[...nextauth]";
+import { makeSerializable } from "../../lib/util";
 
-function manage() {
-
+function manage({data}) {
     const router = useRouter()
-
-    const [name, setName] = React.useState("");
-    const [bio, setBio] = React.useState("");
-    const [phno, setPhno] = React.useState("");
-    const [email, setEmail] = React.useState("");
-    const [address, setAddress] = React.useState("");
-    const [pan, setPan] = React.useState("");
-    const [gender, setGender] = React.useState([]);
+    
+    const user = {...data}
+    const [name, setName] = React.useState(user.name);
+    const [bio, setBio] = React.useState(user.bio ? user.bio : "");
+    const [phoneNumber, setPhoneNumber] = React.useState(user.phoneNumber);
+    const [email, setEmail] = React.useState(user.email);
+    const [address, setAddress] = React.useState(user.address ? user.address : "");
+    const [panNumber, setpanNumber] = React.useState(user.panNumber ? user.panNumber : "");
+    const [gender, setGender] = React.useState(user.gender ? user.gender : "");
     const [load, setLoad] = React.useState(false);
 
-    var genderdrop=[
+    const genderdrop=[
         { label: "Male", id: "Male" },
         { label: "Female", id: "Female" },
         { label: "Others", id: "Other" },
       ]
 
-      var submit = ( e ) =>{
+      const submit = async ( e ) =>{
         e.preventDefault()
         setLoad(true)
-        console.log({name, bio, phno, email, address, pan, gender: gender[0]?.id})
+        console.log({name, bio, phno, email, address, panNumber, gender: gender[0]?.id})
         router.push("/user")
       }
     return (
@@ -78,8 +81,8 @@ function manage() {
                             caption={() => "Phone Number as per PAN Card"}
                             >
                             <Input
-                                value={phno}
-                                onChange={e => setPhno(e.target.value)}
+                                value={phoneNumber}
+                                onChange={e => setPhoneNumber(e.target.value)}
                                 placeholder="Eg. 9656732560"
                                 clearable
                                 required
@@ -152,8 +155,8 @@ function manage() {
                             caption={() => "10-digit alphanumeric code issued by the Income Tax Department of India"}
                             >
                             <Input
-                                value={pan}
-                                onChange={e => setPan(e.target.value)}
+                                value={panNumber}
+                                onChange={e => setpanNumber(e.target.value)}
                                 placeholder="XXXXXXXXXX"
                                 pattern="^[A-Za-z0-9]{10}$"
                                 clearable
@@ -174,6 +177,19 @@ function manage() {
             </form>
         </>
     );
+}
+
+export async function getServerSideProps(context) {
+    const session = await getServerSession(context.req, context.res, authOptions)
+    
+    const res = await fetch(`http://localhost:3000/api/users/${session.user.id}`)
+    const data = await res.json(); 
+ 
+    return {
+        props: {
+            data: makeSerializable(data)
+        }
+    }
 }
 
 export default manage;

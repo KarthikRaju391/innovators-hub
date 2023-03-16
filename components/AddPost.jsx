@@ -13,17 +13,13 @@ const AddPost = () => {
             permalink: title.replace(/\s+/g, '-').toLowerCase()
         }
 
-        const res = await fetch('/api/addPost', {
+        await fetch('/api/addPost', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify(postData)
         })
-        const data = await res.json();
-        if (data !== null) {
-            console.log(data)
-        }
     }
 
     return (

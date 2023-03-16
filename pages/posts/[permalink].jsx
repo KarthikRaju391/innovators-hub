@@ -1,4 +1,3 @@
-import CommentForm from "../../components/CommentForm";
 import CommentSection from "../../components/CommentSection";
 import PostDetail from "../../components/PostDetail";
 import prisma from "../../lib/prisma";

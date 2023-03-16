@@ -6,6 +6,10 @@ const CommentForm = ({ parentId = null }) => {
     const [body, setBody] = useState("");
     const permalink = router.query.permalink;
 
+    function refreshData() {
+        router.replace(router.asPath)
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         let payload = {}
@@ -31,7 +35,8 @@ const CommentForm = ({ parentId = null }) => {
         })
 
         if (res.status === 200) {
-            router.replace(router.asPath)
+            setBody("");
+            refreshData();
         }
     }
 
@@ -41,6 +46,7 @@ const CommentForm = ({ parentId = null }) => {
                 <textarea className="border-2 border-gray-500" required name="comment" id="comment" cols="30"
                     placeholder="Write your comment here..."
                     onChange={(e) => { setBody(e.target.value) }}
+                    value={body}
                 ></textarea>
                 <button className="border-2 border-gray-800" type="submit">
                     {parentId ? "Post Reply" : "Post Comment"}

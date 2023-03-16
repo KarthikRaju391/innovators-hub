@@ -3,8 +3,8 @@ import { BsArrowLeftShort } from 'react-icons/bs';
 import React from 'react';
 
 function BackButton() {
-
     const [hydrated, setHydrated] = React.useState(false);
+    
     React.useEffect(() => {
         setHydrated(true);
     }, []);
