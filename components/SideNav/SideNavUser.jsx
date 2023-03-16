@@ -2,10 +2,11 @@ import * as React from "react";
 import { Drawer, ANCHOR } from "baseui/drawer";
 import { Navigation } from "baseui/side-navigation";
 import { useRouter } from 'next/router';
+import { useSession, signIn, signOut } from "next-auth/react";
 
 function SideNavUser({open, handleOpen}) {
 
-
+    const session = useSession();
     const router = useRouter();
     const [activeItemId, setActiveItemId] = React.useState(router.pathname);
     
@@ -17,14 +18,14 @@ function SideNavUser({open, handleOpen}) {
           subNav: [
             { title: "Investment History", itemId: "/user/investments/investmenthistory" },
             { title: "Venture", itemId: "/user/investments/venture" },
-            { title: "Community Forum", itemId: "/user/investments/forum" },
+            { title: "Community Forum", itemId: "/posts" },
           ]
         },
         {
           title: "Purchase",
           itemId: "",
           subNav: [
-            { title: "Products", itemId: "/user/purchase/products" },
+            { title: "Products", itemId: "/products" },
             { title: "Cart", itemId: "/user/purchase/cart" },
             { title: "Live Orders", itemId: "/user/purchase/liveorders" },
             { title: "Order History", itemId: "/user/purchase/ordershistory" },
@@ -78,7 +79,8 @@ function SideNavUser({open, handleOpen}) {
                   }
                 }
             />
-            <button onClick={handleTheme} className="ml-6 pl-7 text-base">Change to { nowTheme === 0 ? "Light" : "Dark"} Theme</button>
+            <button onClick={handleTheme} className="ml-6 mt-2 pt-1 pl-7 text-base">Change to { nowTheme === 0 ? "Light" : "Dark"} Theme</button> <br/>
+            { session.data ? <button onClick={()=>signOut()} className="mt-3 pt-2 ml-6 pl-7 text-base">Sign Out</button> : <button onClick={()=>signIn()} className="mt-3 pt-2 ml-6 pl-7 text-base">Sign In</button> }
         </Drawer>
     );
 }

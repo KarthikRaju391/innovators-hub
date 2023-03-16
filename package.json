@@ -8,6 +8,7 @@
   "dependencies": {
     "@next-auth/prisma-adapter": "^1.0.5",
     "@prisma/client": "^4.9.0",
+    "@react-pdf/renderer": "^3.1.7",
     "baseui": "^12.2.0",
     "next": "latest",
     "next-auth": "^4.19.2",

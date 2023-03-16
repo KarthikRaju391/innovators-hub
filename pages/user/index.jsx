@@ -34,13 +34,13 @@ function Dashboard() {
             <h2 className="select-none mt-[1rem] pt-[1rem] text-3xl cursor-default text-center">Dashboard</h2>
             <h3 className="select-none mx-[2rem] px-[2rem] mt-[1rem] pt-[1rem] ml-[0.5rem] pb-[.5rem] text-2xl cursor-default">Investments</h3>
             <div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2">
-                <Card head={"Investment History"} para={"Previous Investments"} />
-                <Card head={"Venture"} para={"Show New Projects"} />
-                <Card head={"Community Forum"} para={"Investor's Chat"} />
+                <Card head={"Investment History"} para={"Previous Investments"} url={"/user/investments/investmenthistory"} />
+                <Card head={"Venture"} para={"Show New Projects"} url={"/user/investments/venture"} />
+                <Card head={"Community Forum"} para={"Investor's Chat"} url={"/posts"}/>
             </div>
             <h3 className="select-none mx-[2rem] px-[2rem] mt-[1rem] pt-[1rem] ml-[0.5rem] pb-[.5rem] text-2xl cursor-default">Purchase</h3>
             <div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2">
-                <Card head={"Products"} para={"View Products In The Market"} url={"/user/purchase/products"} />
+                <Card head={"Products"} para={"View Products In The Market"} url={"/products"} />
                 <Card head={"Cart"} para={"View Items In Cart"} url={"/user/purchase/cart"}/>
                 <Card head={"Live Orders"} para={"Details About Orders"} url={"/user/purchase/liveorders"} />
                 <Card head={"Orders History"} para={"History Of Orders"} url={"/user/purchase/ordershistory"}/>

@@ -1,13 +1,16 @@
-import BackButton from "../../../../components/BackButton";
-import LoginHeader from "../../../../components/LoginHeader";
+import BackButton from "../../components/BackButton";
+import LoginHeader from "../../components/LoginHeader";
 import React, { useState, useCallback } from 'react';
 import ImageViewer from 'react-simple-image-viewer';
 import Image from "next/image"
 import { Button } from "baseui/button";
 import {GrCart} from 'react-icons/gr';
 import {BsFillCreditCard2BackFill} from 'react-icons/bs';
+import { useSession, signIn } from 'next-auth/react';
 
 function productId() {
+
+    const session = useSession();
 
     var data ={
         images : [
@@ -44,15 +47,13 @@ function productId() {
       };
 
       const buyHandler = async() =>{
-        setLoad1(true)
-        await console.log(data.productId)
-        setLoad1(false)
+        if(session.data) { setLoad1(true); console.log(data.productId); setLoad1(false); } 
+        
       }
 
       const cartHandler = async() =>{
-        setLoad2(true)
-        await console.log(data.productId)
-        setLoad2(false)
+        if(session.data) { setLoad2(true); console.log(data.productId); setLoad2(false); }
+        else signIn();
       }
 
     return (
