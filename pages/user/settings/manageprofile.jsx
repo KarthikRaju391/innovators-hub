@@ -6,6 +6,9 @@ import { Textarea } from "baseui/textarea";
 import { Select } from "baseui/select";
 import { Button, SHAPE } from "baseui/button";
 import { useRouter } from "next/router";
+import { getServerSession } from "next-auth";
+import { makeSerializable } from "../../../lib/util";
+import { authOptions } from "../../api/auth/[...nextauth]";
 import BackButton from "../../../components/BackButton";
 
 function manage({data}) {

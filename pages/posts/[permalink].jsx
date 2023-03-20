@@ -29,11 +29,14 @@ export async function getStaticProps(context) {
     const comments = await prisma.comment.findMany({
         where: {
             post: {
-                permalink: context.params.permalink
-            }
+                permalink: context.params.permalink,
+            },
         },
         include: {
             user: true
+        },
+        orderBy: {
+            createdAt: "desc"
         }
     })
 
