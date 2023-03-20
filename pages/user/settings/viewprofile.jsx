@@ -50,6 +50,7 @@ function viewprofile({user}) {
     return (
         <>
             <BackButton/>
+            <LoginHeader/>
             <h2 className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">View Profile</h2>
             <form className="mb-[3rem] pb-[3rem] md:mb-[0rem] md:pb-[0rem]"  >
                 <div className="flex flex-wrap gap-2 grid-cols-2">
