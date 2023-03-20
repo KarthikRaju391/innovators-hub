@@ -19,6 +19,7 @@ function LoginHeader() {
     const session = useSession()
     // console.log(session.data)
     const user = (session?.data?.user.name) || ""
+    const role = "Investor" || ""
 
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -51,6 +52,8 @@ function LoginHeader() {
                               size="scale1200"
                               src={ session?.data?.user?.image || ""}
                             />
+                            <br/>
+                            <p>{role}</p>
                         </Block>
                       )}
                       returnFocus

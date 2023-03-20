@@ -6,34 +6,12 @@ import { Textarea } from "baseui/textarea";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]";
 import { makeSerializable } from "../../../lib/util";
-// import { Select } from "baseui/select";
-// import { Button, SHAPE } from "baseui/button";
-// import { useRouter } from "next/router";
+import { Checkbox, LABEL_PLACEMENT } from "baseui/checkbox";
 import BackButton from "../../../components/BackButton";
 
 function viewprofile({user}) {
-    // const router = useRouter()
-    // const [name, setName] = React.useState("");
-    // const [bio, setBio] = React.useState("");
-    // const [phno, setPhno] = React.useState("");
-    // const [email, setEmail] = React.useState("");
-    // const [address, setAddress] = React.useState("");
-    // const [pan, setPan] = React.useState("");
-    // const [gender, setGender] = React.useState([]);
-    // const [load, setLoad] = React.useState(false);
 
-    // var genderdrop=[
-    //     { label: "Male", id: "Male" },
-    //     { label: "Female", id: "Female" },
-    //     { label: "Others", id: "Other" },
-    //   ]
-
-    //   var submit = ( e ) =>{
-    //     e.preventDefault()
-    //     setLoad(true)
-    //     console.log({name, bio, phno, email, address, pan, gender})
-    //     router.push("/user")
-    //   }
+    //get user data & place them in data variable at line15
     const data = {
         name: "Suraj",
         bio: "Hi",
@@ -41,10 +19,11 @@ function viewprofile({user}) {
         phnoVerified: true,
         emailVerified: true,
         email: "s@g.co",
-        address: "f",
+        address: "f17",
         pan: "1234567890",
         panVerified: false,
-        gender: "Male"
+        gender: "Male",
+        type: ["user", "", "entrepreneur"]
     }
 
     return (
@@ -148,6 +127,16 @@ function viewprofile({user}) {
                                     }
                                 }}
                             />
+                        </FormControl>
+
+                        <FormControl
+                            label={() => "PAN Card Number: "}
+                        >
+                            <div className="flex justify-center gap-4 grid-cols-2 flex-wrap">
+                                <Checkbox checked={data.type.includes("user")} disabled labelPlacement={LABEL_PLACEMENT.bottom} > Customer </Checkbox>
+                                <Checkbox checked={data.type.includes("investor")} disabled labelPlacement={LABEL_PLACEMENT.bottom} > Investor </Checkbox>
+                                <Checkbox checked={data.type.includes("entrepreneur")} disabled labelPlacement={LABEL_PLACEMENT.bottom} > Entrepreneur </Checkbox>
+                            </div>
                         </FormControl>
                     </div>
                 </div>

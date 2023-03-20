@@ -67,11 +67,11 @@ function Products() {
         <>
             <BackButton/>
             <LoginHeader/>
-            <div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
-                <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">Cart Items</h2>
+            <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">Cart Items</h2>
+            <div className="flex justify-center flex-wrap gap-4 grid-cols-2">
                 {data.length>0 ? data.map(i => <ProductCard key={i.productId} data={i} url={`/user/purchase/cart/${i.productId}`} />) : <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center py-[30vh] h-[60vh] ">Hey!!! I'm Empty Here</h2>}
-                <p onClick={loadMore} className="select-none cursor-pointer mt-2 pt-2 text-center">Load More...</p>
             </div>
+            <p onClick={loadMore} className="select-none cursor-pointer mt-2 pt-2 text-center mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">Load More...</p>
             <div className="flex justify-center gap-5 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
                 <Button onClick={buyAllHandler} isLoading={load1} overrides={{ BaseButton: { style: ({ $theme }) => ({ backgroundColor: $theme.colors.positive400, }) } }} startEnhancer={<FaMoneyCheckAlt style={{fontSize: "1.5rem"}} />} >Purchase All Items In Cart</Button>
             </div>

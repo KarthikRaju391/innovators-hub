@@ -35,10 +35,12 @@ function Comment({ comment }) {
 const ListComments = ({ comments }) => {
 
     return (
-        <div className="mx-2 border-l-4 border-cyan-700 mt-2">
-            {comments.map((comment) => (
-                <Comment key={comment.id} comment={comment} />
-            ))}
+        <div className="flex justify-center">
+            <div className="mx-2 border-l-4 border-cyan-700 mt-2">
+                {comments.map((comment) => (
+                    <Comment key={comment.id} comment={comment} />
+                ))}
+            </div>
         </div>
     )
 }

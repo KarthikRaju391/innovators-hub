@@ -18,17 +18,23 @@ function ProductCard(props) {
       paragraph={ `${props.data.description} | Startup: ${props.data.startupName} | Category: ${props.data.category}`}
       image={{
             src: props?.data?.image && props?.data?.image[0] ,
-            layout: IMAGE_LAYOUT.trailing,
+            layout: IMAGE_LAYOUT.top,
             ariaLabel:
             'Image of the product',
       }}
       overrides={{
-        Image: {
-          style: ({ $theme }) => ({ width: "20rem" })
-        },
+        // Image: {
+        //   style: ({ $theme }) => ({ width: "20rem" })
+        // },
         ContentContainer: {
           style: ({ $theme }) => ({
-            minHeight: "10rem"
+            minHeight: "10rem",
+            
+          })
+        },
+        Root: {
+          style: ({ $theme }) => ({
+            width: "20rem"
           })
         }
       }}

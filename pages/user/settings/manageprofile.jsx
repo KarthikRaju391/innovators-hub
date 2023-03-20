@@ -10,19 +10,25 @@ import { getServerSession } from "next-auth";
 import { makeSerializable } from "../../../lib/util";
 import { authOptions } from "../../api/auth/[...nextauth]";
 import BackButton from "../../../components/BackButton";
+import { Checkbox, LABEL_PLACEMENT } from "baseui/checkbox";
 
 function manage({data}) {
     const router = useRouter()
     
     const user = {...data}
-    const [name, setName] = React.useState(user.name);
+    const [name, setName] = React.useState(user.name || "");
     const [bio, setBio] = React.useState(user.bio ? user.bio : "");
-    const [phoneNumber, setPhoneNumber] = React.useState(user.phoneNumber);
-    const [email, setEmail] = React.useState(user.email);
+    const [phoneNumber, setPhoneNumber] = React.useState(user.phoneNumber || "");
+    const [email, setEmail] = React.useState(user.email || "");
     const [address, setAddress] = React.useState(user.address ? user.address : "");
     const [panNumber, setpanNumber] = React.useState(user.panNumber ? user.panNumber : "");
     const [gender, setGender] = React.useState(user.gender ? user.gender : "");
     const [load, setLoad] = React.useState(false);
+
+    const [userRole, setUserRole] = React.useState(true);
+    //set initial value of startupRole & investorRole from get request of const user variable(Eg. user.investorRole), Note: "replace the value present before || (OR) symbol"
+    const [startupRole, setStartupRole] = React.useState(false || false);
+    const [investorRole, setInvestorRole] = React.useState(false || false);
 
     const genderdrop=[
         { label: "Male", id: "Male" },
@@ -30,12 +36,13 @@ function manage({data}) {
         { label: "Others", id: "Other" },
       ]
 
+
+      //replace console.log at line43 with post/put request
       const submit = async ( e ) =>{
         e.preventDefault()
         setLoad(true)
-        console.log({name, bio, phno, email, address, pan, gender: gender[0]?.id})
+        console.log({name, bio, phoneNumber, email, address, panNumber, gender: gender[0]?.id, type: [`user`, `${investorRole ? "investor" : ""}`, `${startupRole ? "entrepreneur" : ""}`]})
         router.back()
-        //push("/user")
       }
     return (
         <>
@@ -101,8 +108,6 @@ function manage({data}) {
                         <FormControl
                             label={() => "Email: "}
                             >
-                            <>
-                            
                             <Input
                                 value={email}
                                 onChange={e => setEmail(e.target.value)}
@@ -118,7 +123,6 @@ function manage({data}) {
                                     }
                                 }}
                             />
-                            </>
                         </FormControl>
                     </div>
 
@@ -169,6 +173,16 @@ function manage({data}) {
                                     }
                                 }}
                             />
+                        </FormControl>
+                        
+                        <FormControl
+                            label={() => "PAN Card Number: "}
+                        >
+                            <div className="flex justify-center gap-4 grid-cols-2 flex-wrap">
+                                <Checkbox checked={userRole} disabled onChange={e => setUserRole(e.target.checked)} labelPlacement={LABEL_PLACEMENT.bottom} > Customer </Checkbox>
+                                <Checkbox checked={investorRole} onChange={e => setInvestorRole(e.target.checked)} labelPlacement={LABEL_PLACEMENT.bottom} > Investor </Checkbox>
+                                <Checkbox checked={startupRole} onChange={e => setStartupRole(e.target.checked)} labelPlacement={LABEL_PLACEMENT.bottom} > Entrepreneur </Checkbox>
+                            </div>
                         </FormControl>
                     </div>
                 </div>
