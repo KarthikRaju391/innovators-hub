@@ -52,7 +52,7 @@ const AddPost = (props) => {
                                 onChange={e => setTitle(e.target.value)}
                                 name="title" 
                                 id="title"
-                                placeholder="Eg. Suresh Kumar"
+                                placeholder="Eg. Portfolio Pros"
                                 pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
                                 autoFocus
                                 clearable
@@ -73,7 +73,7 @@ const AddPost = (props) => {
                                 id="body"
                                 required
                                 onChange={e => setBody(e.target.value)}
-                                placeholder={`Giving is not just about make a donation, it's about making a difference.`}
+                                placeholder={`Tips for smart investments strategies.`}
                                 clearOnEscape
                             />
                         </FormControl>

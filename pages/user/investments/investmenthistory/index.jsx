@@ -4,7 +4,7 @@ import Card from "../../../../components/Card";
 
 function investmenthistory() {
 
-    const initial = [{ projectName: "ABC", projectId: "5", startupName: "ABC", }, { projectName: "DEF", projectId: "6", startupName: "DEF", }, { projectName: "EF", projectId: "7", startupName: "EF", }, { projectName: "DF", projectId: "8", startupName: "DF", }, { projectName: "DE", projectId: "9", startupName: "DE", },{ projectName: "10", projectId: "10", startupName: "10", },]
+    const initial = [{ projectName: "Project Name", projectId: "5", startupName: "Startup Name", }, { projectName: "DEF", projectId: "6", startupName: "DEF", }, { projectName: "EF", projectId: "7", startupName: "EF", }, { projectName: "DF", projectId: "8", startupName: "DF", }, { projectName: "DE", projectId: "9", startupName: "DE", },{ projectName: "10", projectId: "10", startupName: "10", },]
 
     return (
         <>

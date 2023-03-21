@@ -27,7 +27,7 @@ function productId() {
         category: "andar tho aaja",
         build: "xyz",
         quality: "abc",
-
+        lastTranked: "18-12-2023 12:30:00"
     } 
         
     const [currentImage, setCurrentImage] = useState(0);
@@ -88,6 +88,7 @@ function productId() {
                 {data.productPrice && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Prince:</span> <br/> ₹{data.productPrice}</p><br/></>)}
                 {data.category && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Category:</span> <br/>{data.category}</p><br/></>)}
                 {data.startupName && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Startup:</span> <br/>{data.startupName}</p><br/></>)}
+                {data.lastTranked && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Last Traked At:</span> <br/>{data.lastTranked}</p><br/></>)}
                 
                 <span className="mt-2 pt-2">
                 <MyAwesomeMap/>
