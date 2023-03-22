@@ -1,7 +1,7 @@
 import { signIn, signOut, useSession } from 'next-auth/react'
 import Login from '../components/Login';
 import AddPost from '../components/AddPost';
-import ListComments from '../components/ListComments';
+// import ListComments from '../components/ListComments';
 
 const Loginout = () => {
   const { data: session } = useSession();
