@@ -11,6 +11,7 @@ import { makeSerializable } from "../../../lib/util";
 import { authOptions } from "../../api/auth/[...nextauth]";
 import BackButton from "../../../components/BackButton";
 import { Checkbox, LABEL_PLACEMENT } from "baseui/checkbox";
+import { ProgressBar } from "baseui/progress-bar";
 
 function manage({data}) {
     const router = useRouter()
@@ -21,14 +22,20 @@ function manage({data}) {
     const [phoneNumber, setPhoneNumber] = React.useState(user.phoneNumber || "");
     const [email, setEmail] = React.useState(user.email || "");
     const [address, setAddress] = React.useState(user.address ? user.address : "");
-    const [panNumber, setpanNumber] = React.useState(user.panNumber ? user.panNumber : "");
     const [gender, setGender] = React.useState(user.gender ? user.gender : "");
     const [load, setLoad] = React.useState(false);
+    //investor details #Note: variable name changed please verify
+    const [ppanNumber, setPpanNumber] = React.useState(user.ppanNumber ? user.ppanNumber : "");
+    //startup details
+    const [startupPanNumber, setStartuppanNumber] = React.useState(user.startuppanNumber ? user.startuppanNumber : "");
+    const [startupName, setStartupName] = React.useState(user.startupName || "");
+    const [startupAddress, setStartupAddress] = React.useState(user.startupAddress || "");
 
-    const [userRole, setUserRole] = React.useState(true);
     //set initial value of startupRole & investorRole from get request of const user variable(Eg. user.investorRole), Note: "replace the value present before || (OR) symbol"
     const [startupRole, setStartupRole] = React.useState(false || false);
     const [investorRole, setInvestorRole] = React.useState(false || false);
+
+    const [progress, setProgress] = React.useState(0);
 
     const genderdrop=[
         { label: "Male", id: "Male" },
@@ -36,12 +43,29 @@ function manage({data}) {
         { label: "Others", id: "Other" },
       ]
 
+      const submit1 = async ( e ) =>{
+        e.preventDefault()
+        setProgress(progress+25)
+        // console.log({type: [`user`, `${investorRole ? "investor" : ""}`, `${startupRole ? "entrepreneur" : ""}`]})
+      }
 
-      //replace console.log at line43 with post/put request
-      const submit = async ( e ) =>{
+      const submit2 = async ( e ) =>{
+        e.preventDefault()
+        setProgress(progress+25)
+        // console.log({name, bio, phoneNumber, email, address, gender: gender[0]?.id})
+      }
+
+      const submit3 = async ( e ) =>{
+        e.preventDefault()
+        setProgress(progress+25)
+        // console.log({ppanNumber})
+      }
+
+      //replace console.log at line68 with post/put request
+      const submit4 = async ( e ) =>{ //submit from here
         e.preventDefault()
         setLoad(true)
-        console.log({name, bio, phoneNumber, email, address, panNumber, gender: gender[0]?.id, type: [`user`, `${investorRole ? "investor" : ""}`, `${startupRole ? "entrepreneur" : ""}`]})
+        console.log({name, bio, phoneNumber, email, address, ppanNumber, gender: gender[0]?.id, type: [`user`, `${investorRole ? "investor" : ""}`, `${startupRole ? "entrepreneur" : ""}`], startupName, startupAddress, startupPanNumber})
         router.back()
       }
     return (
@@ -49,8 +73,24 @@ function manage({data}) {
             <LoginHeader/>
             <BackButton/>
             <h2 className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">Manage Profile</h2>
-            <form className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]" onSubmit={(e) => submit(e)} >
-                <div className="flex flex-wrap gap-2 grid-cols-2">
+            <ProgressBar value={progress} steps={4} />
+            {progress<25 && (<form className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]" onSubmit={(e) => submit1(e)} >
+                <p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">Select User Roles:</p>
+                
+                    <div className="flex justify-center gap-4 grid-cols-2 flex-wrap">
+                        <Checkbox title={"Get Access For Purchasing Items"} checked={true} disabled labelPlacement={LABEL_PLACEMENT.bottom} > Customer </Checkbox>
+                        <Checkbox title={"Get Access For Investing On Projects"} checked={investorRole} onChange={e => setInvestorRole(e.target.checked)} labelPlacement={LABEL_PLACEMENT.bottom} > Investor </Checkbox>
+                        <Checkbox title={"Get Access For Receiving Investments And Selling Products"} checked={startupRole} onChange={e => setStartupRole(e.target.checked)} labelPlacement={LABEL_PLACEMENT.bottom} > Entrepreneur </Checkbox>
+                    </div>
+               
+                <div className="flex justify-center mt-[1rem] pt-[1rem] ">
+                    <Button type="Submit" shape={SHAPE.pill} isLoading={load} title="Continue filling the form">Next</Button>
+                </div>
+            </form>)}
+
+            {progress>=25 && progress<50 && (<form className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]" onSubmit={(e) => submit2(e)} >
+            <p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">Fill Customer Details:</p>
+            <div className="grid flex-wrap gap-2 grid-cols-2">
                     <div className="mx-auto" style={{width: "18rem"}}>
                         <FormControl
                             label={() => "Name: "}
@@ -105,6 +145,9 @@ function manage({data}) {
                             />
                         </FormControl>
 
+                    </div>
+
+                    <div className="mx-auto" style={{width: "18rem"}}>
                         <FormControl
                             label={() => "Email: "}
                             >
@@ -124,9 +167,7 @@ function manage({data}) {
                                 }}
                             />
                         </FormControl>
-                    </div>
 
-                    <div className="mx-auto" style={{width: "18rem"}}>
                         <FormControl label={() => "Address:"}>
                             <Textarea
                                 value={address}
@@ -154,17 +195,30 @@ function manage({data}) {
                                 }}
                             />
                         </FormControl>
+                    </div>
+                </div>
+               
+                <div className="flex justify-center gap-4 grid-cols-2 flex-wrap mt-[1rem] pt-[1rem] ">
+                    <Button shape={SHAPE.pill} isLoading={load} title="Go Back" onClick={()=>setProgress(progress-25)}>Previous</Button>
+                    <Button type="Submit" shape={SHAPE.pill} isLoading={load} title="Continue filling the form">Next</Button>
+                </div>
+            </form>)}
 
+            {progress>=50 && progress<75 && (<form className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]" onSubmit={(e) => submit3(e)} >
+                <p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">Fill Investor Details:</p>
+                
+                    <div className="grid justify-center">
                         <FormControl
-                            label={() => "PAN Card Number: "}
+                            label={() => "Personal PAN Card Number: "}
                             caption={() => "10-digit alphanumeric code issued by the Income Tax Department of India"}
                             >
                             <Input
-                                value={panNumber}
-                                onChange={e => setpanNumber(e.target.value)}
+                                value={ppanNumber}
+                                onChange={e => setPpanNumber(e.target.value)}
                                 placeholder="XXXXXXXXXX"
                                 pattern="^[A-Za-z0-9]{10}$"
                                 clearable
+                                disabled={!investorRole}
                                 required
                                 clearOnEscape
                                 overrides={{
@@ -174,22 +228,75 @@ function manage({data}) {
                                 }}
                             />
                         </FormControl>
-                        
+                    </div>
+               
+                <div className="flex justify-center gap-4 grid-cols-2 flex-wrap  ">
+                    <Button shape={SHAPE.pill} isLoading={load} title="Go Back" onClick={()=>setProgress(progress-25)}>Previous</Button>
+                    <Button type="Submit" shape={SHAPE.pill} isLoading={load} title="Continue filling the form">Next</Button>
+                </div>
+            </form>)}
+
+            {progress>=75 && progress<100 && (<form className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]" onSubmit={(e) => submit4(e)} >
+                <p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">Fill Startup Details:</p>
+                
+                    <div className="grid justify-center">
+                    <FormControl label={() => "Startup Name: "} >
+                            <Input
+                                value={startupName}
+                                onChange={e => setStartupName(e.target.value)}
+                                placeholder="Eg. Suresh Kumar"
+                                pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
+                                autoFocus
+                                clearable
+                                required
+                                clearOnEscape
+                                disabled={!startupRole}
+                                overrides={{
+                                    Root: {
+                                    style: ({ $theme }) => ({ width: "18rem" })
+                                    }
+                                }}
+                            />
+                        </FormControl>
+
+                        <FormControl label={() => "Startup Address:"}>
+                            <Textarea
+                                value={startupAddress}
+                                onChange={e => setStartupAddress(e.target.value)}
+                                placeholder={`F-17, Jangpura Extn, Delhi 110014, India`}
+                                clearOnEscape
+                                required
+                                disabled={!startupRole}
+                            />
+                        </FormControl>
+
                         <FormControl
-                            label={() => "PAN Card Number: "}
-                        >
-                            <div className="flex justify-center gap-4 grid-cols-2 flex-wrap">
-                                <Checkbox checked={userRole} disabled onChange={e => setUserRole(e.target.checked)} labelPlacement={LABEL_PLACEMENT.bottom} > Customer </Checkbox>
-                                <Checkbox checked={investorRole} onChange={e => setInvestorRole(e.target.checked)} labelPlacement={LABEL_PLACEMENT.bottom} > Investor </Checkbox>
-                                <Checkbox checked={startupRole} onChange={e => setStartupRole(e.target.checked)} labelPlacement={LABEL_PLACEMENT.bottom} > Entrepreneur </Checkbox>
-                            </div>
+                            label={() => "Startup PAN Number: "}
+                            caption={() => "10-digit alphanumeric code issued by the Income Tax Department of India"}
+                            >
+                            <Input
+                                value={startupPanNumber}
+                                onChange={e => setStartuppanNumber(e.target.value)}
+                                placeholder="XXXXXXXXXX"
+                                pattern="^[A-Za-z0-9]{10}$"
+                                clearable
+                                disabled={!startupRole}
+                                required
+                                clearOnEscape
+                                overrides={{
+                                    Root: {
+                                    style: ({ $theme }) => ({ width: "18rem" })
+                                    }
+                                }}
+                            />
                         </FormControl>
                     </div>
+               
+                <div className="flex justify-center gap-4 grid-cols-2 flex-wrap  ">
+                    <Button shape={SHAPE.pill} isLoading={load} title="Go Back" onClick={()=>setProgress(progress-25)}>Previous</Button>
+                    <Button type="Submit" shape={SHAPE.pill} isLoading={load} title="Submit Form">Submit</Button>
                 </div>
-                <div className="flex justify-center ">
-                    <Button shape={SHAPE.pill} isLoading={load} title="Submit the form">Submit</Button>
-                </div>
-            </form>
+            </form>)}
         </>
     );
 }
