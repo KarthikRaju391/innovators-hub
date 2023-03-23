@@ -13,6 +13,8 @@ import BackButton from "../../../components/BackButton";
 import { Checkbox, LABEL_PLACEMENT } from "baseui/checkbox";
 import { ProgressBar } from "baseui/progress-bar";
 
+//gstin: 22ABCDE1234F1Z5
+
 function manage({data}) {
     const router = useRouter()
     
@@ -30,6 +32,7 @@ function manage({data}) {
     const [startupPanNumber, setStartuppanNumber] = React.useState(user.startuppanNumber ? user.startuppanNumber : "");
     const [startupName, setStartupName] = React.useState(user.startupName || "");
     const [startupAddress, setStartupAddress] = React.useState(user.startupAddress || "");
+    const [gstin, setGstin] = React.useState(user.gstin || "");
 
     //set initial value of startupRole & investorRole from get request of const user variable(Eg. user.investorRole), Note: "replace the value present before || (OR) symbol"
     const [startupRole, setStartupRole] = React.useState(false || false);
@@ -65,7 +68,7 @@ function manage({data}) {
       const submit4 = async ( e ) =>{ //submit from here
         e.preventDefault()
         setLoad(true)
-        console.log({name, bio, phoneNumber, email, address, ppanNumber, gender: gender[0]?.id, type: [`user`, `${investorRole ? "investor" : ""}`, `${startupRole ? "entrepreneur" : ""}`], startupName, startupAddress, startupPanNumber})
+        console.log({name, bio, phoneNumber, email, address, ppanNumber, gender: gender[0]?.id, type: [`user`, `${investorRole ? "investor" : ""}`, `${startupRole ? "entrepreneur" : ""}`], startupName, startupAddress, startupPanNumber, gstin})
         router.back()
       }
     return (
@@ -239,57 +242,81 @@ function manage({data}) {
             {progress>=75 && progress<100 && (<form className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]" onSubmit={(e) => submit4(e)} >
                 <p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">Fill Startup Details:</p>
                 
-                    <div className="grid justify-center">
-                    <FormControl label={() => "Startup Name: "} >
-                            <Input
-                                value={startupName}
-                                onChange={e => setStartupName(e.target.value)}
-                                placeholder="Eg. Suresh Kumar"
-                                pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
-                                autoFocus
-                                clearable
-                                required
-                                clearOnEscape
-                                disabled={!startupRole}
-                                overrides={{
-                                    Root: {
-                                    style: ({ $theme }) => ({ width: "18rem" })
-                                    }
-                                }}
-                            />
-                        </FormControl>
+                    <div className="grid flex-wrap gap-2 grid-cols-2">
+                        <div className="mx-auto" style={{width: "18rem"}}>
+                            <FormControl label={() => "Startup Name: "} >
+                                <Input
+                                    value={startupName}
+                                    onChange={e => setStartupName(e.target.value)}
+                                    placeholder="Eg. Suresh Kumar"
+                                    pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
+                                    autoFocus
+                                    clearable
+                                    required
+                                    clearOnEscape
+                                    disabled={!startupRole}
+                                    overrides={{
+                                        Root: {
+                                        style: ({ $theme }) => ({ width: "18rem" })
+                                        }
+                                    }}
+                                />
+                            </FormControl>
 
-                        <FormControl label={() => "Startup Address:"}>
-                            <Textarea
-                                value={startupAddress}
-                                onChange={e => setStartupAddress(e.target.value)}
-                                placeholder={`F-17, Jangpura Extn, Delhi 110014, India`}
-                                clearOnEscape
-                                required
-                                disabled={!startupRole}
-                            />
-                        </FormControl>
-
+                            <FormControl label={() => "Startup Address:"}>
+                                <Textarea
+                                    value={startupAddress}
+                                    onChange={e => setStartupAddress(e.target.value)}
+                                    placeholder={`F-17, Jangpura Extn, Delhi 110014, India`}
+                                    clearOnEscape
+                                    required
+                                    disabled={!startupRole}
+                                />
+                            </FormControl>
+                        </div>
+                        <div className="mx-auto" style={{width: "18rem"}}>
                         <FormControl
-                            label={() => "Startup PAN Number: "}
-                            caption={() => "10-digit alphanumeric code issued by the Income Tax Department of India"}
-                            >
-                            <Input
-                                value={startupPanNumber}
-                                onChange={e => setStartuppanNumber(e.target.value)}
-                                placeholder="XXXXXXXXXX"
-                                pattern="^[A-Za-z0-9]{10}$"
-                                clearable
-                                disabled={!startupRole}
-                                required
-                                clearOnEscape
-                                overrides={{
-                                    Root: {
-                                    style: ({ $theme }) => ({ width: "18rem" })
-                                    }
-                                }}
-                            />
-                        </FormControl>
+                                label={() => "Startup PAN Number: "}
+                                caption={() => "10-digit alphanumeric code issued by  the Income Tax Department of India"}
+                                >
+                                <Input
+                                    value={startupPanNumber}
+                                    onChange={e => setStartuppanNumber(e.target.value)}
+                                    placeholder="XXXXXXXXXX"
+                                    pattern="^[A-Za-z0-9]{15}$"
+                                    clearable
+                                    disabled={!startupRole}
+                                    required
+                                    clearOnEscape
+                                    overrides={{
+                                        Root: {
+                                        style: ({ $theme }) => ({ width: "18rem" })
+                                        }
+                                    }}
+                                />
+                            </FormControl>
+
+                            <FormControl
+                                label={() => "GSTIN Number: "}
+                                caption={() => "15-digit alphanumeric code issued by Goods and Services Tax Network of India"}
+                                >
+                                <Input
+                                    value={gstin}
+                                    onChange={e => setGstin(e.target.value)}
+                                    placeholder="XXXXXXXXXXXXXXX"
+                                    pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[Z]{1}[0-9]{1}$"
+                                    clearable
+                                    disabled={!startupRole}
+                                    required
+                                    clearOnEscape
+                                    overrides={{
+                                        Root: {
+                                        style: ({ $theme }) => ({ width: "18rem" })
+                                        }
+                                    }}
+                                />
+                            </FormControl>
+                        </div>
                     </div>
                
                 <div className="flex justify-center gap-4 grid-cols-2 flex-wrap  ">
