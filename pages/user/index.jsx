@@ -38,11 +38,18 @@ function Dashboard() {
             <LoginHeader/>
             <h2 className="select-none mt-[1rem] pt-[1rem] text-3xl cursor-default text-center">Dashboard</h2>
             
+            {user.type.includes("entrepreneur") && (<><h3 className="select-none mx-[2rem] px-[2rem] mt-[1rem] pt-[1rem] ml-[0.5rem] pb-[.5rem] text-2xl cursor-default">Startup</h3>
+            <div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2">
+                <Card head={"Posts"} para={"View All Of Your Projects"} url={"/user/investments/investmenthistory"} />
+                <Card head={"Sell Products"} para={"View All Your Products In The Market"} url={"/user/investments/venture"} />                
+                {!user.type.includes("investor") && <Card head={"Community Forum"} para={"Innovators' Social Network"} url={"/posts"}/>}
+            </div></>)}
+
             {user.type.includes("investor") && (<><h3 className="select-none mx-[2rem] px-[2rem] mt-[1rem] pt-[1rem] ml-[0.5rem] pb-[.5rem] text-2xl cursor-default">Investments</h3>
             <div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2">
                 <Card head={"Investment History"} para={"Previous Investments"} url={"/user/investments/investmenthistory"} />
                 <Card head={"Venture"} para={"Show New Projects"} url={"/user/investments/venture"} />
-                <Card head={"Community Forum"} para={"Investor's Chat"} url={"/posts"}/>
+                <Card head={"Community Forum"} para={"Innovators' Social Network"} url={"/posts"}/>
             </div></>)}
 
             <h3 className="select-none mx-[2rem] px-[2rem] mt-[1rem] pt-[1rem] ml-[0.5rem] pb-[.5rem] text-2xl cursor-default">Purchase</h3>

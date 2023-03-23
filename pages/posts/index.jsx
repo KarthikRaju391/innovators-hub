@@ -23,7 +23,7 @@ const Posts = ({ posts }) => {
             <LoginHeader/>
             <AddPost isOpen={isOpen} closeOpen={closeOpen} />
             <div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
-                <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">Posts</h2>
+                <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">Innovators' Chat</h2>
                 <div className="flex justify-center mb-[.5rem] pb-[.5rem]"><Button onClick={() => setIsOpen(true)}>Create Post</Button></div>
                 <div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2">
                     {posts.map((post) => (

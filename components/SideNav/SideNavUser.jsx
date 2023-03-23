@@ -9,6 +9,10 @@ function SideNavUser({open, handleOpen}) {
     const session = useSession();
     const router = useRouter();
     const [activeItemId, setActiveItemId] = React.useState(router.pathname);
+    const user={
+      type: ["user", "investor", "entrepreneur"] //
+  }
+
     
     const items=[
       {title: "Dashboard", itemId: "/user"},
