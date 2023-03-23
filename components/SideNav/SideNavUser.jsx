@@ -10,21 +10,12 @@ function SideNavUser({open, handleOpen}) {
     const router = useRouter();
     const [activeItemId, setActiveItemId] = React.useState(router.pathname);
     const user={
-      type: ["user", "investor", "entrepreneur"] //
+      type: ["user", "", "entrepreneur"] //investor
   }
 
     
-    const items=[
+    var customerSidebar =[
       {title: "Dashboard", itemId: "/user"},
-        {
-          title: "Investments",
-          itemId: "",
-          subNav: [
-            { title: "Investment History", itemId: "/user/investments/investmenthistory" },
-            { title: "Venture", itemId: "/user/investments/venture" },
-            { title: "Community Forum", itemId: "/posts" },
-          ]
-        },
         {
           title: "Purchase",
           itemId: "",
@@ -44,6 +35,41 @@ function SideNavUser({open, handleOpen}) {
           ]
         },
       ]
+
+      var startupSidebar = {
+        title: "Startup",
+        itemId: "",
+        subNav: [
+          { title: "Create Projects", itemId: "/user/startup/createproject" },
+          { title: "Sell Products", itemId: "/user/startup/sellproducts" },
+          { title: "Create Products", itemId: "/user/startup/createproduct" },
+          { title: "Orders", itemId: "/user/startup/orders" },
+        ]
+      }
+
+      var investorSidebar = {
+        title: "Investments",
+        itemId: "",
+        subNav: [
+          { title: "Investment History", itemId: "/user/investments/investmenthistory" },
+          { title: "Venture", itemId: "/user/investments/venture" },
+          { title: "Community Forum", itemId: "/posts" },
+        ]
+      }
+
+      if (user.type.includes("investor") && !user.type.includes("entrepreneur")){
+        customerSidebar.splice( 1, 0, investorSidebar )
+      }
+
+      if (!user.type.includes("investor") && user.type.includes("entrepreneur")){
+        startupSidebar.subNav.splice(0,0,{ title: "Venture Ideas", itemId: "/user/investments/venture" })
+        startupSidebar.subNav.splice(6,0, { title: "Community Forum", itemId: "/posts" })
+        customerSidebar.splice( 1, 0, startupSidebar )
+      }
+
+      if (user.type.includes("investor") && user.type.includes("entrepreneur")){
+        customerSidebar.splice( 1, 0, startupSidebar, investorSidebar )
+      }
 
       var handleTheme = () =>{
         var currentTheme = JSON.parse(localStorage.getItem("theme"))
@@ -74,7 +100,7 @@ function SideNavUser({open, handleOpen}) {
       }}
         >
             <Navigation
-                items = {items}       
+                items = {customerSidebar}       
                 activeItemId={activeItemId} 
                 onChange={async ({ event, item }) =>{
                     await setActiveItemId(item.itemId)
