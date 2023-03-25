@@ -3,15 +3,21 @@ import LoginHeader from '../../../../components/LoginHeader';
 import { Button } from "baseui/button";
 import { useState } from 'react';
 import { FaHandsHelping } from 'react-icons/fa';
+import { useSession } from 'next-auth/react';
+import {FiEdit} from 'react-icons/fi'
+import { useRouter } from 'next/router';
 
 
 export default function investmentHistoryId() {
 
-  //get data regarding the project & set them accordingly in the `var initial` at Line11
+  const session = useSession()
+
+  //get data regarding the project & set them accordingly in the `var initial` at Line16
   var initial ={
     projectName: 'Project',
     projectId: 10,
     startupName: "Company",
+    creatorId: "d56909a0-daeb-44be-acb9-eb52392065cb",
     investmentRequired: "5000",
     publishDate: "18/12/2022",
     backers: [{name: "Karthik", amount: 2000}, {name: "Harsha", amount: 1000}, {name: "Ram", amount: 2000},],
@@ -19,6 +25,8 @@ export default function investmentHistoryId() {
 }
 
 const [load1, setLoad1] = useState(false);
+
+const router = useRouter()
 
 const buyHandler = async() =>{
   setLoad1(true)
@@ -31,7 +39,7 @@ var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className="row"> <td
     <>
         <BackButton/>
         <LoginHeader/>
-          <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">{initial.projectName}</h2>
+          <h2 className="select-none flex my-[.5rem] py-[.5rem] text-3xl cursor-default justify-center gap-4">{initial.projectName} {session.data?.user?.id === initial.creatorId && <FiEdit title='Edit The Information' style={{cursor: "pointer"}} onClick={()=>router.push("/user/startup/edit")} />}</h2>
           <h2 className="select-none my-[.5rem] py-[.5rem] text-2xl cursor-default text-center">Startup: {initial.startupName}</h2>
           <h2 className="select-none text-lg cursor-default text-center">Investment Requirement:{initial.investmentRequired}</h2>
           <h2 className="select-none text-lg cursor-default text-center">Publish Date:{initial.publishDate}</h2>

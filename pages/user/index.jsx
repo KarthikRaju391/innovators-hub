@@ -43,7 +43,7 @@ function Dashboard() {
                 {!user.type.includes("investor") && <Card head={"Venture Ideas"} para={"View All Projects"} url={"/user/investments/venture"} />}
                 <Card head={"Create Projects"} para={"Create New Project Idea"} url={"/user/startup/createproject"} />                
                 <Card head={"Sell Products"} para={"View All Your Products In The Market"} url={"/user/startup/sellproducts"} /> 
-                <Card head={"Create Products"} para={"Create New Product In The Market"} url={"/user/startup/createproduct"} />                               
+                <Card head={"Create Product"} para={"Create New Product In The Market"} url={"/user/startup/createproduct"} />                               
                 <Card head={"Orders"} para={"Customer's requests For Products"} url={"/user/startup/orders"} />                               
                 {!user.type.includes("investor") && <Card head={"Community Forum"} para={"Innovators' Social Network"} url={"/posts"}/>}
             </div></>)}

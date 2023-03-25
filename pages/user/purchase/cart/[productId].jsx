@@ -82,7 +82,7 @@ function productId() {
             <div className="flex gap-2 flex-wrap mb-2 pb-5 justify-center" >
                 {data.build && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Build:</span> <br/>{data.build}</p><br/></>)}
                 {data.quality && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Quality:</span> <br/>{data.quality}</p><br/></>)}
-                {data.productPrice && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Prince:</span> <br/> ₹{data.productPrice}</p><br/></>)}
+                {data.productPrice && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Price:</span> <br/> ₹{data.productPrice}</p><br/></>)}
                 {data.category && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Category:</span> <br/>{data.category}</p><br/></>)}
                 {data.startupName && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Startup:</span> <br/>{data.startupName}</p><br/></>)}
             </div>
