@@ -63,7 +63,7 @@ function productId() {
             <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">{data.productName}</h2>
             <div className="my-2 py-2 ml-5 pl-5 flex justify-center flex-wrap gap-2 grid-cols-2">
                 {data.images.map((src, index) => (
-                    <Image
+                    src && <Image
                     src={ src }
                     onClick={ () => openImageViewer(index) }
                     width= "400"
@@ -78,7 +78,7 @@ function productId() {
 
                 {isViewerOpen && (
                     <ImageViewer
-                    src={ data.images }
+                    src={ data.images.filter((el) => el !== undefined) }
                     currentIndex={ currentImage }
                     disableScroll={ false }
                     closeOnClickOutside={ true }

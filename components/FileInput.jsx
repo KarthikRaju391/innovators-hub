@@ -1,16 +1,14 @@
-//dummy page do not work on this
-
-import * as React from "react";
 import { FileUploader } from "baseui/file-uploader";
+import { useEffect, useRef, useState } from "react";
 
 function useInterval(callback, delay) {
-    const savedCallback = React.useRef(() => {});
+    const savedCallback = useRef(() => {});
 
-    React.useEffect(() => {
+    useEffect(() => {
       savedCallback.current = callback;
     }, [callback]);
 
-    React.useEffect(() => {
+    useEffect(() => {
       function tick() {
         savedCallback.current();
       }
@@ -22,8 +20,8 @@ function useInterval(callback, delay) {
   }
 
   function useFakeProgress() {
-    const [fakeProgress, setFakeProgress] = React.useState(0);
-    const [isActive, setIsActive] = React.useState(false);
+    const [fakeProgress, setFakeProgress] = useState(0);
+    const [isActive, setIsActive] = useState(false);
     function stopFakeProgress() {
       setIsActive(false);
       setFakeProgress(0);
@@ -44,52 +42,50 @@ function useInterval(callback, delay) {
     return [fakeProgress, startFakeProgress, stopFakeProgress];
   }
 
-function sample() {
+function FileInput(props) {
 
-    const [file, setFile] = React.useState()
-    const [errorMessage, setErrorMessage] = React.useState("");
+    const [errorMessage, setErrorMessage] = useState("");
     const [ progressAmount, startFakeProgress, stopFakeProgress, ] = useFakeProgress();
 
     const fileHandler = (e) =>{
         let f = e[0]
-        // console.log(f)
-        if(f.type !== ''){//application/pdf
+        var pattern = new RegExp(`${props.type}`)
+        // console.log(pattern.test(f.type))
+        if( pattern.test(f.type)){//application/pdf f.type
             let readFile = new FileReader()
             readFile.readAsDataURL(f)
             readFile.onload=e=>{
                 var fd = {...f,"file": e.target.result}
-                setFile(fd)
-                sessionStorage.setItem('file', fd.file)
-                // fread = fd;
-                console.log(fd)
+                props.setFiles(fd)
+                // console.log(fd)
             }
         }
         else{
-            setErrorMessage('Please upload .pdf format only')
+            setErrorMessage(`Please upload ${props.type} only`)
         }
     }
 
     return (
         <FileUploader
-                        accept=".pdf"
-                        onCancel={stopFakeProgress}
-                        errorMessage={errorMessage}
-                        value = {file}
-                        onDropAccepted= {fileHandler}
-                        onDropRejected={e=> setErrorMessage('Please upload .pdf format only')}
-                        onRetry={e=>setErrorMessage('')}
-                        onDrop={(acceptedFiles, rejectedFiles) => {
-                            // handle file upload...
-                            startFakeProgress();
-                        }}
-                        progressAmount={progressAmount}
-                        progressMessage={
+                    accept={props.type}
+                    onCancel={stopFakeProgress}
+                    errorMessage={errorMessage}
+                    value = {props.file}
+                    onDropAccepted= {fileHandler}
+                    onDropRejected={e=> setErrorMessage(`Please upload ${props.type} only`)}
+                    onRetry={e=>setErrorMessage('')}
+                    onDrop={(acceptedFiles, rejectedFiles) => {
+                        // handle file upload...
+                        startFakeProgress();
+                    }}
+                    progressAmount={progressAmount}
+                    progressMessage={
                         progressAmount
                             ? `Uploading... ${progressAmount}% of 100%`
                             : ''
                         }
-                    />
+                />
     );
 }
 
-export default sample;
+export default FileInput;

@@ -93,7 +93,7 @@ function manage({data}) {
 
             {progress>=25 && progress<50 && (<form className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]" onSubmit={(e) => submit2(e)} >
             <p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">Fill Customer Details:</p>
-            <div className="grid flex-wrap gap-2 grid-cols-2">
+            <div className="flex flex-wrap gap-2 grid-cols-2">
                     <div className="mx-auto" style={{width: "18rem"}}>
                         <FormControl
                             label={() => "Name: "}
@@ -242,7 +242,7 @@ function manage({data}) {
             {progress>=75 && progress<100 && (<form className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]" onSubmit={(e) => submit4(e)} >
                 <p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">Fill Startup Details:</p>
                 
-                    <div className="grid flex-wrap gap-2 grid-cols-2">
+                    <div className="flex flex-wrap gap-2 grid-cols-2">
                         <div className="mx-auto" style={{width: "18rem"}}>
                             <FormControl label={() => "Startup Name: "} >
                                 <Input

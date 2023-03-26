@@ -2,14 +2,14 @@ import { FormControl } from "baseui/form-control";
 import { Input } from "baseui/input";
 import { Textarea } from "baseui/textarea";
 import { useState } from "react";
-import BackButton from "../../../components/BackButton";
-import FileInput from "../../../components/FileInput";
-import LoginHeader from "../../../components/LoginHeader";
+import BackButton from "../../../../../components/BackButton";
+import FileInput from "../../../../../components/FileInput";
+import LoginHeader from "../../../../../components/LoginHeader";
 import { Button, SHAPE } from "baseui/button";
 import { useRouter } from "next/router";
 import {MdOutlineDeleteForever} from 'react-icons/md';
 
-function createproduct() {
+function edit() {
 
     const router = useRouter()
 
@@ -53,7 +53,7 @@ function createproduct() {
         <>
             <LoginHeader/>
             <BackButton/>
-            <h2 className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">Create Product</h2>
+            <h2 className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">Edit Product - {router.query.productId}</h2>
 
             <form onSubmit={e=>submit(e)} className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
             
@@ -174,4 +174,4 @@ function createproduct() {
     );
 }
 
-export default createproduct;
+export default edit;
