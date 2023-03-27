@@ -10,7 +10,7 @@ function SideNavUser({open, handleOpen}) {
     const router = useRouter();
     const [activeItemId, setActiveItemId] = React.useState(router.pathname);
     const user={
-      type: ["user", "", "entrepreneur"] //investor
+      type: ["user", "investor", "entrepreneur"] //  
   }
 
     

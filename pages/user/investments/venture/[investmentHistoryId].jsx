@@ -53,7 +53,8 @@ var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className="row"> <td
         <p className='mt-5 cursor-default text-center underline'>List of backers</p>
 
         {initial?.backers?.length > 0 ? (
-          <table className='table-fixed mx-auto text-left border-separate border-spacing-y-2 border-spacing-x-10 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]'>
+          <div className='grid justify-center'>
+          <table className='mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]'>
             <thead>
               <tr>
                 <th>Name</th>
@@ -64,6 +65,7 @@ var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className="row"> <td
               {tblContent}
             </tbody>
           </table>
+          </div>
         ) : <p className='mt-2 cursor-default text-center mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]'>No Backers Yet</p> }
         {/* <p className='mt-5 cursor-default text-center underline'>No file to display</p> */}
     </>

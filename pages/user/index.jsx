@@ -7,7 +7,7 @@ function Dashboard() {
 
     //get user data(tyoe) from server
     const user={
-        type: ["user", "", "entrepreneur"] //investor
+        type: ["user", "investor", "entrepreneur"] //  
     }
 
     const [hydrated, setHydrated] = React.useState(false);
