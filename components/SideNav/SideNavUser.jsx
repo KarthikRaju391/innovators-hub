@@ -93,7 +93,7 @@ function SideNavUser({open, handleOpen}) {
             overrides={{
         DrawerContainer: {
           style: ({ $theme }) => ({
-            background: "radial-gradient(100% 44171.21% at 0% -100%, rgba(143, 125, 252, 0.85) 0%, rgba(151, 137, 238, 0.6885) 34.11%, rgba(146, 69, 158, 0.493) 60.51%, rgba(138, 17, 181, 0.774) 100%)",
+            background: "radial-gradient(100.73% 375.72% at 0% 0%, #80A0F2 1.04%, #A194F0 38.54%, #C37FCE 67.15%, #973FB6 100%)",
             
           })
         },
