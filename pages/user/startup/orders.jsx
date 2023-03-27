@@ -31,18 +31,19 @@ function orders() {
             <LoginHeader/>
             <BackButton/>
             <h2 className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">Orders</h2>
-
-            <Accordion accordion overrides={{ Header: { style: ({ $theme }) => ({ backgroundColor: currentTheme ? "#eeeeee" : "#292929" }) }, }} >{/* onChange={({ expanded }) => console.log(expanded)} */}
-                {data.map(product=>( 
-                    <Panel title={product.productName} key={product.productId}>
-                        {product.orders.map(order => (
-                            <div key={order.orderId} className="flex gap-4 items-center mt-1 pt-1">
-                                <p>Name: {order.name}</p>
-                                <p>Pieces Ordered: {order.pieces}</p>
-                                <Button onClick={() => console.log(order.orderId)} size={SIZE.compact} shape={SHAPE.pill} > Parcel Ready </Button>
-                            </div>))}
-                    </Panel>))}
-            </Accordion>
+            <div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem] ">
+                <Accordion accordion overrides={{ Header: { style: ({ $theme }) => ({ backgroundColor: currentTheme ? "#eeeeee" : "#292929" }) }, }} >{/* onChange={({ expanded }) => console.log(expanded)} */}
+                    {data.map(product=>( 
+                        <Panel title={product.productName} key={product.productId}>
+                            {product.orders.map(order => (
+                                <div key={order.orderId} className="flex gap-4 items-center mt-1 pt-1">
+                                    <p>Name: {order.name}</p>
+                                    <p>Pieces Ordered: {order.pieces}</p>
+                                    <Button onClick={() => console.log(order.orderId)} size={SIZE.compact} shape={SHAPE.pill} > Parcel Ready </Button>
+                                </div>))}
+                        </Panel>))}
+                </Accordion>
+            </div>
         </>
     );
 }
