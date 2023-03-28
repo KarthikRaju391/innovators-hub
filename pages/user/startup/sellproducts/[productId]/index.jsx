@@ -58,7 +58,7 @@ function productId() {
         <>
             <BackButton/>
             <LoginHeader/>
-            <h2 className="select-none flex my-[.5rem] py-[.5rem] text-3xl cursor-default justify-center gap-4">{data.productName} <FiEdit title='Edit The Information' style={{cursor: "pointer"}} onClick={()=>router.push(nxtpg)} /> {data.visible ? <AiOutlineEyeInvisible title="Keep The Product Hidden For Customers" onClick={visible} style={{cursor: "pointer"}}/> : <AiOutlineEye title="Make The Product Visible For Customers" onClick={hide} style={{cursor: "pointer"}}/>} </h2>
+            <h2 className="select-none flex my-[.5rem] py-[.5rem] text-3xl cursor-default justify-center gap-4">{data.productName} <FiEdit title='Edit The Information' style={{cursor: "pointer"}} onClick={()=>router.push(nxtpg)} /> {data.visible ? <AiOutlineEyeInvisible title="Make The Product Visible For Customers" onClick={visible} style={{cursor: "pointer"}}/> : <AiOutlineEye title="Keep The Product Hidden For Customers" onClick={hide} style={{cursor: "pointer"}}/>} </h2>
             <div className="my-2 py-2 ml-5 pl-5 flex justify-center flex-wrap gap-2 grid-cols-2">
                 {data.images.map((src, index) => (
                     src && <Image
