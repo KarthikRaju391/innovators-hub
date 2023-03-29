@@ -4,72 +4,34 @@ import { Navigation } from "baseui/side-navigation";
 import { useRouter } from 'next/router';
 import { useSession, signIn, signOut } from "next-auth/react";
 
-function SideNavUser({open, handleOpen}) {
+function SideNavPostalAdmin({open, handleOpen}) {
 
     const session = useSession();
     const router = useRouter();
     const [activeItemId, setActiveItemId] = React.useState(router.pathname);
-    const user={
-      type: ["user", "investor", "entrepreneur"] //  
-  }
 
     
     var customerSidebar =[
-      {title: "Dashboard", itemId: "/user"},
+      {title: "Dashboard", itemId: "/postaladmin"},
         {
-          title: "Purchase",
+          title: "Postal Service",
           itemId: "",
           subNav: [
-            { title: "Products", itemId: "/products" },
-            { title: "Cart", itemId: "/user/purchase/cart" },
-            { title: "Live Orders", itemId: "/user/purchase/liveorders" },
-            { title: "Order History", itemId: "/user/purchase/ordershistory" },
+            { title: "Create Manager", itemId: "/postaladmin/createmanager" },
+            { title: "View Managers", itemId: "/postaladmin/viewmanagers" },
+            { title: "Admin History", itemId: "/postaladmin/adminhistory" },
+            { title: "Replace Manager", itemId: "/postaladmin/replacemanager" },
           ]
         },
         {
           title: "Settings",
           itemId: "",
           subNav: [
-            { title: "View Profile", itemId: "/user/settings/viewprofile" },
-            { title: "Manage Profile", itemId: "/user/settings/manageprofile" },
+            { title: "View Profile", itemId: "/postaladmin/settings/viewprofile" },
+            { title: "Manage Profile", itemId: "/postaladmin/settings/manageprofile" },
           ]
         },
       ]
-
-      var startupSidebar = {
-        title: "Startup",
-        itemId: "",
-        subNav: [
-          { title: "Create Projects", itemId: "/user/startup/createproject" },
-          { title: "Sell Products", itemId: "/user/startup/sellproducts" },
-          { title: "Create Products", itemId: "/user/startup/createproduct" },
-          { title: "Orders", itemId: "/user/startup/orders" },
-        ]
-      }
-
-      var investorSidebar = {
-        title: "Investments",
-        itemId: "",
-        subNav: [
-          { title: "Investment History", itemId: "/user/investments/investmenthistory" },
-          { title: "Venture", itemId: "/user/investments/venture" },
-          { title: "Community Forum", itemId: "/posts" },
-        ]
-      }
-
-      if (user.type.includes("investor") && !user.type.includes("entrepreneur")){
-        customerSidebar.splice( 1, 0, investorSidebar )
-      }
-
-      if (!user.type.includes("investor") && user.type.includes("entrepreneur")){
-        startupSidebar.subNav.splice(0,0,{ title: "Venture Ideas", itemId: "/user/investments/venture" })
-        startupSidebar.subNav.splice(6,0, { title: "Community Forum", itemId: "/posts" })
-        customerSidebar.splice( 1, 0, startupSidebar )
-      }
-
-      if (user.type.includes("investor") && user.type.includes("entrepreneur")){
-        customerSidebar.splice( 1, 0, startupSidebar, investorSidebar )
-      }
 
       var handleTheme = () =>{
         var currentTheme = JSON.parse(localStorage.getItem("theme"))
@@ -115,4 +77,4 @@ function SideNavUser({open, handleOpen}) {
     );
 }
 
-export default SideNavUser;
+export default SideNavPostalAdmin;

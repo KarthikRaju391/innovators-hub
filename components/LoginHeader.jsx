@@ -13,13 +13,15 @@ import { useSession } from 'next-auth/react';
 import { Avatar } from "baseui/avatar";
 import {Block} from 'baseui/block';
 import { StatefulTooltip } from "baseui/tooltip";
+import SideNavPostalAdmin from "./SideNav/SideNavPostalAdmin";
 
 function LoginHeader() {
 
     const session = useSession()
     // console.log(session.data)
     const user = (session?.data?.user.name) || ""
-    const role = "Investor" || ""
+    const role = "Investor" || "" //give the role only for user.type==="user"
+    const userType =  "postal admin" //"user"
 
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -33,7 +35,8 @@ function LoginHeader() {
 
     return (
         <>
-          <SideNavUser open={isOpen} handleOpen={handleOpen}/>
+          {userType === "user" && <SideNavUser open={isOpen} handleOpen={handleOpen}/>}
+          {userType === "postal admin" && <SideNavPostalAdmin open={isOpen} handleOpen={handleOpen}/>}
           <HeaderNavigation className={classes.uls } style={{ borderRadius: "0" }}>
             <StyledNavigationList $align={ALIGN.left}>
               <StyledNavigationItem>
