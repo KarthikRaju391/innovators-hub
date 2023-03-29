@@ -14,10 +14,14 @@ export default async function handle(req, res) {
             const products = await prisma.product.findMany();
             return res.json(products);
         } else if (req.method === "POST") {
-            console.log(req.body);
+            const { name, description, price, image } = req.body;
             const product = await prisma.product.create({
-                // TODO: Only selected fields
-                data: req.body,
+                data: {
+                    name,
+                    description,
+                    price,
+                    image,
+                },
             });
             return res.json(product);
         } else {
