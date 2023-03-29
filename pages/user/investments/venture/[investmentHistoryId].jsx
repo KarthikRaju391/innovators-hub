@@ -40,7 +40,7 @@ var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className="row anima
     <>
         <BackButton/>
         <LoginHeader/>
-          <h2 className="select-none flex my-[.5rem] py-[.5rem] text-3xl cursor-default justify-center gap-4">{initial.projectName} {session.data?.user?.id === initial.creatorId && <FiEdit title='Edit The Information' style={{cursor: "pointer"}} onClick={()=>router.push("/user/startup/edit")} />}</h2>
+          <h2 className="select-none flex my-[.5rem] py-[.5rem] text-3xl cursor-default justify-center gap-4">{initial.projectName} {session.data?.user?.id === initial.creatorId && <FiEdit className='animate__animated animate__fadeInRight' title='Edit The Information' style={{cursor: "pointer"}} onClick={()=>router.push("/user/startup/edit")} />}</h2>
           <h2 className="select-none my-[.5rem] py-[.5rem] text-2xl cursor-default text-center animate__animated animate__fadeInUp">Startup: {initial.startupName}</h2>
           <h2 className="select-none text-lg cursor-default text-center animate__animated animate__fadeInUp">Investment Requirement:{initial.investmentRequired}</h2>
           <h2 className="select-none text-lg cursor-default text-center animate__animated animate__fadeInUp">Publish Date:{initial.publishDate}</h2>
