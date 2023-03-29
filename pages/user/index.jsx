@@ -5,7 +5,7 @@ import React from "react";
 
 function Dashboard() {
 
-    //get user data(tyoe) from server
+    //get user data(type) from server
     const user={
         type: ["user", "investor", "entrepreneur"] //  
     }
