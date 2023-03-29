@@ -6,7 +6,7 @@ function CommentActions({ commentId, replyCount }) {
 
     return (
         <>
-            <div className="flex gap-2">
+            <div className="flex gap-2 animate__animated animate__fadeInUp">
                 <p>{replyCount}</p>
                 <button onClick={() => setReplying(prev => !prev)}>Reply</button>
             </div>
@@ -18,7 +18,7 @@ function CommentActions({ commentId, replyCount }) {
 
 function Comment({ comment }) {
     return (
-            <div className=" my-2 mx-4 py-2">
+            <div className=" my-2 mx-4 py-2 animate__animated animate__fadeInUp">
                 <div>
                     <h1>{comment.user.name}<span> | {new Date(comment.createdAt).toDateString()}</span></h1>
                     <h2>{comment.body}</h2>
@@ -35,7 +35,7 @@ function Comment({ comment }) {
 const ListComments = ({ comments }) => {
 
     return (
-        <div className="flex justify-center">
+        <div className="flex justify-center ">
             <div className="mx-2 border-l-4 border-cyan-700 mt-2">
                 {comments.map((comment) => (
                     <Comment key={comment.id} comment={comment} />

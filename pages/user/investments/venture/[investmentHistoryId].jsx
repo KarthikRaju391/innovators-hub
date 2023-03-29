@@ -17,6 +17,7 @@ export default function investmentHistoryId() {
     projectName: 'Project',
     projectId: 10,
     startupName: "Company",
+    ownerEmail: "s@g.co",
     creatorId: "d56909a0-daeb-44be-acb9-eb52392065cb",
     investmentRequired: "5000",
     publishDate: "18/12/2022",
@@ -34,15 +35,16 @@ const buyHandler = async() =>{
   setLoad1(false)
 }
 
-var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className="row"> <td className='col'>{e.name}</td> <td className='col'>{e.amount}</td> </tr> )) 
+var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className="row animate__animated animate__fadeInUp"> <td className='col'>{e.name}</td> <td className='col'>{e.amount}</td> </tr> )) 
   return (
     <>
         <BackButton/>
         <LoginHeader/>
           <h2 className="select-none flex my-[.5rem] py-[.5rem] text-3xl cursor-default justify-center gap-4">{initial.projectName} {session.data?.user?.id === initial.creatorId && <FiEdit title='Edit The Information' style={{cursor: "pointer"}} onClick={()=>router.push("/user/startup/edit")} />}</h2>
-          <h2 className="select-none my-[.5rem] py-[.5rem] text-2xl cursor-default text-center">Startup: {initial.startupName}</h2>
-          <h2 className="select-none text-lg cursor-default text-center">Investment Requirement:{initial.investmentRequired}</h2>
-          <h2 className="select-none text-lg cursor-default text-center">Publish Date:{initial.publishDate}</h2>
+          <h2 className="select-none my-[.5rem] py-[.5rem] text-2xl cursor-default text-center animate__animated animate__fadeInUp">Startup: {initial.startupName}</h2>
+          <h2 className="select-none text-lg cursor-default text-center animate__animated animate__fadeInUp">Investment Requirement:{initial.investmentRequired}</h2>
+          <h2 className="select-none text-lg cursor-default text-center animate__animated animate__fadeInUp">Publish Date:{initial.publishDate}</h2>
+          <h2 className="select-none text-lg cursor-default text-center animate__animated animate__fadeInUp">Contact:{initial.ownerEmail}</h2>
   
         <embed className='mx-auto mt-3 pt-3 w-[90%] h-[100vh]' src={`data:application/pdf;base64,${initial.file}`} />
 
@@ -50,13 +52,13 @@ var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className="row"> <td
           <Button onClick={buyHandler} isLoading={load1}  overrides={{ BaseButton: { style: ({ $theme }) => ({ backgroundColor: $theme.colors.positive400, }) } }} startEnhancer={<FaHandsHelping style={{fontSize: "1.5rem"}}/>} >Contribute</Button>
         </div>
 
-        <p className='mt-5 cursor-default text-center underline'>List of backers</p>
+        <p className='mt-5 cursor-default text-center text-lg underline'>List of backers</p>
 
         {initial?.backers?.length > 0 ? (
           <div className='grid justify-center'>
           <table className='mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]'>
             <thead>
-              <tr>
+              <tr className='animate__animated animate__fadeInUp'>
                 <th>Name</th>
                 <th>Amount</th>
               </tr>

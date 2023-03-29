@@ -80,7 +80,7 @@ function manage({data}) {
             {progress<25 && (<form className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]" onSubmit={(e) => submit1(e)} >
                 <p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">Select User Roles:</p>
                 
-                    <div className="flex justify-center gap-4 grid-cols-2 flex-wrap">
+                    <div className="flex justify-center gap-4 grid-cols-2 flex-wrap animate__animated animate__fadeInUp">
                         <Checkbox title={"Get Access For Purchasing Items"} checked={true} disabled labelPlacement={LABEL_PLACEMENT.bottom} > Customer </Checkbox>
                         <Checkbox title={"Get Access For Investing On Projects"} checked={investorRole} onChange={e => setInvestorRole(e.target.checked)} labelPlacement={LABEL_PLACEMENT.bottom} > Investor </Checkbox>
                         <Checkbox title={"Get Access For Receiving Investments And Selling Products"} checked={startupRole} onChange={e => setStartupRole(e.target.checked)} labelPlacement={LABEL_PLACEMENT.bottom} > Entrepreneur </Checkbox>
@@ -93,7 +93,7 @@ function manage({data}) {
 
             {progress>=25 && progress<50 && (<form className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]" onSubmit={(e) => submit2(e)} >
             <p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">Fill Customer Details:</p>
-            <div className="flex flex-wrap gap-2 grid-cols-2">
+            <div className="flex flex-wrap gap-2 grid-cols-2 ">
                     <div className="mx-auto" style={{width: "18rem"}}>
                         <FormControl
                             label={() => "Name: "}

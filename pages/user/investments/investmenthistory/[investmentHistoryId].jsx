@@ -7,6 +7,7 @@ export default function investmentHistoryId() {
   var initial ={
     projectName: 'Project',
     projectId: 10,
+    ownerEmail: "s@g.co",
     startupName: "Company",
     amount: "5000",
     investmentDate: "18/12/2022",
@@ -16,26 +17,27 @@ export default function investmentHistoryId() {
 
 
 
-var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className={`row`}> <td className='col'>{e.name}</td> <td className='col'>{e.amount}</td> </tr> )) 
+var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className={`row animate__animated animate__fadeInUp`}> <td className='col'>{e.name}</td> <td className='col'>{e.amount}</td> </tr> )) 
 
   return (
     <>
         <BackButton/>
         <LoginHeader/>
           <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">{initial.projectName}</h2>
-          <h2 className="select-none my-[.5rem] py-[.5rem] text-2xl cursor-default text-center">Startup: {initial.startupName}</h2>
-          <h2 className="select-none text-lg cursor-default text-center">Invested Amount:{initial.amount}</h2>
-          <h2 className="select-none text-lg cursor-default text-center">Investment Date:{initial.investmentDate}</h2>
-  
+          <h2 className="select-none my-[.5rem] py-[.5rem] text-2xl cursor-default text-center animate__animated animate__fadeInUp">Startup: {initial.startupName}</h2>
+          <h2 className="select-none text-lg cursor-default text-center animate__animated animate__fadeInUp">Invested Amount:{initial.amount}</h2>
+          <h2 className="select-none text-lg cursor-default text-center animate__animated animate__fadeInUp">Investment Date:{initial.investmentDate}</h2>
+          <h2 className="select-none text-lg cursor-default text-center animate__animated animate__fadeInUp">Contact:{initial.ownerEmail}</h2>
+
         <embed className='mx-auto mt-3 pt-3 w-[90%] h-[100vh] ' src={`data:application/pdf;base64,${initial.file}`} />
         
-        <p className='mt-5 cursor-default text-center underline'>List of backers</p>
+        <p className='mt-5 cursor-default text-center text-lg underline'>List of backers</p>
 
         {initial?.backers?.length > 0 ? (
           <div className='grid justify-center'>
           <table className='mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]'>
             <thead>
-              <tr>
+              <tr className='animate__animated animate__fadeInUp'>
                 <th>Name</th>
                 <th>Amount</th>
               </tr>

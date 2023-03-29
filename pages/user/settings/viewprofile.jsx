@@ -39,7 +39,7 @@ function viewprofile({user}) {
             <div className="mb-[0rem] pb-[0rem]"  >
                 <p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">Customer Details:</p> 
                 <div className="flex flex-wrap gap-2 grid-cols-2">
-                    <div className="mx-auto" style={{width: "18rem"}}>
+                    <div className="mx-auto animate__animated animate__fadeInUp" style={{width: "18rem"}}>
                         <FormControl
                             label={() => "Name: "}
                             caption={() => "Name as per PAN Card"}
@@ -82,7 +82,7 @@ function viewprofile({user}) {
 
                     </div>
 
-                    <div className="mx-auto" style={{width: "18rem"}}>
+                    <div className="mx-auto animate__animated animate__fadeInUp" style={{width: "18rem"}}>
                         <FormControl label={() => "Email: "} >
                             <Input
                                 endEnhancer={<div className={`${data.emailVerified===true? "bg-green-700" : "bg-red-700"} w-[20px] h-[20px] rounded-full`}></div>}
@@ -118,7 +118,8 @@ function viewprofile({user}) {
             </div>
             {data.type.includes("investor") && (<div className="mb-[0rem] pb-[0rem]"  >
                 <p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">Investor Details:</p> 
-                <div className="grid justify-center">
+                <div className="flex">
+                    <div className="mx-auto animate__animated animate__fadeInUp" style={{width: "18rem"}}>
                         <FormControl
                             label={() => "Personal PAN Card Number: "}
                             caption={() => "10-digit alphanumeric code issued by the Income Tax Department of India"}
@@ -135,13 +136,14 @@ function viewprofile({user}) {
                                 }}
                             />
                         </FormControl>
+                    </div>
                 </div>
             </div>)}
             
             {data.type.includes("entrepreneur") && (<div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]"  >
                 <p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">Startup Details:</p> 
-                <div className="grid flex-wrap gap-2 grid-cols-2">
-                        <div className="mx-auto" style={{width: "18rem"}}>
+                <div className="flex flex-wrap gap-2 grid-cols-2">
+                        <div className="mx-auto animate__animated animate__fadeInUp" style={{width: "18rem"}}>
                             <FormControl label={() => "Startup Name: "} >
                                 <Input
                                     value={data.startupName}
@@ -161,7 +163,7 @@ function viewprofile({user}) {
                                 />
                             </FormControl>
                         </div>
-                        <div className="mx-auto" style={{width: "18rem"}}>
+                        <div className="mx-auto animate__animated animate__fadeInUp" style={{width: "18rem"}}>
                         <FormControl
                                 label={() => "Startup PAN Number: "}
                                 caption={() => "10-digit alphanumeric code issued by the Income Tax Department of India"}
