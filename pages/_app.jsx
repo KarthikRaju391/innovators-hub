@@ -56,9 +56,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     <SessionProvider session={session}>
       <StyletronProvider value={styletron}>
         <BaseProvider theme={ theme===1 ? LightTheme : DarkTheme}>
-          <div className = "animate__animated animate__fadeIn">
             <Component {...pageProps} />
-          </div>
         </BaseProvider>
       </StyletronProvider>
     </SessionProvider>
