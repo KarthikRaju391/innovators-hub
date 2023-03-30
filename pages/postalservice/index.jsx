@@ -36,24 +36,17 @@ function index() {
     return (
         <>
             <LoginHeader/>
-            <h2 className="select-none mt-[1rem] pt-[1rem] text-3xl cursor-default text-center">Dashboard</h2>
+            <h2 className="select-none mt-[1rem] pt-[1rem] mb-[1rem] pb-[1rem] text-3xl text cursor-default text-center">Postal Service</h2>
 
-            <h3 className="select-none mx-[2rem] px-[2rem] mt-[1rem] pt-[1rem] ml-[0.5rem] pb-[.5rem] text-2xl cursor-default">Postal Service</h3>
             <div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2">
-                <Card head={"Create Manager"} para={"Add A Manager To The Service"} url={"/postaladmin/createmanager"} />
-                <Card head={"View Managers"} para={"Show List Of Manager"} url={"/postaladmin/viewmanagers"}/>
-                <Card head={"Admin History"} para={"Details About Admin Activities"} url={"/postaladmin/adminhistory"} />
-                <Card head={"Replace Manager"} para={"Change A Manager"} url={"/postaladmin/replacemanager"} />
-            </div>
-
-            <h3 className="select-none mx-[2rem] px-[2rem] mt-[1rem] pt-[1rem] ml-[0.5rem] pb-[.5rem] text-2xl cursor-default">Settings</h3>
-            <div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
-                <Card head={"View Profile"} para={"Visit Your Profile"} url={"/postaladmin/settings/viewprofile"}/>
-                <Card head={"Manage Profile"} para={"Edit Your Profile"} url={"/postaladmin/settings/manageprofile"}/>
+                <Card head={"View Orders"} para={"Show List Of Orders"} url={"/postalservice/vieworders"}/>
+                <Card head={"History"} para={"Details About All Activities"} url={"/postalservice/history"} />
+                <Card head={"Access Control"} para={"Add Or Remove Accessability"} url={"/postalservice/accesscontrol"} />
                 <span onClick={handleTheme}>
                     <Card head={"Change Theme"} para={`Convert To ${ nowTheme } Theme`} />
                 </span>
             </div>
+
         </>
     );
 }

@@ -49,7 +49,7 @@ table {
   margin: 25px 0;
   font-size: 0.9em;
   font-family: sans-serif;
-  min-width: 400px;
+  min-width: 300px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
@@ -59,11 +59,11 @@ table thead th {
   text-align: left;
 }
 
-table thead th:nth-of-type(even) {
+table thead th:nth-last-child(1) {
   border-top-right-radius: 10px;
 }
 
-table thead th:nth-of-type(odd) {
+table thead th:nth-of-type(1) {
   border-top-left-radius: 10px;
 }
 

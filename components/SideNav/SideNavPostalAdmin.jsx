@@ -10,28 +10,28 @@ function SideNavPostalAdmin({open, handleOpen}) {
     const router = useRouter();
     const [activeItemId, setActiveItemId] = React.useState(router.pathname);
 
+    var postalAccess = "Edit" //"View"
+
     
     var customerSidebar =[
-      {title: "Dashboard", itemId: "/postaladmin"},
         {
           title: "Postal Service",
           itemId: "",
           subNav: [
-            { title: "Create Manager", itemId: "/postaladmin/createmanager" },
-            { title: "View Managers", itemId: "/postaladmin/viewmanagers" },
-            { title: "Admin History", itemId: "/postaladmin/adminhistory" },
-            { title: "Replace Manager", itemId: "/postaladmin/replacemanager" },
+            { title: "View Orders", itemId: "/postalservice/vieworders" },
+            { title: "History", itemId: "/postalservice/history" },
           ]
-        },
-        {
-          title: "Settings",
-          itemId: "",
-          subNav: [
-            { title: "View Profile", itemId: "/postaladmin/settings/viewprofile" },
-            { title: "Manage Profile", itemId: "/postaladmin/settings/manageprofile" },
-          ]
-        },
+        }
       ]
+
+      if (postalAccess === "Edit" && postalAccess !=="View"){
+        customerSidebar.splice( 0, 0,{title: "Dashboard", itemId: "/postalservice"} )
+        customerSidebar[1].subNav.splice( 2, 0, { title: "Access Control", itemId: "/postalservice/accesscontrol" } )
+      }
+
+      if (postalAccess === "View" && postalAccess !=="Edit"){
+        customerSidebar.splice( 0, 0,{title: "Dashboard", itemId: "/postalview"} )
+      }
 
       var handleTheme = () =>{
         var currentTheme = JSON.parse(localStorage.getItem("theme"))
