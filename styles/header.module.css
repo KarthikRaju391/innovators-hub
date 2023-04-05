@@ -1,5 +1,7 @@
 .naver{
-    background-color: #e2e2e2;
+    /* background-color: #e2e2e2; */
+    background: radial-gradient(100.73% 375.72% at 0% 0%, #80A0F2 1.04%, #A194F0 38.54%, #C37FCE 67.15%, #973FB6 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
+    mix-blend-mode: normal;
     margin: 1rem;
     padding: 1rem;
     display: flex;

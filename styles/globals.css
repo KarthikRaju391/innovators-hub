@@ -14,8 +14,7 @@ html, body {
   height: 90%;
   margin: 0;
   padding: 0;
-  background: radial-gradient(100.73% 375.72% at 0% 0%, rgba(113, 149, 240, 0.49) 1.04%, rgba(87, 60, 255, 0.49) 38.54%, rgba(146, 69, 158, 0.4067) 67.15%, rgba(138, 17, 181, 0.4312) 100%) /* warning: gradient uses a rotation that is not supported by CSS and may not behave as expected */;
-  mix-blend-mode: normal;
+  background-color: #e2e2e2;
 }
 
 .insideLight{
@@ -34,14 +33,8 @@ html, body {
   font-size: 5em;
   font-family: 'Syncopate', sans-serif;
   text-transform: uppercase;
-  background: radial-gradient(
-    circle farthest-corner at center center,
-    #4e4141,
-    #333
-  ) no-repeat;
   background-clip: text;
   text-align: center;
-  -webkit-text-fill-color: transparent;
 }
 
 table {

@@ -1,23 +1,23 @@
+import { useRouter } from "next/router";
 import classes from "../styles/header.module.css";
 import { signIn, signOut, useSession } from "next-auth/react";
 
 function Header() {
 	const { data: session } = useSession();
+	
+	const router = useRouter()
 
 	return (
 		<nav className={`${classes.naver} flex`}>
 			<div className={classes.name}>Innovators' Hub</div>
 			<ul className={classes.uls}>
 				<div className="flex">
-					<li className={classes.lis}>Home</li>
-					<li className={classes.lis}>Contact us</li>
+					<li className={classes.lis} onClick={()=>router.push("/")}>Home</li>
+					<li className={classes.lis} onClick={()=>router.push("/contactus")}>Contact us</li>
+					<li className={classes.lis} onClick={()=>router.push("/verify")}>Verify</li>
+					{!session && <li className={classes.lis} onClick={() => signIn("google")}>Get Started</li> }
+					{session && (<li onClick={() => signOut()} className={classes.lis}>Logout</li>)}	
 				</div>
-				{!session && <div className="flex">
-					<li className={classes.lis}>Verify</li>
-					<li className={classes.lis}>Get Started</li>
-					<li className={classes.lis} onClick={() => signIn("google")}>Login</li>
-				</div>}
-				{session && (<li onClick={() => signOut()} className={classes.lis}>Logout</li>)}	
 			</ul>
 		</nav>
 

@@ -3,9 +3,14 @@ import Card from "../../components/Card";
 import LoginHeader from "../../components/LoginHeader";
 import { useRouter } from 'next/router';
 import React from "react";
+import Forbidden from "../../components/Forbidden";
 
 function Dashboard() {
     const {data: session} = useSession();
+    
+    if(session === null || session === undefined){ //Not Logged In Handler
+        return <Forbidden/>
+    }
 
     const [hydrated, setHydrated] = React.useState(false);
     React.useEffect(() => {

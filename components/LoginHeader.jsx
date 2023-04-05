@@ -10,9 +10,6 @@ import { TiThMenu } from 'react-icons/ti';
 import SideNavUser from "../components/SideNav/SideNavUser";
 import classes from '../styles/header.module.css'
 import { useSession } from 'next-auth/react';
-import { Avatar } from "baseui/avatar";
-import {Block} from 'baseui/block';
-import { StatefulTooltip } from "baseui/tooltip";
 import SideNavPostalAdmin from "./SideNav/SideNavPostalAdmin";
 
 function LoginHeader() {
@@ -45,29 +42,8 @@ function LoginHeader() {
             </StyledNavigationList>
             <StyledNavigationList $align={ALIGN.center} >
               <StyledNavigationItem>
-                  <StyledLink style={{cursor: "default"}}>
-
-                    <StatefulTooltip
-                      content={() => (
-                        <Block padding={"20px"}>
-                          <span className="flex justify-center">
-                            <Avatar
-                              name={user}
-                              size="scale1200"
-                              src={ session?.data?.user?.image || ""}
-                            />
-                          </span>
-                            <br/>
-                            <p>{role}</p>
-                        </Block>
-                      )}
-                      returnFocus
-                      autoFocus
-                    >
+                  <StyledLink style={{cursor: "default"}}>                    
                       {user}
-                    </StatefulTooltip>
-
-                    
                   </StyledLink>
                 </StyledNavigationItem>
             </StyledNavigationList>

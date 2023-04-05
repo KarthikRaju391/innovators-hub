@@ -1,8 +1,5 @@
 import LoginHeader from "../../../components/LoginHeader";
 import * as React from "react";
-// import { Input } from "baseui/input";
-// import { FormControl } from "baseui/form-control";
-// import { Textarea } from "baseui/textarea";
 import { Avatar } from "baseui/avatar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]";
@@ -19,15 +16,15 @@ function viewprofile({ user }) {
 			</h2>
 			<div className="flex flex-col items-center">
 				<Avatar name={user.name || ""} size="10rem" src={user.image || ""} />
-				<p title="Name" className="text-2xl mb-1 cursor-default">{user.name}</p>
-				<p title="Bio" className="cursor-default mb-1">{user.bio}</p>
+				<p title="Name" className="animate__animated animate__fadeInUp text-2xl mb-1 cursor-default">{user.name}</p>
+				<p title="Bio" className="animate__animated animate__fadeInUp cursor-default mb-1">{user.bio}</p>
 				<div className="flex flex-col gap-2 md:flex-row mb-1"> 
-					<p title="Phone Number" className="cursor-default mx-auto pr-2 md:border-r">{user.phoneNumber}</p>
-					<p title="Email ID" className="cursor-default mx-auto pr-2 md:border-r">{user.email}</p>
-					{user.role.includes("INVESTOR") && <p title="PAN" className="cursor-default mx-auto pr-2 md:border-r">{user.panNumber}</p> }
-					<p title="Gender" className="cursor-default mx-auto">{user.gender}</p>
+					<p title="Phone Number" className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r">{user.phoneNumber}</p>
+					<p title="Email ID" className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r">{user.email}</p>
+					{user.role.includes("INVESTOR") && <p title="PAN" className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r">{user.panNumber}</p> }
+					<p title="Gender" className="animate__animated animate__fadeInUp cursor-default mx-auto">{user.gender}</p>
 				</div>
-				<p title="Address" className="cursor-default">{user.address}</p>
+				<p title="Address" className="animate__animated animate__fadeInUp cursor-default">{user.address}</p>
 			</div>
 
 			{user.role.includes("ENTREPRENEUR") && (
@@ -35,12 +32,12 @@ function viewprofile({ user }) {
 				<p  className="select-none text-2xl cursor-default text-center mb-1">
 					Startup Details:
 				</p>
-				<p title="Startup Name" className="text-2xl mb-1 cursor-default">{user.entrepreneur.startup.name}</p>
+				<p title="Startup Name" className="animate__animated animate__fadeInUp text-2xl mb-1 cursor-default">{user.entrepreneur.startup.name}</p>
 				<div className="flex flex-col gap-2 md:flex-row mb-1"> 
-					<p title="GSTIN" className="cursor-default mx-auto pr-2 md:border-r">{user.entrepreneur.startup.gstNumber}</p>
-					<p title="Startup PAN" className="cursor-default mx-auto">{user.entrepreneur.startup.panNumber}</p>
+					<p title="GSTIN" className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r">{user.entrepreneur.startup.gstNumber}</p>
+					<p title="Startup PAN" className="animate__animated animate__fadeInUp cursor-default mx-auto">{user.entrepreneur.startup.panNumber}</p>
 				</div>
-				<p title="Startup Address" className="cursor-default">{user.entrepreneur.startup.location}</p>
+				<p title="Startup Address" className="animate__animated animate__fadeInUp cursor-default">{user.entrepreneur.startup.location}</p>
 			</div>)}
 		</div>
 	);
