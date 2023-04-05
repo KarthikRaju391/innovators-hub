@@ -11,13 +11,15 @@ function Header() {
 		<nav className={`${classes.naver} flex`}>
 			<div className={classes.name}>Innovators' Hub</div>
 			<ul className={classes.uls}>
-				<div className="flex">
-					<li className={classes.lis} onClick={()=>router.push("/")}>Home</li>
-					<li className={classes.lis} onClick={()=>router.push("/contactus")}>Contact us</li>
-					<li className={classes.lis} onClick={()=>router.push("/verify")}>Verify</li>
-					{!session && <li className={classes.lis} onClick={() => signIn("google")}>Get Started</li> }
-					{session && (<li onClick={() => signOut()} className={classes.lis}>Logout</li>)}	
-				</div>
+					<div className="flex">
+						<li className={classes.lis} onClick={()=>router.push("/")}>Home</li>
+						<li className={classes.lis} onClick={()=>router.push("/contactus")}>Contact us</li>
+					</div>
+					<div className="flex">
+						<li className={classes.lis} onClick={()=>router.push("/verify")}>Verify</li>
+						{!session && <li className={classes.lis} onClick={() => signIn("google")}>Get Started</li> }
+						{session && (<li onClick={() => signOut()} className={classes.lis}>Logout</li>)}	
+					</div>
 			</ul>
 		</nav>
 
