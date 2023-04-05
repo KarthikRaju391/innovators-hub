@@ -37,6 +37,8 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+// create model for project report details
+
 model User {
   id            String        @id @default(cuid())
   bio           String?
@@ -50,7 +52,7 @@ model User {
   address       String?
   image         String?
   panNumber     String?
-  role          String[]      @default(["USER"]) // USER, INVESTOR, ENTREPENEUR
+  role          userRole[]    @default([USER])
   panVerified   Boolean?      @default(false)
   entrepreneur  Entrepreneur?
   accounts      Account[]
@@ -63,6 +65,13 @@ model User {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum userRole {
+  USER
+  INVESTOR
+  ENTREPRENEUR
+  ADMIN
 }
 
 model Investor {
@@ -84,12 +93,13 @@ model Entrepreneur {
   id        String   @id @default(cuid())
   userId    String   @unique
   user      User     @relation(fields: [userId], references: [id])
-  email     String
-  name      String
-  startup   Startup? @relation(fields: [startupId], references: [id])
+  startup   Startup  @relation(fields: [startupId], references: [id])
   website   String?
   social    String[]
-  startupId String?
+  startupId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Post {
@@ -195,36 +205,34 @@ model Category {
 }
 
 model Startup {
-  id          String    @id @default(cuid())
+  id          String        @id @default(cuid())
   name        String
-  description String
+  description String?
   images      String[]
   products    Product[]
-  panNumber   String
+  panNumber   String        @unique
+  gstNumber   String
   post        Post[]
   industry    String[]
-  stage       String
+  stage       String?
   location    String
-  website     String
-  email       String
+  website     String?
+  email       String?
   social      String[]
 
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
-  Entrepreneur Entrepreneur[]
+  entrepreneur Entrepreneur[] 
 }
 
 model Order {
-  id                String           @id @default(cuid())
-  userId            String
-  quantity          Int
-  deliverTo         String
-  deliveryDate      DateTime
-  deliveryStatus    Status           @default(PENDING)
-  user              User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  products          Product[]
-  deliveryPartner   DeliveryPartner? @relation(fields: [deliveryPartnerId], references: [id])
-  deliveryPartnerId String?
+  id             String    @id @default(cuid())
+  userId         String
+  quantity       Int
+  deliverTo      String
+  deliveryStatus Status    @default(PENDING)
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  products       Product[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -235,43 +243,38 @@ model Cart {
   userId   String
   quantity Int
   user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product  Product[]
+  products Product[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model DeliveryPartner {
-  id          String   @id @default(cuid())
-  name        String
-  email       String   @unique
-  password    String   @db.Text
-  phoneNumber String
-  image       String
-  order       Order[]
-  manager     Manager? @relation(fields: [managerId], references: [id])
-  managerId   String?
+model PostalService {
+  id         String     @id @default(cuid())
+  accessType accessType @default(EDIT)
+  email      String     @unique
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
+}
 
+model Admin {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Manager {
-  id              String            @id @default(cuid())
-  name            String
-  email           String            @unique
-  password        String            @db.Text
-  phoneNumber     String
-  image           String
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  deliveryPartner DeliveryPartner[]
+enum accessType {
+  EDIT
+  VIEW
 }
 
 enum Status {
   PENDING
-  COMPLETED
-  CANCELLED
+  READY
+  COLLECTED
+  DELIVERED
 }
 
 model VerificationToken {

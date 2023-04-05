@@ -6,6 +6,7 @@ import { Button, SHAPE } from "baseui/button";
 
 function AccessForm(props) {
 
+    // handle POST request to set access
     const [allowEmail, setAllowEmail] = React.useState("");
     const [access, setAccess] = React.useState("");
     const [load, setLoad] = React.useState(false);

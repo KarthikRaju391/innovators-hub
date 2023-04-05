@@ -3,6 +3,7 @@ import LoginHeader from "../../components/LoginHeader";
 
 function adminhistory() {
 
+    // get orders and postal service data
     var data = [
         {email: 'a@g.co', date: "27-02-2023", action: "Collected"},
         {email: 'b@g.co', date: "27-01-2023", action: "Delivered"},

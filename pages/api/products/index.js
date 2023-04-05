@@ -11,17 +11,34 @@ export default async function handle(req, res) {
     }
     try {
         if (req.method === "GET") {
-            const products = await prisma.product.findMany();
+            const products = await prisma.product.findMany({
+                include: {
+                    category: true,
+                }
+            });
             return res.json(products);
         } else if (req.method === "POST") {
-            const { name, description, price, image } = req.body;
+            const { name, description, price, image, category, sId } = req.body;
             const product = await prisma.product.create({
                 data: {
                     name,
                     description,
                     price,
                     image,
+                    category: {
+                        create: {
+                            name: category
+                        }
+                    },
+                    startup: {
+                        connect: {
+                            id: sId
+                        }
+                    }
                 },
+                include: {
+                    category: true,
+                }
             });
             return res.json(product);
         } else {

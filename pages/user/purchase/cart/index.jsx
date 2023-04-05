@@ -57,6 +57,7 @@ function Products() {
     }
 
     const buyAllHandler = async() =>{
+        // all the items in the list should be added to the order list
         setLoad1(true)
         var items = data.map((i)=>i.productId)
         await console.log(items)

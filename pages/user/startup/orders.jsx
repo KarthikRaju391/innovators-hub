@@ -8,6 +8,7 @@ function orders() {
     var currentTheme
     currentTheme =  typeof window !== "undefined" ? JSON.parse(localStorage.getItem("theme")) : 1;
 
+    // get user data & place them in data variable at line14
     const data = [
         {
             productName: "Product 1",

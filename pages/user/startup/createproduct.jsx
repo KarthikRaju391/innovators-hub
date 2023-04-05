@@ -38,11 +38,20 @@ function createproduct() {
         setFile4(f)
     }
 
-    const submit = ( e ) =>{ //submit from here
+    const submit = async ( e ) =>{ //submit from here
         e.preventDefault()
         if (file1!==undefined){
             setLoad(true)
             console.log({productName, productDescription, build, quality, price, category, images: [file1.file, file2?.file, file3?.file, file4?.file],})
+            const product = await fetch('/api/products/', {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    
+                })
+            })
             router.back()
         }
         else

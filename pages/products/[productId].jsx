@@ -47,11 +47,13 @@ function productId() {
       };
 
       const buyHandler = async() =>{
+        // payment related
         if(session.data) { setLoad1(true); console.log(data.productId); setLoad1(false); } 
         
       }
 
       const cartHandler = async() =>{
+        // handle add to cart
         if(session.data) { setLoad2(true); console.log(data.productId); setLoad2(false); }
         else signIn();
       }

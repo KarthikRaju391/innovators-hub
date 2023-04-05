@@ -9,7 +9,8 @@ export const authOptions = {
         session({ session, user }) {
             if (session.user) {
                 session.user.id = user.id;
-                session.user.pan = user.panNumber;
+                // session.user.pan = user.panNumber;
+                session.user.role = user.role
             }
             return session;
         }

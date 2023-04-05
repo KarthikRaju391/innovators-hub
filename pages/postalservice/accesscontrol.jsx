@@ -15,6 +15,7 @@ function createmanager() {
         setIsOpen(false)
     }
 
+    // fetch postal service data
     var data = [
         {email: 'a@g.co', access: "Edit"},
         {email: 'b@g.co', access: "View"},

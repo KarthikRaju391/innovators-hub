@@ -49,6 +49,7 @@ function Products() {
 ]
 
     const loadMore = () =>{
+        // handle pagination
         console.log("Load More...")
     }
 

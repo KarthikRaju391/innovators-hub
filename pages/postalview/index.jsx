@@ -5,9 +5,9 @@ import Card from "../../components/Card";
 
 function index() {
 
-    //get user data(type) from server
+    //get user data(access type) from server
     const user={
-        type: ["user", "investor", "entrepreneur"] //  
+        type: [] //  
     }
 
     const [hydrated, setHydrated] = React.useState(false);

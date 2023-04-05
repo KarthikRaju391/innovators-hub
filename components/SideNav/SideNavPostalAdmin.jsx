@@ -10,6 +10,7 @@ function SideNavPostalAdmin({open, handleOpen}) {
     const router = useRouter();
     const [activeItemId, setActiveItemId] = React.useState(router.pathname);
 
+    // get access type of the user
     var postalAccess = "Edit" //"View"
 
     

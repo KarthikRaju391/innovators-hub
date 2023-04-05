@@ -20,8 +20,8 @@ function LoginHeader() {
     const session = useSession()
     // console.log(session.data)
     const user = (session?.data?.user.name) || ""
-    const role = "Investor" || "" //give the role only for user.type==="user"
-    const userType =  "postal admin" //"user"
+
+    const role =  "postal admin" //"user" or "investor" or "entrepreneur" or JUST "admin"
 
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -35,8 +35,8 @@ function LoginHeader() {
 
     return (
         <>
-          {userType === "user" && <SideNavUser open={isOpen} handleOpen={handleOpen}/>}
-          {userType === "postal admin" && <SideNavPostalAdmin open={isOpen} handleOpen={handleOpen}/>}
+          {role === "user" && <SideNavUser open={isOpen} handleOpen={handleOpen}/>}
+          {role === "postal admin" && <SideNavPostalAdmin open={isOpen} handleOpen={handleOpen}/>}
           <HeaderNavigation className={classes.uls } style={{ borderRadius: "0" }}>
             <StyledNavigationList $align={ALIGN.left}>
               <StyledNavigationItem>

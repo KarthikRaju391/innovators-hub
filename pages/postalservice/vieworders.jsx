@@ -4,6 +4,7 @@ import { Button, SIZE } from "baseui/button";
 
 function viewmanager() {
 
+    // get order data
     var data = [
         {startupAddress: 'Bangalore', customerAddress: "Manglore", date: "27-02-2023", productName: "Hand Pump", startupPhone: "8489531221", customerPhone: "6362232130"},
         {startupAddress: 'Bangalore', customerAddress: "Tumkur", date: "27-01-2023", productName: "Books", startupPhone: "7654329843", customerPhone: "9844722941"},
