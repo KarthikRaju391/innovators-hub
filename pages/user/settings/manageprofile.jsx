@@ -15,6 +15,8 @@ import { ProgressBar } from "baseui/progress-bar";
 import { useSession } from "next-auth/react";
 
 //gstin: 22ABCDE1234F1Z5
+//personal pan: ABCDE1234F
+//startup pan: ABCE12345F
 
 function manage({ data }) {
 	const router = useRouter();
@@ -337,7 +339,7 @@ function manage({ data }) {
 								value={ppanNumber}
 								onChange={(e) => setPpanNumber(e.target.value)}
 								placeholder="XXXXXXXXXX"
-								pattern="^[A-Za-z0-9]{10}$"
+								pattern="^[A-Z]{5}[0-9]{4}[A-Z]{1}$"
 								clearable
 								disabled={!investorRole}
 								required
@@ -387,7 +389,7 @@ function manage({ data }) {
 								<Input
 									value={startupName}
 									onChange={(e) => setStartupName(e.target.value)}
-									placeholder="Eg. Suresh Kumar"
+									placeholder="Eg. Infotech Solutions"
 									pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
 									autoFocus
 									clearable
@@ -424,7 +426,7 @@ function manage({ data }) {
 									value={startupPanNumber}
 									onChange={(e) => setStartuppanNumber(e.target.value)}
 									placeholder="XXXXXXXXXX"
-									pattern="^[A-Za-z0-9]{10}$"
+									pattern="^[A-Z]{4}[0-9]{5}[A-Z]{1}$"
 									clearable
 									disabled={!startupRole}
 									required

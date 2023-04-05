@@ -1,8 +1,9 @@
 import LoginHeader from "../../../components/LoginHeader";
 import * as React from "react";
-import { Input } from "baseui/input";
-import { FormControl } from "baseui/form-control";
-import { Textarea } from "baseui/textarea";
+// import { Input } from "baseui/input";
+// import { FormControl } from "baseui/form-control";
+// import { Textarea } from "baseui/textarea";
+import { Avatar } from "baseui/avatar";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../api/auth/[...nextauth]";
 import { makeSerializable } from "../../../lib/util";
@@ -16,7 +17,62 @@ function viewprofile({ user }) {
 			<h2 className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">
 				View Profile
 			</h2>
-			<div className="mb-[0rem] pb-[0rem]">
+			<div className="flex flex-col items-center">
+				<Avatar name={user.name || ""} size="10rem" src={user.image || ""} />
+				<p title="Name" className="text-2xl mb-1 cursor-default">{user.name}</p>
+				<p title="Bio" className="cursor-default mb-1">{user.bio}</p>
+				<div className="flex flex-col gap-2 md:flex-row mb-1"> 
+					<p title="Phone Number" className="cursor-default mx-auto pr-2 md:border-r">{user.phoneNumber}</p>
+					<p title="Email ID" className="cursor-default mx-auto pr-2 md:border-r">{user.email}</p>
+					{user.panNumber && <p title="PAN" className="cursor-default mx-auto pr-2 md:border-r">{user.panNumber}</p> }
+					<p title="Gender" className="cursor-default mx-auto">{user.gender}</p>
+				</div>
+				<p title="Address" className="cursor-default">{user.address}</p>
+			</div>
+
+			{user.role.includes("ENTREPRENEUR") && (
+			<div className="flex flex-col items-center mt-[1rem] pt-[1rem]">
+				<p  className="select-none text-2xl cursor-default text-center mb-1">
+					Startup Details:
+				</p>
+				<p title="Startup Name" className="text-2xl mb-1 cursor-default">{user.entrepreneur.startup.name}</p>
+				<div className="flex flex-col gap-2 md:flex-row mb-1"> 
+					<p title="GSTIN" className="cursor-default mx-auto pr-2 md:border-r">{user.entrepreneur.startup.gstNumber}</p>
+					<p title="Startup PAN" className="cursor-default mx-auto">{user.entrepreneur.startup.panNumber}</p>
+				</div>
+				<p title="Startup Address" className="cursor-default">{user.entrepreneur.startup.location}</p>
+			</div>)}
+		</>
+	);
+}
+
+export async function getServerSideProps(context) {
+	const session = await getServerSession(context.req, context.res, authOptions);
+	const res = await fetch(
+		`http://localhost:3000/api/users/${session.user.id}`,
+		{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Cookie: context.req.headers.cookie,
+			},
+		}
+	);
+
+	const user = await res.json();
+
+	return {
+		props: {
+			user: makeSerializable(user),
+		},
+	};
+}
+
+export default viewprofile;
+{
+	/* <p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">Fill Startup Details:</p> 
+	
+	<div className="mb-[0rem] pb-[0rem]">
 				<p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">
 					Customer Details:
 				</p>
@@ -235,33 +291,5 @@ function viewprofile({ user }) {
 					</div>
 				</div>
 			)}
-		</>
-	);
-}
-
-export async function getServerSideProps(context) {
-	const session = await getServerSession(context.req, context.res, authOptions);
-	const res = await fetch(
-		`http://localhost:3000/api/users/${session.user.id}`,
-		{
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-				Cookie: context.req.headers.cookie,
-			},
-		}
-	);
-
-	const user = await res.json();
-
-	return {
-		props: {
-			user: makeSerializable(user),
-		},
-	};
-}
-
-export default viewprofile;
-{
-	/* <p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">Fill Startup Details:</p> */
+	*/
 }
