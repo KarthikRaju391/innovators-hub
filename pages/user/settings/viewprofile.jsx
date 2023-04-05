@@ -11,7 +11,7 @@ import BackButton from "../../../components/BackButton";
 
 function viewprofile({ user }) {
 	return (
-		<>
+		<div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
 			<BackButton />
 			<LoginHeader />
 			<h2 className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">
@@ -24,7 +24,7 @@ function viewprofile({ user }) {
 				<div className="flex flex-col gap-2 md:flex-row mb-1"> 
 					<p title="Phone Number" className="cursor-default mx-auto pr-2 md:border-r">{user.phoneNumber}</p>
 					<p title="Email ID" className="cursor-default mx-auto pr-2 md:border-r">{user.email}</p>
-					{user.panNumber && <p title="PAN" className="cursor-default mx-auto pr-2 md:border-r">{user.panNumber}</p> }
+					{user.role.includes("INVESTOR") && <p title="PAN" className="cursor-default mx-auto pr-2 md:border-r">{user.panNumber}</p> }
 					<p title="Gender" className="cursor-default mx-auto">{user.gender}</p>
 				</div>
 				<p title="Address" className="cursor-default">{user.address}</p>
@@ -42,7 +42,7 @@ function viewprofile({ user }) {
 				</div>
 				<p title="Startup Address" className="cursor-default">{user.entrepreneur.startup.location}</p>
 			</div>)}
-		</>
+		</div>
 	);
 }
 
