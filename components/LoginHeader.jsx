@@ -50,11 +50,13 @@ function LoginHeader() {
                     <StatefulTooltip
                       content={() => (
                         <Block padding={"20px"}>
+                          <span className="flex justify-center">
                             <Avatar
                               name={user}
                               size="scale1200"
                               src={ session?.data?.user?.image || ""}
                             />
+                          </span>
                             <br/>
                             <p>{role}</p>
                         </Block>
