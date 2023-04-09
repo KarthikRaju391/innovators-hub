@@ -6,7 +6,7 @@ function NotFound() {
     return (
         <>
             <BackButton/>
-            <Image className="mx-auto" width={500} height={80}  src={"/PageNotFound.svg"} /> 
+            <Image className="mx-auto" width={500} height={80}  src={"/PagenotFound.svg"} /> 
             <Link href="/" className="select-none grid justify-center text-xl" style={{fontFamily: "Syncopate"}}>Go To Home Page</Link>
         </>
     );

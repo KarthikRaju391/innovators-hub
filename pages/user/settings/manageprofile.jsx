@@ -22,6 +22,7 @@ function manage({ data }) {
 	const router = useRouter();
 
 	const user = { ...data };
+	console.log(user)
 	const [name, setName] = React.useState(user.name || "");
 	const [bio, setBio] = React.useState(user.bio ? user.bio : "");
 	const [phoneNumber, setPhoneNumber] = React.useState(user.phoneNumber || "");
@@ -490,7 +491,6 @@ function manage({ data }) {
 
 export async function getServerSideProps(context) {
 	const session = await getServerSession(context.req, context.res, authOptions);
-
 	const res = await fetch(
 		`http://localhost:3000/api/users/${session.user.id}`,
 		{

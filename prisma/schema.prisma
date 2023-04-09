@@ -96,7 +96,7 @@ model Entrepreneur {
   startup   Startup  @relation(fields: [startupId], references: [id])
   website   String?
   social    String[]
-  startupId String @unique
+  startupId String   @unique
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -182,14 +182,13 @@ model Product {
   id          String     @id @default(cuid())
   name        String
   description String
-  startupId   String
+  startup     Startup?   @relation(fields: [startupId], references: [id])
+  startupId   String?
   price       Int
   image       String[]
-  startup     Startup    @relation(fields: [startupId], references: [id])
   order       Order[]
   cart        Cart[]
   category    Category[]
-  categoryId  String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -197,7 +196,7 @@ model Product {
 
 model Category {
   id      String    @id @default(cuid())
-  name    String
+  name    String    @unique
   product Product[]
 
   createdAt DateTime @default(now())
@@ -205,12 +204,12 @@ model Category {
 }
 
 model Startup {
-  id          String        @id @default(cuid())
+  id          String    @id @default(cuid())
   name        String
   description String?
   images      String[]
   products    Product[]
-  panNumber   String        @unique
+  panNumber   String    @unique
   gstNumber   String
   post        Post[]
   industry    String[]
@@ -222,7 +221,7 @@ model Startup {
 
   createdAt    DateTime       @default(now())
   updatedAt    DateTime       @updatedAt
-  entrepreneur Entrepreneur[] 
+  entrepreneur Entrepreneur[]
 }
 
 model Order {
