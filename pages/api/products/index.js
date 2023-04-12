@@ -2,6 +2,14 @@ import prisma from "../../../lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../auth/[...nextauth]";
 
+export const config = {
+	api: {
+		bodyParser: {
+			sizeLimit: "50mb",
+		},
+	},
+}
+
 export default async function handle(req, res) {
 	const session = await getServerSession(req, res, authOptions);
 
@@ -11,12 +19,30 @@ export default async function handle(req, res) {
 	}
 	try {
 		if (req.method === "GET") {
+			const { cursor } = req.query;
+
+			const take = 1;
+
+			const where = cursor
+				? { createdAt: { lt: new Date(parseInt(cursor)) } }
+				: {};
+
 			const products = await prisma.product.findMany({
+				take,
+				where,
+				orderBy: { id: "desc" },
 				include: {
 					category: true,
+					startup: true,
 				},
 			});
-			return res.json(products);
+
+			const nextCursor =
+				products.length > 0
+					? products[products.length - 1].createdAt.getTime()
+					: null;
+
+			return res.json({ products, cursor: nextCursor });
 		} else if (req.method === "POST") {
 			const startup = await prisma.entrepreneur.findUnique({
 				where: {
