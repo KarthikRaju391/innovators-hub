@@ -190,8 +190,9 @@ model Product {
   cart        Cart[]
   category    Category[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  CartQuantity CartQuantity[]
 }
 
 model Category {
@@ -238,11 +239,24 @@ model Order {
 }
 
 model Cart {
-  id       String    @id @default(cuid())
-  userId   String
-  quantity Int
-  user     User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  products Product[]
+  id         String         @id @default(cuid())
+  userId     String
+  quantities CartQuantity[]
+  user       User           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  products   Product[]
+  totalCost  Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CartQuantity {
+  id        String  @id @default(cuid())
+  cartId    String
+  productId String
+  quantity  Int
+  cart      Cart    @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

@@ -37,9 +37,26 @@ function productId({ product }) {
 
 	const cartHandler = async () => {
 		// handle add to cart
+		const res = await fetch("/api/cart", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				productId: product.id,
+				quantity: 1,
+			}),
+		});
+
+		if (!res.ok) {
+			console.error("Error adding to cart");
+		} else {
+			const cart = res.json();
+			console.log(cart);
+		}
+
 		if (session.product) {
 			setLoad2(true);
-			console.log(product.id);
 			setLoad2(false);
 		} else signIn();
 	};
@@ -118,9 +135,7 @@ function productId({ product }) {
 				{product.price && (
 					<>
 						<p className="mx-10 cursor-default select-none">
-							<span className="text-xl cursor-default select-none">
-								Price:
-							</span>{" "}
+							<span className="text-xl cursor-default select-none">Price:</span>{" "}
 							<br /> ₹{product.price}
 						</p>
 						<br />
@@ -190,7 +205,13 @@ function productId({ product }) {
 
 export async function getServerSideProps(context) {
 	const { productId } = context.query;
-	const res = await fetch(`http://localhost:3000/api/products/${productId}`);
+	const res = await fetch(`http://localhost:3000/api/products/${productId}`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			Cookie: context.req.headers.cookie,
+		},
+	});
 	const product = await res.json();
 	return {
 		props: {
