@@ -63,7 +63,7 @@ function productId({ product }) {
 								key={index}
 								quality={100}
 								placeholder="blur"
-								blurproductURL="blur"
+								blurDataURL="blur"
 								alt=""
 							/>
 						)
@@ -190,7 +190,13 @@ function productId({ product }) {
 
 export async function getServerSideProps(context) {
 	const { productId } = context.query;
-	const res = await fetch(`http://localhost:3000/api/products/${productId}`);
+	const res = await fetch(`http://localhost:3000/api/products/${productId}`,{
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			Cookie: context.req.headers.cookie,
+		},
+	});
 	const product = await res.json();
 	return {
 		props: {
