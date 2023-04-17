@@ -29,14 +29,30 @@ export default async function handle(req, res) {
 				},
 				include: {
 					products: true,
-					quantities: true,
+					quantities: {
+						include: {
+							product: {
+								select: {
+									price: true,
+								},
+							},
+						},
+					},
 				},
 			});
 
 			if (!cart) {
+				const product = await prisma.product.findUnique({
+					where: { id: productId },
+				});
+
 				const newCart = await prisma.cart.create({
 					data: {
-						userId: session.user.id,
+						user: {
+							connect: {
+								id: session.user.id,
+							},
+						},
 						products: {
 							connect: {
 								id: productId,
@@ -48,6 +64,7 @@ export default async function handle(req, res) {
 								productId,
 							},
 						},
+						totalCost: product.price * quantity,
 					},
 					include: {
 						quantities: true,
@@ -56,6 +73,99 @@ export default async function handle(req, res) {
 				});
 				return res.json(newCart);
 			}
+			const existingQuantity = cart.quantities.find(
+				(q) => q.productId === productId
+			);
+
+			if (existingQuantity) {
+				// update the quantity of an existing product in the cart
+				const updatedQuantity = await prisma.cartQuantity.update({
+					where: { id: existingQuantity.id },
+					data: { quantity: existingQuantity.quantity + quantity },
+					include: {
+						product: {
+							select: {
+								price: true,
+							},
+						},
+					},
+				});
+				const updatedQuantities = cart.quantities.map((q) =>
+					q.id === updatedQuantity.id ? updatedQuantity : q
+				);
+				const totalCost = updatedQuantities.reduce(
+					(sum, q) => sum + q.product.price * q.quantity,
+					0
+				);
+				return prisma.cart.update({
+					where: { id: cart.id },
+					data: {
+						quantities: {
+							updateMany: updatedQuantities.map((q) => ({
+								where: { id: q.id },
+								data: { quantity: q.quantity },
+							})),
+						},
+						totalCost,
+					},
+					include: {
+						quantities: {
+							include: {
+								product: {
+									select: {
+										price: true,
+									},
+								},
+							},
+						},
+						products: true,
+					},
+				});
+			}
+
+			// add a new product to the cart
+			const newQuantity = await prisma.cartQuantity.create({
+				data: {
+					product: {
+						connect: {
+							id: productId,
+						},
+					},
+					quantity,
+					cart: { connect: { id: cart.id } },
+				},
+				include: {
+					product: {
+						select: {
+							price: true,
+						},
+					},
+				},
+			});
+			const updatedQuantities = [...cart.quantities, newQuantity];
+			const totalCost = updatedQuantities.reduce(
+				(sum, q) => sum + q.product.price * q.quantity,
+				0
+			);
+			
+			return prisma.cart.update({
+				where: { id: cart.id },
+				data: {
+					quantities: {
+						updateMany: updatedQuantities.map((q) => ({
+							where: { id: q.id },
+							data: { quantity: q.quantity },
+						})),
+					},
+					totalCost,
+					products: {
+						connect: {
+							id: productId,
+						},
+					},
+				},
+				include: { quantities: { include: { product: true } }, products: true },
+			});
 		}
 	} catch (error) {
 		console.log(error);

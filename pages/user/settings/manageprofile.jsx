@@ -30,7 +30,7 @@ function manage({ data }) {
 	const [address, setAddress] = React.useState(
 		user.address ? user.address : ""
 	);
-	const [gender, setGender] = React.useState(user.gender ? user.gender : "");
+	const [gender, setGender] = React.useState([{id:user?.gender}]);//user.gender ? user.gender : ""
 	const [load, setLoad] = React.useState(false);
 	//investor details #Note: variable name changed please verify
 	const [ppanNumber, setPpanNumber] = React.useState(

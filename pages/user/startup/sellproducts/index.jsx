@@ -51,13 +51,13 @@ function Products({ products, initialCursor }) {
 					/>
 				))}
 			</div>
-			<button
+			<p
 				disabled={isAllLoaded ? true : false}
 				onClick={loadMoreProducts}
-				className="select-none mt-2 pt-2 text-center mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]"
+				className="select-none cursor-pointer mt-2 pt-2 text-center mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]"
 			>
 				{isLoadingMore ? "Loading..." : "Load More"}
-			</button>
+			</p>
 		</>
 	);
 }

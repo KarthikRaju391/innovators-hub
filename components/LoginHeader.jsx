@@ -18,7 +18,7 @@ function LoginHeader() {
     // console.log(session.data)
     const user = (session?.data?.user.name) || ""
 
-    const role =  "postal admin" //"user" or "investor" or "entrepreneur" or JUST "admin"
+    const role =  "user" //"user" or "investor" or "entrepreneur" or JUST "admin"
 
     const [isOpen, setIsOpen] = React.useState(false);
 
@@ -33,7 +33,7 @@ function LoginHeader() {
     return (
         <>
           {role === "user" && <SideNavUser open={isOpen} handleOpen={handleOpen}/>}
-          {role === "postal admin" && <SideNavPostalAdmin open={isOpen} handleOpen={handleOpen}/>}
+          {role === "admin" && <SideNavPostalAdmin open={isOpen} handleOpen={handleOpen}/>}
           <HeaderNavigation className={classes.uls } style={{ borderRadius: "0" }}>
             <StyledNavigationList $align={ALIGN.left}>
               <StyledNavigationItem>
