@@ -16,7 +16,16 @@ export default async function handle(req, res) {
 					userId: session.user.id,
 				},
 				include: {
-					products: true,
+					products: {
+						include: {
+							startup: {
+								select: {
+									name: true,
+								},
+							},
+							category: true
+						},
+					},
 					quantities: true,
 				},
 			});
@@ -147,7 +156,7 @@ export default async function handle(req, res) {
 				(sum, q) => sum + q.product.price * q.quantity,
 				0
 			);
-			
+
 			return prisma.cart.update({
 				where: { id: cart.id },
 				data: {
