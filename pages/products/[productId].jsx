@@ -88,7 +88,7 @@ function productId({ product }) {
 
 				{isViewerOpen && (
 					<ImageViewer
-						src={product.images.filter((el) => el !== undefined)}
+						src={product.image.filter((el) => el !== undefined)}
 						currentIndex={currentImage}
 						disableScroll={false}
 						closeOnClickOutside={true}
@@ -99,7 +99,7 @@ function productId({ product }) {
 
 			{product.description && (
 				<>
-					<p className="mx-10 cursor-default select-none text-center animate__animated animate__fadeInUp">
+					<p className="mx-10 cursor-default break-all select-none text-center animate__animated animate__fadeInUp">
 						<span className="text-xl cursor-default select-none">
 							Description:
 						</span>{" "}
