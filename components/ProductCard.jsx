@@ -36,6 +36,7 @@ function ProductCard(props) {
 					className="h-[192px] w-[341px] object-contain"
 					src={props?.data?.image && props?.data?.image[0]}
 					alt="Product Image"
+					loading="lazy"
 					/>
 					<div className="absolute top-0 right-0 m-4">
 					</div>

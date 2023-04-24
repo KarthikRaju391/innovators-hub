@@ -1,10 +1,10 @@
 import BackButton from "../../../../components/BackButton";
 import LoginHeader from "../../../../components/LoginHeader";
-import ProductCard from "../../../../components/ProductCard";
 import { Button } from "baseui/button";
 import { FaMoneyCheckAlt } from "react-icons/fa";
 import { useState } from "react";
 import { makeSerializable } from "../../../../lib/util";
+import CartItems from "../../../../components/CartItems";
 
 function Products({ cart }) {
 	const data = [
@@ -60,10 +60,6 @@ function Products({ cart }) {
 	console.log(cart)
 	const [load1, setLoad1] = useState(false);
 
-	const loadMore = () => {
-		console.log("Load More...");
-	};
-
 	const buyAllHandler = async () => {
 		// all the items in the list should be added to the order list
 		setLoad1(true);
@@ -79,13 +75,13 @@ function Products({ cart }) {
 			<h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">
 				Cart Items
 			</h2>
-			<div className="flex justify-center flex-wrap gap-4 grid-cols-2">
+			<div className="flex justify-center flex-wrap gap-4 grid-cols-2 mb-[2rem]">
 				{cart ? (
 					cart.products.map((i) => (
-						<ProductCard
+						<CartItems
 							key={i.productId}
 							data={i}
-							url={`/user/purchase/cart/${i.productId}`}
+							url={`/products/${i.id}`}
 						/>
 					))
 				) : (
@@ -94,13 +90,7 @@ function Products({ cart }) {
 					</h2>
 				)}
 			</div>
-			<p
-				onClick={loadMore}
-				className="select-none cursor-pointer mt-2 pt-2 text-center mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]"
-			>
-				Load More...
-			</p>
-			<div className="flex justify-center gap-5 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
+			{cart && (<div className="flex justify-center gap-5 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
 				<Button
 					onClick={buyAllHandler}
 					isLoading={load1}
@@ -115,7 +105,7 @@ function Products({ cart }) {
 				>
 					Purchase All Items In Cart
 				</Button>
-			</div>
+			</div>)}
 		</>
 	);
 }
