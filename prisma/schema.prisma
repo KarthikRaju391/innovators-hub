@@ -260,6 +260,8 @@ model CartQuantity {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([productId])
 }
 
 model PostalService {

@@ -23,10 +23,14 @@ export default async function handle(req, res) {
 									name: true,
 								},
 							},
-							category: true
+							category: true,
 						},
 					},
-					quantities: true,
+					quantities: {
+						include: {
+							product: true
+						}
+					},
 				},
 			});
 			res.json(users);
