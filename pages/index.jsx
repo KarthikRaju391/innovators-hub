@@ -2,6 +2,7 @@ import * as React from "react";
 import Header from "../components/Header";
 import SideNavUser from "../components/SideNav/SideNavUser";
 import { useSession } from "next-auth/react";
+import PDFPreview from "../components/PDFPreview";
 
 function Home() {
 

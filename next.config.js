@@ -12,5 +12,8 @@ module.exports = {
       },
     ],
   },
+  experimental: {
+    esmExternals: false,
+  }
 }
 //lh3.googleusercontent.com

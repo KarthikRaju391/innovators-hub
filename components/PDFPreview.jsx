@@ -1,18 +1,74 @@
-import React from "react";
-import {
-	Document,
-	Page,
-	Text,
-	View,
-	StyleSheet,
-	PDFViewer,
-} from "@react-pdf/renderer";
-import { Image } from "@react-pdf/renderer";
+import dynamic from "next/dynamic";
 
+const PDFView = dynamic(
+	() => import("@react-pdf/renderer").then((mod) => mod.PDFViewer),
+	{
+		ssr: false,
+	}
+);
+
+const PDFDownloadLink = dynamic(
+	() => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
+	{ ssr: false }
+);
+
+import {
+	Text,
+	Image,
+	Page,
+	Document,
+	StyleSheet,
+	View,
+} from "@react-pdf/renderer";
+
+let windowHeight = 0;
+let windowWidth = 0;
+
+if (typeof window !== "undefined") {
+	windowWidth = window.innerWidth / 2;
+	windowHeight = window.innerHeight;
+}
 const styles = StyleSheet.create({
 	page: {
-		backgroundColor: "#d11fb6",
-		color: "#fff",
+		fontFamily: "Helvetica",
+		fontSize: 12,
+		paddingTop: 50,
+		paddingLeft: 60,
+		paddingRight: 60,
+		paddingBottom: 60,
+		textAlign: "justify",
+	},
+	title: {
+		fontSize: 24,
+		marginBottom: 20,
+		textAlign: "center",
+	},
+	subtitle: {
+		fontSize: 18,
+		marginBottom: 10,
+		textAlign: "center",
+	},
+	text: {
+		margin: 10,
+		fontSize: 12,
+		textAlign: "justify",
+	},
+	bold: {
+		fontWeight: "bold",
+	},
+	italic: {
+		fontStyle: "italic",
+	},
+	underline: {
+		textDecoration: "underline",
+	},
+	list: {
+		margin: 10,
+		fontSize: 12,
+		textAlign: "justify",
+	},
+	listItem: {
+		margin: "5px 0",
 	},
 	imageContainer: {
 		width: "100%",
@@ -29,51 +85,51 @@ const styles = StyleSheet.create({
 		padding: 10,
 	},
 	viewer: {
-		width: typeof window !== "undefined" && window.innerWidth / 2,
-		height: typeof window !== "undefined" && window.innerHeight,
+		width: windowWidth,
+		height: windowHeight,
 	},
 });
 
-function PDFPreview({ values }) {
-	if (values === null) {
-		return (
-			<PDFViewer style={styles.viewer}>
-				<Document>
-					<Page style={styles.page}>
-						<Text>Nothing to preview</Text>
-					</Page>
-				</Document>
-			</PDFViewer>
-		);
-	}
+const PDFPreview = ({ values = {} }) => {
+	const sections = values.sections || [];
+
 	return (
-		<PDFViewer style={styles.viewer}>
+		<PDFView style={styles.viewer}>
 			<Document>
-				{values.sections.map((section, index) => (
-					<Page key={index}>
-						<View>
-							<Text>{section.sectionTitle}</Text>
-							{section.contentBlocks.map((block, index) => (
-								<View key={index}>
-									<Text>{block.contentTitle}</Text>
-									{block.image && (
-										<View style={styles.imageContainer}>
-											<Image
-												style={styles.image}
-												src={URL.createObjectURL(block.image)}
-											/>
-											)
+				{sections.map((section, index) => {
+					const sectionTitle = section.sectionTitle || "";
+					const contentBlocks = section.contentBlocks || [];
+
+					return (
+						<Page key={index} style={styles.page}>
+							<View style={styles.section}>
+								<Text style={styles.title}>{sectionTitle}</Text>
+								{contentBlocks.map((block, index) => {
+									const contentTitle = block.contentTitle || "";
+									const content = block.content || "";
+
+									return (
+										<View key={index}>
+											<Text style={styles.subtitle}>{contentTitle}</Text>
+											{block.image && (
+												<View style={styles.imageContainer}>
+													<Image
+														style={styles.image}
+														src={URL.createObjectURL(block.image)}
+													/>
+												</View>
+											)}
+											<Text style={styles.text}>{content}</Text>
 										</View>
-									)}
-									<Text>{block.content}</Text>
-								</View>
-							))}
-						</View>
-					</Page>
-				))}
+									);
+								})}
+							</View>
+						</Page>
+					);
+				})}
 			</Document>
-		</PDFViewer>
+		</PDFView>
 	);
-}
+};
 
 export default PDFPreview;

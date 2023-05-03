@@ -74,6 +74,7 @@ export async function getServerSideProps(context) {
 		headers: {
 			"Content-Type": "application/json",
 			Cookie: context.req.headers.cookie,
+			'Cache-Control': 'no-cache'
 		},
 	});
 
