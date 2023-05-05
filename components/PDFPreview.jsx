@@ -113,10 +113,13 @@ const PDFPreview = ({ values = {} }) => {
 											<Text style={styles.subtitle}>{contentTitle}</Text>
 											{block.image && (
 												<View style={styles.imageContainer}>
-													<Image
-														style={styles.image}
-														src={URL.createObjectURL(block.image)}
-													/>
+													{block.image.map((image, index) => (
+														<Image
+															key={index}
+															style={styles.image}
+															src={image}
+														/>
+													))}
 												</View>
 											)}
 											<Text style={styles.text}>{content}</Text>

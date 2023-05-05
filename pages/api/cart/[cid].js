@@ -59,7 +59,7 @@ export default async function handle(req, res) {
 				data: { totalCost },
 			});
 
-			res.json(updatedCartQuant);
+			return res.json(updatedCartQuant);
 		} else if (req.method === "DELETE") {
 			const { cartItemId } = req.body;
 

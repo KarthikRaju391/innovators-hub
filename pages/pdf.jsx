@@ -1,7 +1,7 @@
 import { Formik, FieldArray, Field } from "formik";
 import { useState } from "react";
 import PDFPreview from "../components/PDFPreview";
-import Dropzone from "react-dropzone";
+import FileUpload from "../components/FileUpload";
 
 const initialValues = {
 	projectTitle: "",
@@ -11,25 +11,40 @@ const initialValues = {
 			contentBlocks: [
 				{
 					contentTitle: "",
-					image: null,
+					image: [],
 					content: "",
-					image: null,
 				},
 			],
 		},
 	],
 };
 
-function ProjectReportForm() {
-	const [pdfValues, setPdfValues] = useState(initialValues);
+function ProjectReportForm({ projectReport = null }) {
+	const [pdfValues, setPdfValues] = useState(
+		projectReport?.report || initialValues
+	);
+
 	const handleSubmit = async (values) => {
 		setPdfValues(values);
-		// console.log(values);
+		console.log(values);
+
+		const res = await fetch("/api/project", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(values),
+		});
+
+		await res.json();
 	};
 
 	return (
 		<div>
-			<Formik initialValues={initialValues} onSubmit={handleSubmit}>
+			<Formik
+				initialValues={pdfValues}
+				onSubmit={handleSubmit}
+			>
 				{({
 					values,
 					errors,
@@ -148,77 +163,22 @@ function ProjectReportForm() {
 																						form: { setFieldValue },
 																					}) => (
 																						<div>
-																							<Dropzone
-																								className="border-3 border-black"
-																								onDrop={(acceptedFiles) =>
-																									setFieldValue(
-																										`sections.${sectionIndex}.contentBlocks.${contentIndex}.image`,
-																										acceptedFiles[-1]
-																									)
-																								}
-																							>
-																								{({
-																									getRootProps,
-																									getInputProps,
-																								}) => (
-																									<div {...getRootProps()}>
-																										<input
-																											{...getInputProps()}
-																										/>
-																										<p>
-																											Drag and drop an image
-																											here, or click to select
-																											an image
-																										</p>
-																									</div>
-																								)}
-																							</Dropzone>
-																							{value && (
-																								<img
-																									width="199"
-																									src={URL.createObjectURL(
-																										value
-																									)}
-																									alt={`Content Block ${
-																										contentIndex > 0
-																											? contentIndex + 1
-																											: null
-																									}`}
-																								/>
-																							)}
-																						</div>
-																					)}
-																				</Field>
-
-																				<label
-																					htmlFor={`sections.${sectionIndex}.contentBlocks.${contentIndex}.image`}
-																					className="block text-xl font-medium text-gray-700"
-																				>
-																					Content Block Image
-																				</label>
-																				<Field
-																					name={`sections.${sectionIndex}.contentBlocks.${contentIndex}.image`}
-																					className="w-full py-2 px-3 text-base border-gray-300 rounded-md"
-																				>
-																					{({
-																						field: { value },
-																						form: { setFieldValue },
-																					}) => (
-																						<div>
-																							{/* Image upload */}
-																							{value && (
-																								<img
-																									width="199"
-																									src={URL.createObjectURL(
-																										value
-																									)}
-																									alt={`Content Block ${
-																										contentIndex > 0
-																											? contentIndex + 1
-																											: null
-																									}`}
-																								/>
-																							)}
+																							<FileUpload
+																								sectionIndex={sectionIndex}
+																								contentIndex={contentIndex}
+																							/>
+																							{value &&
+																								value.map((imageURL) => (
+																									<img
+																										width="199"
+																										src={imageURL}
+																										alt={`Content Block ${
+																											contentIndex > 0
+																												? contentIndex + 1
+																												: null
+																										}`}
+																									/>
+																								))}
 																						</div>
 																					)}
 																				</Field>
@@ -233,38 +193,6 @@ function ProjectReportForm() {
 																					className="w-full py-2 px-3 text-base border-gray-300 rounded-md"
 																					name={`sections.${sectionIndex}.contentBlocks.${contentIndex}.content`}
 																				/>
-																				<label
-																					htmlFor={`sections.${sectionIndex}.contentBlocks.${contentIndex}.image`}
-																					className="block text-xl font-medium text-gray-700"
-																				>
-																					Content Block Image
-																				</label>
-																				<Field
-																					name={`sections.${sectionIndex}.contentBlocks.${contentIndex}.image`}
-																					className="w-full py-2 px-3 text-base border-gray-300 rounded-md"
-																				>
-																					{({
-																						field: { value },
-																						form: { setFieldValue },
-																					}) => (
-																						<div>
-																							{/*image upload  */}
-																							{value && (
-																								<img
-																									width="199"
-																									src={URL.createObjectURL(
-																										value
-																									)}
-																									alt={`Content Block ${
-																										contentIndex > 0
-																											? contentIndex + 1
-																											: null
-																									}`}
-																								/>
-																							)}
-																						</div>
-																					)}
-																				</Field>
 																				{errors.sections &&
 																					errors.sections[sectionIndex] &&
 																					errors.sections[sectionIndex]
@@ -289,7 +217,6 @@ function ProjectReportForm() {
 																							contentTitle: "",
 																							image: null,
 																							content: "",
-																							image: null,
 																						})
 																					}
 																				>
@@ -315,7 +242,6 @@ function ProjectReportForm() {
 																contentTitle: "",
 																image: null,
 																content: "",
-																image: null,
 															},
 														],
 													})
@@ -339,6 +265,23 @@ function ProjectReportForm() {
 			</Formik>
 		</div>
 	);
+}
+
+export async function getServerSideProps(context) {
+	const res = await fetch(`http://localhost:3000/api/project/`, {
+		method: "GET",
+		headers: {
+			"Content-Type": "application/json",
+			Cookie: context.req.headers.cookie,
+		},
+	});
+	const projectReport = await res.json();
+
+	return {
+		props: {
+			projectReport,
+		},
+	};
 }
 
 export default ProjectReportForm;

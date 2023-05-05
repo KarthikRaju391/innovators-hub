@@ -33,7 +33,7 @@ export default async function handle(req, res) {
 					},
 				},
 			});
-			res.json(users);
+			return res.json(users);
 		} else if (req.method === "POST") {
 			const { productId, quantity } = req.body;
 			const cart = await prisma.cart.findUnique({

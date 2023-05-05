@@ -205,24 +205,34 @@ model Category {
 }
 
 model Startup {
-  id          String    @id @default(cuid())
-  name        String
-  description String?
-  images      String[]
-  products    Product[]
-  panNumber   String    @unique
-  gstNumber   String
-  post        Post[]
-  industry    String[]
-  stage       String?
-  location    String
-  website     String?
-  email       String?
-  social      String[]
+  id            String          @id @default(cuid())
+  name          String
+  description   String?
+  images        String[]
+  products      Product[]
+  panNumber     String          @unique
+  gstNumber     String
+  post          Post[]
+  industry      String[]
+  stage         String?
+  location      String
+  website       String?
+  email         String?
+  social        String[]
+  projectReport ProjectReport[]
+  entrepreneur  Entrepreneur[]
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
-  entrepreneur Entrepreneur[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ProjectReport {
+  id        String   @id @default(cuid())
+  startup   Startup? @relation(fields: [startupId], references: [id])
+  startupId String?  @unique
+  report    Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Order {
@@ -276,6 +286,14 @@ model Admin {
   id        String   @id @default(cuid())
   name      String
   email     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Location {
+  id        String   @id @default(cuid())
+  latitude  Float
+  longitude Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
