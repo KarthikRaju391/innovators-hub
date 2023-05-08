@@ -9,10 +9,19 @@ import {
 } from "firebase/storage";
 import app from "../firebase";
 
-const FileUpload = ({ sectionIndex, contentIndex }) => {
-	const { values, setFieldValue } = useFormikContext();
-	const value = values.sections[sectionIndex].contentBlocks[contentIndex].image;
+const FileUpload = ({ fieldName }) => {
 	const storage = getStorage(app);
+	const [isLoading, setIsLoading] = useState(false);
+	const { values, setFieldValue } = useFormikContext();
+	const fieldNames = fieldName.split(".");
+	const indexes = fieldNames
+		.filter((val) => !isNaN(val))
+		.map((val) => parseInt(val));
+	const currentValue = indexes.reduce(
+		(acc, index) => (acc.fields ? acc.fields[index] : acc[index]),
+		values
+	);
+
 	const uploadImages = async (files) => {
 		const uploadedImages = [];
 
@@ -63,13 +72,17 @@ const FileUpload = ({ sectionIndex, contentIndex }) => {
 	};
 
 	const onDrop = async (files) => {
+		setIsLoading(true);
+		const { value } = currentValue;
 		const imageURLs = await uploadImages(files);
-		const fieldPath = `sections.${sectionIndex}.contentBlocks.${contentIndex}.image`;
 		if (value && value.length > 0) {
 			const newValue = [...value, ...imageURLs];
-			setFieldValue(fieldPath, newValue);
+			setFieldValue(fieldName, newValue);
+			setIsLoading(false);
 		} else {
-			setFieldValue(fieldPath, imageURLs);
+			setFieldValue(fieldName, [...imageURLs]);
+			setIsLoading(false);
+			console.log(values);
 		}
 	};
 
@@ -78,7 +91,11 @@ const FileUpload = ({ sectionIndex, contentIndex }) => {
 			{({ getRootProps, getInputProps }) => (
 				<div {...getRootProps()}>
 					<input {...getInputProps()} />
-					<p>Drag'n'drop files, or click to select files</p>
+					{isLoading ? (
+						<p>Loading...</p>
+					) : (
+						<p>Drag'n'drop files, or click to select files</p>
+					)}
 				</div>
 			)}
 		</Dropzone>

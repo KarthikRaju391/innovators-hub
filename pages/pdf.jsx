@@ -2,6 +2,8 @@ import { Formik, FieldArray, Field } from "formik";
 import { useState } from "react";
 import PDFPreview from "../components/PDFPreview";
 import FileUpload from "../components/FileUpload";
+import app from "../firebase";
+import { getStorage, ref, deleteObject } from "firebase/storage";
 
 const initialValues = {
 	projectTitle: "",
@@ -23,6 +25,13 @@ function ProjectReportForm({ projectReport = null }) {
 	const [pdfValues, setPdfValues] = useState(
 		projectReport?.report || initialValues
 	);
+	const storage = getStorage(app);
+
+	const handleDelete = async (url) => {
+		const imageRef = ref(storage, url);
+		const res = await deleteObject(imageRef);
+		console.log(res);
+	};
 
 	const handleSubmit = async (values) => {
 		setPdfValues(values);
@@ -41,10 +50,7 @@ function ProjectReportForm({ projectReport = null }) {
 
 	return (
 		<div>
-			<Formik
-				initialValues={pdfValues}
-				onSubmit={handleSubmit}
-			>
+			<Formik initialValues={pdfValues} onSubmit={handleSubmit}>
 				{({
 					values,
 					errors,
@@ -163,13 +169,24 @@ function ProjectReportForm({ projectReport = null }) {
 																						form: { setFieldValue },
 																					}) => (
 																						<div>
-																							<FileUpload
+																							{/* <FileUpload
 																								sectionIndex={sectionIndex}
 																								contentIndex={contentIndex}
-																							/>
+																							/> */}
 																							{value &&
-																								value.map((imageURL) => (
+																								value.map((imageURL, index) => (
 																									<img
+																										onClick={() => {
+																											setFieldValue(
+																												`sections.${sectionIndex}.contentBlocks.${contentIndex}.image`,
+																												value.filter(
+																													(image, i) =>
+																														i !== index
+																												)
+																											);
+																											handleDelete(imageURL);
+																										}}
+																										key={index}
 																										width="199"
 																										src={imageURL}
 																										alt={`Content Block ${

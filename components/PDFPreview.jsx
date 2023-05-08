@@ -7,11 +7,6 @@ const PDFView = dynamic(
 	}
 );
 
-const PDFDownloadLink = dynamic(
-	() => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
-	{ ssr: false }
-);
-
 import {
 	Text,
 	Image,
@@ -77,7 +72,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 	},
 	image: {
-		width: "50%",
+		width: "80%",
 		objectFit: "cover",
 	},
 	section: {
@@ -90,49 +85,77 @@ const styles = StyleSheet.create({
 	},
 });
 
-const PDFPreview = ({ values = {} }) => {
-	const sections = values.sections || [];
-
+const PDFPreview = ({ data = {} }) => {
 	return (
 		<PDFView style={styles.viewer}>
 			<Document>
-				{sections.map((section, index) => {
-					const sectionTitle = section.sectionTitle || "";
-					const contentBlocks = section.contentBlocks || [];
-
-					return (
-						<Page key={index} style={styles.page}>
-							<View style={styles.section}>
-								<Text style={styles.title}>{sectionTitle}</Text>
-								{contentBlocks.map((block, index) => {
-									const contentTitle = block.contentTitle || "";
-									const content = block.content || "";
-
-									return (
-										<View key={index}>
-											<Text style={styles.subtitle}>{contentTitle}</Text>
-											{block.image && (
-												<View style={styles.imageContainer}>
-													{block.image.map((image, index) => (
-														<Image
-															key={index}
-															style={styles.image}
-															src={image}
-														/>
-													))}
-												</View>
-											)}
-											<Text style={styles.text}>{content}</Text>
-										</View>
-									);
-								})}
-							</View>
-						</Page>
-					);
-				})}
+				<Page size="A4" style={styles.page}>
+					<View style={styles.section}>
+						<Text style={styles.title}>Executive Summary</Text>
+						<Text style={styles.subtitle}>Problem</Text>
+						<Text style={styles.text}>{data.problem}</Text>
+						<Text style={styles.subtitle}>Solution</Text>
+						<Text style={styles.text}>{data.solution}</Text>
+						<Text style={styles.subtitle}>Target Market</Text>
+						<Text style={styles.text}>{data.targetMarket}</Text>
+						<Text style={styles.subtitle}>Competitive Advantage</Text>
+						<Text style={styles.text}>{data.competitiveAdvantage}</Text>
+						<Text style={styles.subtitle}>Financial Highlights</Text>
+						<Text style={styles.text}>{data.financialHighlights}</Text>
+						<Text style={styles.subtitle}>Funding Requirements</Text>
+						<Text style={styles.text}>{data.fundingRequirements}</Text>
+						<Text style={styles.subtitle}>Use of Funds</Text>
+						<Text style={styles.text}>{data.useOfFunds}</Text>
+						<Text style={styles.subtitle}>Exit Strategy</Text>
+						<Text style={styles.text}>{data.exitStrategy}</Text>
+					</View>
+					<View style={styles.section}>
+						<Text style={styles.title}>Company Overview</Text>
+						<Text style={styles.subtitle}>Company Name</Text>
+						<Text style={styles.text}>{data.companyName}</Text>
+						<Text style={styles.subtitle}></Text>
+					</View>
+				</Page>
 			</Document>
 		</PDFView>
 	);
 };
 
 export default PDFPreview;
+// 	<Document>
+// 		{sections.map((section, index) => {
+// 			const sectionTitle = section.sectionTitle || "";
+// 			const contentBlocks = section.contentBlocks || [];
+
+// 			return (
+// 				<Page key={index} style={styles.page}>
+// 					<View style={styles.section}>
+// 						<Text style={styles.title}>{sectionTitle}</Text>
+// 						{contentBlocks.map((block, index) => {
+// 							const contentTitle = block.contentTitle || "";
+// 							const content = block.content || "";
+
+// 							return (
+// 								<View key={index}>
+// 									<Text style={styles.subtitle}>{contentTitle}</Text>
+// 									{block.image && (
+// 										<View style={styles.imageContainer}>
+// 											{console.log(block.image)}
+// 											{block.image.map((image, index) => (
+// 												<Image
+// 													key={index}
+// 													style={styles.image}
+// 													src={image}
+// 												/>
+// 											))}
+// 										</View>
+// 									)}
+// 									<Text style={styles.text}>{content}</Text>
+// 								</View>
+// 							);
+// 						})}
+// 					</View>
+// 				</Page>
+// 			);
+// 		})}
+// 	</Document>
