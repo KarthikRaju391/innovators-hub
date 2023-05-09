@@ -2,7 +2,7 @@ import { Formik, FieldArray, Field } from "formik";
 import { useState } from "react";
 import PDFPreview from "../components/PDFPreview";
 import FileUpload from "../components/FileUpload";
-import app from "../firebase";
+import { app } from "../firebase";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 
 const initialValues = {

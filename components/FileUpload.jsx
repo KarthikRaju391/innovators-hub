@@ -7,7 +7,7 @@ import {
 	uploadBytesResumable,
 	getDownloadURL,
 } from "firebase/storage";
-import app from "../firebase";
+import { app } from "../firebase";
 
 const FileUpload = ({ fieldName }) => {
 	const storage = getStorage(app);
