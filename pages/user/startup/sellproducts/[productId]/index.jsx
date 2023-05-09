@@ -145,7 +145,7 @@ function productId({ product }) {
 
 export async function getServerSideProps(context) {
 	const { productId } = context.query;
-	const res = await fetch(`http://${NEXT_APP_URL}/api/products/${productId}`, {
+	const res = await fetch(`${process.env.NEXT_APP_URL}/api/products/${productId}`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",

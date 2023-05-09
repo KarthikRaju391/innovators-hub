@@ -16,7 +16,7 @@ function Products({ products, initialCursor }) {
 		setIsLoadingMore(true);
 
 		const res = await fetch(
-			`http://${NEXT_APP_URL}/api/products?cursor=${cursor}`,
+			`${process.env.NEXT_APP_URL}/api/products?cursor=${cursor}`,
 			{
 				method: "GET",
 				headers: {
@@ -66,7 +66,7 @@ function Products({ products, initialCursor }) {
 }
 
 export async function getServerSideProps(context) {
-	const res = await fetch(`http://${NEXT_APP_URL}/api/products/`, {
+	const res = await fetch(`${process.env.NEXT_APP_URL}/api/products/`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",

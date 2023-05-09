@@ -285,7 +285,7 @@ function ProjectReportForm({ projectReport = null }) {
 }
 
 export async function getServerSideProps(context) {
-	const res = await fetch(`http://${NEXT_APP_URL}/api/project/`, {
+	const res = await fetch(`${process.env.NEXT_APP_URL}/api/project/`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
