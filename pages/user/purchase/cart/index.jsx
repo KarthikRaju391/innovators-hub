@@ -69,7 +69,7 @@ function Products({ cart }) {
 }
 
 export async function getServerSideProps(context) {
-	const res = await fetch("http://localhost:3000/api/cart", {
+	const res = await fetch(`http://${NEXT_APP_URL}/api/cart`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",

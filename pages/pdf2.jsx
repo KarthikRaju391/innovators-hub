@@ -209,7 +209,7 @@ const DynamicForm = ({ projectReport = null }) => {
 };
 
 export async function getServerSideProps(context) {
-	const res = await fetch(`http://localhost:3000/api/project/`, {
+	const res = await fetch(`http://${NEXT_APP_URL}/api/project/`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",

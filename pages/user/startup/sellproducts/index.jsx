@@ -10,23 +10,26 @@ function Products({ products, initialCursor }) {
 	const [isAllLoaded, setIsAllLoaded] = useState(false);
 	const [loadedProducts, setLoadedProducts] = useState(products);
 
-	const loadMoreProducts = async() => {
-		if(isLoadingMore || isAllLoaded) return;
+	const loadMoreProducts = async () => {
+		if (isLoadingMore || isAllLoaded) return;
 
 		setIsLoadingMore(true);
 
-		const res = await fetch(`http://localhost:3000/api/products?cursor=${cursor}`, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
+		const res = await fetch(
+			`http://${NEXT_APP_URL}/api/products?cursor=${cursor}`,
+			{
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
 
 		const data = await res.json();
 
 		setCursor(data.cursor);
 
-		if(data.products.length === 0) {
+		if (data.products.length === 0) {
 			setIsAllLoaded(true);
 		} else {
 			setLoadedProducts([...loadedProducts, ...data.products]);
@@ -63,7 +66,7 @@ function Products({ products, initialCursor }) {
 }
 
 export async function getServerSideProps(context) {
-	const res = await fetch(`http://localhost:3000/api/products/`, {
+	const res = await fetch(`http://${NEXT_APP_URL}/api/products/`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
@@ -76,7 +79,7 @@ export async function getServerSideProps(context) {
 	return {
 		props: {
 			products: makeSerializable(data.products),
-			initialCursor: makeSerializable(data.cursor)
+			initialCursor: makeSerializable(data.cursor),
 		},
 	};
 }

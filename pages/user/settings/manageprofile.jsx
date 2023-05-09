@@ -492,7 +492,7 @@ function manage({ data }) {
 export async function getServerSideProps(context) {
 	const session = await getServerSession(context.req, context.res, authOptions);
 	const res = await fetch(
-		`http://localhost:3000/api/users/${session.user.id}`,
+		`http://${NEXT_APP_URL}/api/users/${session.user.id}`,
 		{
 			method: "GET",
 			headers: {
