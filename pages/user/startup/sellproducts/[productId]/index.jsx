@@ -74,7 +74,7 @@ function productId({ product }) {
 								quality={100}
 								placeholder="blur"
 								blurDataURL="blur"
-								alt=""
+								alt={product.name}
 							/>
 						)
 				)}

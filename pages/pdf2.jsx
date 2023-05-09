@@ -1,16 +1,10 @@
 import { useState } from "react";
-import dynamic from "next/dynamic";
 import { Formik, FieldArray, Field, Form, useFormikContext } from "formik";
 import FileUpload from "../components/FileUpload";
 import DynamicFieldButtons from "../components/DynamicFieldButtons";
-import PDFPreview from "../components/PDFPreview";
 import { initialValues } from "../InitialValues";
 import { app } from "../firebase";
 import { getStorage, ref, deleteObject } from "firebase/storage";
-const PDFDownloadLink = dynamic(
-	() => import("@react-pdf/renderer").then((mod) => mod.PDFDownloadLink),
-	{ ssr: false }
-);
 
 const Product = {
 	name: "Product",

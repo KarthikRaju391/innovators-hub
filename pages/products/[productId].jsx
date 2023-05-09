@@ -81,7 +81,7 @@ function productId({ product }) {
 								quality={100}
 								placeholder="blur"
 								blurDataURL="blur"
-								alt=""
+								alt={product.name}
 							/>
 						)
 				)}
@@ -205,7 +205,7 @@ function productId({ product }) {
 
 export async function getServerSideProps(context) {
 	const { productId } = context.query;
-	const res = await fetch(`http://localhost:3000/api/products/${productId}`,{
+	const res = await fetch(`http://localhost:3000/api/products/${productId}`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
