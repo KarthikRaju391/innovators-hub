@@ -9,7 +9,7 @@ module.exports = {
 				protocol: "https",
 				hostname: "*",
 				port: "",
-				pathname: "",
+				pathname: "/*",
 			},
 		],
 	},
@@ -17,4 +17,3 @@ module.exports = {
 		esmExternals: false,
 	},
 };
-//lh3.googleusercontent.com
