@@ -1,6 +1,7 @@
 export const initialValues = [
 	{
 		name: "Executive Summary",
+		level: 0,
 		fields: [
 			{ name: "Problem", value: "" },
 			{ name: "Solution", value: "" },
@@ -14,6 +15,7 @@ export const initialValues = [
 	},
 	{
 		name: "Company Overview",
+		level: 0,
 		fields: [
 			{ name: "Company Name", value: "" },
 			{ name: "Mission Statement", value: "" },
@@ -25,10 +27,12 @@ export const initialValues = [
 	},
 	{
 		name: "Products and Services",
+		level: 0,
 		dynamic: true,
 		fields: [
 			{
 				name: "Product",
+				level: 1,
 				fields: [
 					{
 						name: "Product Name",
@@ -64,9 +68,11 @@ export const initialValues = [
 	},
 	{
 		name: "Market Analysis",
+		level: 0,
 		fields: [
 			{
 				name: "Industry Analysis",
+				level: 1,
 				fields: [
 					{ name: "Industry Size", value: "" },
 					{ name: "Industry Growth Rate", value: "" },
@@ -76,6 +82,7 @@ export const initialValues = [
 			},
 			{
 				name: "Target Market",
+				level: 1,
 				fields: [
 					{ name: "Market Segmentation", value: "" },
 					{ name: "Target Customer Profile", value: "" },
@@ -85,10 +92,12 @@ export const initialValues = [
 			},
 			{
 				name: "Competitive Analysis",
+				level: 1,
 				dynamic: true,
 				fields: [
 					{
 						name: "Competitor",
+						level: 2,
 						fields: [
 							{
 								name: "Competitor Name",
@@ -108,6 +117,7 @@ export const initialValues = [
 			},
 			{
 				name: "SWOT Analysis",
+				level: 1,
 				fields: [
 					{ name: "Strengths", value: "" },
 					{ name: "Weaknesses", value: "" },
@@ -120,10 +130,12 @@ export const initialValues = [
 	},
 	{
 		name: "Marketing Strategy",
+		level: 0,
 		fields: [
 			{ name: "Marketing Objectives", value: "" },
 			{
 				name: "Marketing Mix",
+				level: 1,
 				fields: [
 					{ name: "Product Strategy", value: "" },
 					{ name: "Pricing Strategy", value: "" },
@@ -133,6 +145,7 @@ export const initialValues = [
 			},
 			{
 				name: "Sales Strategy",
+				level: 1,
 				fields: [
 					{ name: "Sales Process", value: "" },
 					{ name: "Sales Forecast", value: "" },
@@ -142,6 +155,7 @@ export const initialValues = [
 	},
 	{
 		name: "Financial Projections",
+		level: 0,
 		fields: [
 			{ name: "Revenue Projections", value: "" },
 			{ name: "Expense Projections", value: "" },
@@ -155,10 +169,12 @@ export const initialValues = [
 	},
 	{
 		name: "Team",
+		level: 0,
 		dynamic: true,
 		fields: [
 			{
 				name: "Team Members",
+				level: 1,
 				fields: [
 					{
 						name: "Name",

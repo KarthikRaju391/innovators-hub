@@ -25,7 +25,7 @@ if (typeof window !== "undefined") {
 }
 const styles = StyleSheet.create({
 	page: {
-		fontFamily: "Helvetica",
+		fontFamily: "Times-Roman",
 		fontSize: 12,
 		paddingTop: 50,
 		paddingLeft: 60,
@@ -33,18 +33,22 @@ const styles = StyleSheet.create({
 		paddingBottom: 60,
 		textAlign: "justify",
 	},
-	title: {
+	sectionTitle: {
 		fontSize: 24,
 		marginBottom: 20,
-		textAlign: "center",
+	},
+	title: {
+		fontSize: 20,
+		textAlign: "left",
 	},
 	subtitle: {
 		fontSize: 18,
-		marginBottom: 10,
-		textAlign: "center",
+		textAlign: "left",
+		// marginBottom: 10,
 	},
+
 	text: {
-		margin: 10,
+		// margin: 10,
 		fontSize: 12,
 		textAlign: "justify",
 	},
@@ -68,16 +72,24 @@ const styles = StyleSheet.create({
 	imageContainer: {
 		width: "100%",
 		display: "flex",
+		flexDirection: "column",
+		justifyContent: "center",
+		alignItems: "center",
+	},
+	firstPage: {
+		display: "flex",
+		flexDirection: "column",
 		justifyContent: "center",
 		alignItems: "center",
 	},
 	image: {
-		width: "80%",
+		width: "60%",
 		objectFit: "cover",
+		marginBottom: 10,
 	},
 	section: {
-		margin: 10,
-		padding: 10,
+		// margin: 10,
+		// padding: 10,
 	},
 	viewer: {
 		width: windowWidth,
@@ -85,36 +97,83 @@ const styles = StyleSheet.create({
 	},
 });
 
+const recursivePDFComponent = (field, index) => {
+	if (field.fields && Array.isArray(field.fields) && field.fields.length > 0) {
+		return (
+			<View key={index} style={styles.section}>
+				{!field.level ? (
+					<Text style={{ fontSize: "20" }}>{field.name}</Text>
+				) : field.level === 0 ? (
+					<Text style={[styles.sectionTitle, {textAlign: "center", fontWeight: 'ultrabold'}]}>{field.name}</Text>
+				) : field.level === 1 ? (
+					<Text style={[styles.title]}>{field.name}</Text>
+				) : field.level === 2 ? (
+					<Text style={[styles.subtitle, {}]}>{field.name}</Text>
+				) : null}
+				{field.fields.map((subField, index) => (
+					<View key={index}>{recursivePDFComponent(subField, `${index}`)}</View>
+				))}
+			</View>
+		);
+	} else {
+		return (
+			<View key={index} style={styles.section}>
+				<Text style={{fontSize: '16'}}>{field.name}</Text>
+				{field.value && <Text style={styles.text}>{field.value}</Text>}
+			</View>
+		);
+	}
+};
+
 const PDFPreview = ({ data = {} }) => {
+	const companyData = data[1].fields;
+
 	return (
 		<PDFView style={styles.viewer}>
 			<Document>
 				<Page size="A4" style={styles.page}>
-					<View style={styles.section}>
-						<Text style={styles.title}>Executive Summary</Text>
-						<Text style={styles.subtitle}>Problem</Text>
-						<Text style={styles.text}>{data.problem}</Text>
-						<Text style={styles.subtitle}>Solution</Text>
-						<Text style={styles.text}>{data.solution}</Text>
-						<Text style={styles.subtitle}>Target Market</Text>
-						<Text style={styles.text}>{data.targetMarket}</Text>
-						<Text style={styles.subtitle}>Competitive Advantage</Text>
-						<Text style={styles.text}>{data.competitiveAdvantage}</Text>
-						<Text style={styles.subtitle}>Financial Highlights</Text>
-						<Text style={styles.text}>{data.financialHighlights}</Text>
-						<Text style={styles.subtitle}>Funding Requirements</Text>
-						<Text style={styles.text}>{data.fundingRequirements}</Text>
-						<Text style={styles.subtitle}>Use of Funds</Text>
-						<Text style={styles.text}>{data.useOfFunds}</Text>
-						<Text style={styles.subtitle}>Exit Strategy</Text>
-						<Text style={styles.text}>{data.exitStrategy}</Text>
+					<View style={styles.firstPage}>
+						<Text
+							style={[styles.sectionTitle, { textDecoration: "underline" }]}
+						>
+							{data[1].name}
+						</Text>
+						<View style={styles.imageContainer}>
+							{companyData[5].value &&
+								companyData[5].value.map((imageURL, index) => (
+									<Image key={index} style={styles.image} src={imageURL} />
+								))}
+						</View>
+						<View>
+							{companyData.map((field, index) => (
+								<View key={index}>
+									{field.name !== "Image" && (
+										<View
+											style={{
+												display: "flex",
+												alignItems: "center",
+												justifyContent: "space-between",
+											}}
+										>
+											<Text style={[styles.text]}>{field.name}</Text>
+											<Text style={styles.title}>{field.value}</Text>
+										</View>
+									)}
+								</View>
+							))}
+						</View>
 					</View>
-					<View style={styles.section}>
-						<Text style={styles.title}>Company Overview</Text>
-						<Text style={styles.subtitle}>Company Name</Text>
-						<Text style={styles.text}>{data.companyName}</Text>
-						<Text style={styles.subtitle}></Text>
-					</View>
+				</Page>
+				<Page size="A4" style={styles.page}>
+					{data.map((field, index) => {
+						if (field.name !== "Company Overview") {
+							return (
+								<View key={index} style={styles.section}>
+									{recursivePDFComponent(field, `${index}`)}
+								</View>
+							);
+						}
+					})}
 				</Page>
 			</Document>
 		</PDFView>
@@ -122,40 +181,3 @@ const PDFPreview = ({ data = {} }) => {
 };
 
 export default PDFPreview;
-// 	<Document>
-// 		{sections.map((section, index) => {
-// 			const sectionTitle = section.sectionTitle || "";
-// 			const contentBlocks = section.contentBlocks || [];
-
-// 			return (
-// 				<Page key={index} style={styles.page}>
-// 					<View style={styles.section}>
-// 						<Text style={styles.title}>{sectionTitle}</Text>
-// 						{contentBlocks.map((block, index) => {
-// 							const contentTitle = block.contentTitle || "";
-// 							const content = block.content || "";
-
-// 							return (
-// 								<View key={index}>
-// 									<Text style={styles.subtitle}>{contentTitle}</Text>
-// 									{block.image && (
-// 										<View style={styles.imageContainer}>
-// 											{console.log(block.image)}
-// 											{block.image.map((image, index) => (
-// 												<Image
-// 													key={index}
-// 													style={styles.image}
-// 													src={image}
-// 												/>
-// 											))}
-// 										</View>
-// 									)}
-// 									<Text style={styles.text}>{content}</Text>
-// 								</View>
-// 							);
-// 						})}
-// 					</View>
-// 				</Page>
-// 			);
-// 		})}
-// 	</Document>

@@ -9,25 +9,40 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 
-const FileUpload = ({ fieldName }) => {
+const FileUpload = ({
+	fieldName = null,
+	value = null,
+	setFieldValue = null,
+	productImages = null,
+	setProductImages = null,
+}) => {
 	const storage = getStorage(app);
 	const [isLoading, setIsLoading] = useState(false);
-	const { values, setFieldValue } = useFormikContext();
-	const fieldNames = fieldName.split(".");
-	const indexes = fieldNames
-		.filter((val) => !isNaN(val))
-		.map((val) => parseInt(val));
-	const currentValue = indexes.reduce(
-		(acc, index) => (acc.fields ? acc.fields[index] : acc[index]),
-		values
-	);
+	// let currentValue = [];
+	// let setFieldValue;
+	// if (!productImages) {
+	// 	const { values, setFieldValue } = useFormikContext();
+	// 	const fieldNames = fieldName.split(".");
+	// 	const indexes = fieldNames
+	// 		.filter((val) => !isNaN(val))
+	// 		.map((val) => parseInt(val));
+	// 	currentValue = indexes.reduce(
+	// 		(acc, index) => (acc.fields ? acc.fields[index] : acc[index]),
+	// 		values
+	// 	);
+	// }
 
 	const uploadImages = async (files) => {
 		const uploadedImages = [];
+		let imageRef = null;
 
 		await Promise.all(
 			files.map((image) => {
-				const imageRef = ref(storage, `images/${image.name}`);
+				if (productImages && setProductImages) {
+					imageRef = ref(storage, `images/products/${image.name}`);
+				} else {
+					imageRef = ref(storage, `images/${image.name}`);
+				}
 				const uploadTasks = uploadBytesResumable(imageRef, image);
 
 				return new Promise((resolve, reject) => {
@@ -73,7 +88,13 @@ const FileUpload = ({ fieldName }) => {
 
 	const onDrop = async (files) => {
 		setIsLoading(true);
-		const { value } = currentValue;
+		if (productImages && setProductImages) {
+			const imageURLs = await uploadImages(files);
+			setProductImages([...productImages, ...imageURLs]);
+			setIsLoading(false);
+			return;
+		}
+		// const { value } = currentValue;
 		const imageURLs = await uploadImages(files);
 		if (value && value.length > 0) {
 			const newValue = [...value, ...imageURLs];
@@ -82,7 +103,6 @@ const FileUpload = ({ fieldName }) => {
 		} else {
 			setFieldValue(fieldName, [...imageURLs]);
 			setIsLoading(false);
-			console.log(values);
 		}
 	};
 

@@ -4,6 +4,7 @@ import FileUpload from "../components/FileUpload";
 import DynamicFieldButtons from "../components/DynamicFieldButtons";
 import { initialValues } from "../InitialValues";
 import { app } from "../firebase";
+import PDFPreview from "../components/PDFPreview";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 
 const Product = {
@@ -135,7 +136,7 @@ const renderFields = (fields, parentKey = "") => {
 						<Field name={fieldName}>
 							{({ field: { value }, form: { setFieldValue } }) => (
 								<div>
-									<FileUpload fieldName={fieldName} />
+									<FileUpload fieldName={fieldName} value={value} setFieldValue={setFieldValue} />
 									{value &&
 										value.map((imageURL, index) => (
 											<img
@@ -198,9 +199,9 @@ const DynamicForm = ({ projectReport = null }) => {
 							{renderFields(values)}
 							<button type="submit">Submit</button>
 						</div>
-						{/* <div>
+						<div className="p-4">
 							<PDFPreview data={pdfValues} />
-						</div> */}
+						</div>
 					</Form>
 				)}
 			</Formik>

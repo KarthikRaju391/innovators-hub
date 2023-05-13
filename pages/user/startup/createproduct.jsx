@@ -7,6 +7,7 @@ import FileInput from "../../../components/FileInput";
 import LoginHeader from "../../../components/LoginHeader";
 import { Button, SHAPE } from "baseui/button";
 import { useRouter } from "next/router";
+import FileUpload from "../../../components/FileUpload";
 import { MdOutlineDeleteForever } from "react-icons/md";
 
 function createproduct() {
@@ -14,33 +15,30 @@ function createproduct() {
 
 	const [productName, setProductName] = useState("");
 	const [productDescription, setProductDescription] = useState("");
+	const [productImages, setProductImages] = useState([]);
 	const [build, setBuild] = useState("");
 	const [quality, setQuality] = useState("");
 	const [price, setPrice] = useState("");
 	const [category, setCategory] = useState("");
-	const [file1, setFile1] = useState();
-	const [file2, setFile2] = useState();
-	const [file3, setFile3] = useState();
-	const [file4, setFile4] = useState();
 	const [load, setLoad] = useState(false);
 
-	var img1 = (f) => {
-		setFile1(f);
-	};
-	var img2 = (f) => {
-		setFile2(f);
-	};
-	var img3 = (f) => {
-		setFile3(f);
-	};
-	var img4 = (f) => {
-		setFile4(f);
-	};
+	// var img1 = (f) => {
+	// 	setFile1(f);
+	// };
+	// var img2 = (f) => {
+	// 	setFile2(f);
+	// };
+	// var img3 = (f) => {
+	// 	setFile3(f);
+	// };
+	// var img4 = (f) => {
+	// 	setFile4(f);
+	// };
 
 	const submit = async (e) => {
 		//submit from here
 		e.preventDefault();
-		if (file1 !== undefined) {
+		if (productImages && productImages.length > 0) {
 			setLoad(true);
 			const productData = {
 				productName,
@@ -49,7 +47,7 @@ function createproduct() {
 				quality,
 				price,
 				category,
-				images: [file1.file, file2?.file, file3?.file, file4?.file],
+				images: [...productImages],
 			};
 			const product = await fetch("/api/products/", {
 				method: "POST",
@@ -154,7 +152,11 @@ function createproduct() {
 					</div>
 
 					<div className="mx-auto" style={{ width: "18rem" }}>
-						<FormControl
+						<FileUpload
+							productImages={productImages}
+							setProductImages={setProductImages}
+						/>
+						{/* <FormControl
 							label={() => "Image 1 Of The Product: "}
 							caption={() => "Required*"}
 						>
@@ -235,7 +237,7 @@ function createproduct() {
 									)}
 								</p>
 							</>
-						</FormControl>
+						</FormControl> */}
 					</div>
 				</div>
 				<div className="grid justify-center">
