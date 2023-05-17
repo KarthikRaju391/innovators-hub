@@ -4,7 +4,7 @@ import ProductCard from "../../components/ProductCard";
 import { makeSerializable } from "../../lib/util";
 import { useState } from "react";
 
-function Products({products, initialCursor}) {
+function Products({ products, initialCursor, url }) {
 	const [cursor, setCursor] = useState(initialCursor);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 	const [isAllLoaded, setIsAllLoaded] = useState(false);
@@ -12,18 +12,14 @@ function Products({products, initialCursor}) {
 
 	const loadMoreProducts = async () => {
 		if (isLoadingMore || isAllLoaded) return;
-
 		setIsLoadingMore(true);
 
-		const res = await fetch(
-			`${process.env.NEXT_APP_URL}/api/products?cursor=${cursor}`,
-			{
-				method: "GET",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			}
-		);
+		const res = await fetch(`${url}/api/products?cursor=${cursor}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
 
 		const data = await res.json();
 
@@ -59,7 +55,7 @@ function Products({products, initialCursor}) {
 				onClick={loadMoreProducts}
 				className="select-none cursor-pointer grid justify-center mt-2 pt-2 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]"
 			>
-				{isLoadingMore ? "Loading..." : "Load More"}
+				{isLoadingMore && !isAllLoaded ? "Loading..." : "Load More"}
 			</p>
 		</>
 	);
@@ -80,6 +76,7 @@ export async function getServerSideProps(context) {
 		props: {
 			products: makeSerializable(data.products),
 			initialCursor: makeSerializable(data.cursor),
+			url: makeSerializable(process.env.NEXT_APP_URL),
 		},
 	};
 }
