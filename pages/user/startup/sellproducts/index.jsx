@@ -16,7 +16,7 @@ function Products({ products, initialCursor }) {
 		setIsLoadingMore(true);
 
 		const res = await fetch(
-			`${process.env.NEXT_APP_URL}/api/products?cursor=${cursor}`,
+			`/api/products?cursor=${cursor}`,
 			{
 				method: "GET",
 				headers: {

@@ -4,7 +4,7 @@ import ProductCard from "../../components/ProductCard";
 import { makeSerializable } from "../../lib/util";
 import { useState } from "react";
 
-function Products({ products, initialCursor, url }) {
+function Products({ products, initialCursor }) {
 	const [cursor, setCursor] = useState(initialCursor);
 	const [isLoadingMore, setIsLoadingMore] = useState(false);
 	const [isAllLoaded, setIsAllLoaded] = useState(false);
@@ -14,7 +14,7 @@ function Products({ products, initialCursor, url }) {
 		if (isLoadingMore || isAllLoaded) return;
 		setIsLoadingMore(true);
 
-		const res = await fetch(`${url}/api/products?cursor=${cursor}`, {
+		const res = await fetch(`/api/products?cursor=${cursor}`, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -76,7 +76,6 @@ export async function getServerSideProps(context) {
 		props: {
 			products: makeSerializable(data.products),
 			initialCursor: makeSerializable(data.cursor),
-			url: makeSerializable(process.env.NEXT_APP_URL),
 		},
 	};
 }
