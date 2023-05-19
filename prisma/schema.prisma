@@ -58,7 +58,6 @@ model User {
   accounts      Account[]
   sessions      Session[]
   order         Order[]
-  backers       Backers[]
   cart          Cart[]
   comments      Comment[]
   post          Post[]
@@ -72,21 +71,6 @@ enum userRole {
   INVESTOR
   ENTREPRENEUR
   ADMIN
-}
-
-model Investor {
-  id               String       @id @default(cuid())
-  type             InvestorType
-  email            String
-  name             String
-  organizationName String?
-  website          String?
-  social           String[]
-}
-
-enum InvestorType {
-  INDIVIDUAL
-  ORGANIZATION
 }
 
 model Entrepreneur {
@@ -109,7 +93,6 @@ model Post {
   permalink  String    @unique
   startupId  String?
   campaignId String?
-  campaign   Campaign? @relation(fields: [campaignId], references: [id])
   userId     String
   image      String?
   comment    Comment[]
@@ -133,46 +116,6 @@ model Comment {
   children Comment[] @relation("Comment_children")
   parent   Comment?  @relation("Comment_children", fields: [parentId], references: [id])
   parentId String?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Campaign {
-  id          String    @id @default(cuid())
-  title       String
-  content     String
-  startupId   String?
-  fundingGoal Int?
-  backers     Backers[]
-  reward      String[]
-  image       String
-  post        Post[]
-  Reward      Reward[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model Reward {
-  id         String   @id @default(cuid())
-  campaignId String
-  title      String
-  content    String
-  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-// many to many relation for campaign and backers
-model Backers {
-  id         String     @id @default(cuid())
-  campaignId String
-  userId     String
-  amount     Int
-  campaign   Campaign[]
-  user       User       @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -205,31 +148,84 @@ model Category {
 }
 
 model Startup {
-  id            String          @id @default(cuid())
-  name          String
-  description   String?
-  images        String[]
-  products      Product[]
-  panNumber     String          @unique
-  gstNumber     String
-  post          Post[]
-  industry      String[]
-  stage         String?
-  location      String
-  website       String?
-  email         String?
-  social        String[]
-  projectReport ProjectReport[]
-  entrepreneur  Entrepreneur[]
+  id           String         @id @default(cuid())
+  name         String
+  description  String?
+  images       String[]
+  products     Product[]
+  panNumber    String         @unique
+  gstNumber    String
+  post         Post[]
+  industry     String[]
+  stage        String?
+  location     String
+  website      String?
+  email        String?
+  social       String[]
+  project      Project[]
+  entrepreneur Entrepreneur[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
+model Investor {
+  id               String       @id @default(cuid())
+  type             InvestorType
+  email            String
+  name             String
+  organizationName String?
+  website          String?
+  social           String[]
+  venture          Venture[]
+}
+
+enum InvestorType {
+  INDIVIDUAL
+  ORGANIZATION
+}
+
+enum InvestmentStage {
+  SEED
+  ANGEL
+  SERIES_A
+  SERIES_B
+  SERIES_C
+  SERIES_D
+  LATE_STAGE
+  IPO
+  ACQUISITION
+}
+
+model Venture {
+  id              String          @id @default(cuid())
+  investor        Investor        @relation(fields: [investorId], references: [id])
+  investorId      String          @unique
+  amountInvested  Float
+  investmentStage InvestmentStage
+  project         Project         @relation(fields: [projectId], references: [id])
+  projectId       String
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+}
+
+model Project {
+  id              String         @id @default(cuid())
+  name            String
+  description     String
+  startup         Startup?       @relation(fields: [startupId], references: [id])
+  startupId       String?
+  projectReport   ProjectReport? @relation(fields: [projectReportId], references: [id])
+  projectReportId String?        @unique
+  venture         Venture[]
+  image           String[]
+  createdAt       DateTime       @default(now())
+  updatedAt       DateTime       @updatedAt
+}
+
 model ProjectReport {
   id        String   @id @default(cuid())
-  startup   Startup? @relation(fields: [startupId], references: [id])
-  startupId String?  @unique
+  project   Project?
   report    Json
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
