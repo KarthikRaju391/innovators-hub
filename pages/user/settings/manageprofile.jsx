@@ -22,7 +22,7 @@ function manage({ data }) {
 	const router = useRouter();
 
 	const user = { ...data };
-	console.log(user)
+	console.log(user);
 	const [name, setName] = React.useState(user.name || "");
 	const [bio, setBio] = React.useState(user.bio ? user.bio : "");
 	const [phoneNumber, setPhoneNumber] = React.useState(user.phoneNumber || "");
@@ -30,7 +30,7 @@ function manage({ data }) {
 	const [address, setAddress] = React.useState(
 		user.address ? user.address : ""
 	);
-	const [gender, setGender] = React.useState([{id:user?.gender}]);//user.gender ? user.gender : ""
+	const [gender, setGender] = React.useState([{ id: user?.gender }]); //user.gender ? user.gender : ""
 	const [load, setLoad] = React.useState(false);
 	//investor details #Note: variable name changed please verify
 	const [ppanNumber, setPpanNumber] = React.useState(
@@ -88,6 +88,7 @@ function manage({ data }) {
 
 	//replace console.log at line68 with post/put request
 	const submit4 = async (e) => {
+		console.log(address);
 		//submit from here
 		e.preventDefault();
 		setLoad(true);
@@ -98,10 +99,7 @@ function manage({ data }) {
 			address,
 			ppanNumber,
 			gender,
-			type: [
-				investorRole,
-				startupRole,
-			],
+			type: [investorRole, startupRole],
 			startupName,
 			startupAddress,
 			startupPanNumber,

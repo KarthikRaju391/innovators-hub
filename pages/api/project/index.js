@@ -26,12 +26,12 @@ export default async function handle(req, res) {
 					},
 				},
 			});
-			const projectReport = await prisma.projectReport.findUnique({
+			const project = await prisma.project.findUnique({
 				where: {
 					startupId: startup.entrepreneur.startup.id,
 				},
 			});
-			return res.json(projectReport);
+			return res.json(project);
 		} else if (req.method === "POST") {
 			const startup = await prisma.user.findUnique({
 				where: {
@@ -50,36 +50,46 @@ export default async function handle(req, res) {
 				},
 			});
 
-			const projectExists = await prisma.projectReport.findUnique({
+			const projectExists = await prisma.project.findUnique({
 				where: {
 					startupId: startup.entrepreneur.startup.id,
 				},
 			});
 			if (projectExists) {
-				await prisma.projectReport.update({
+				const { projectName, projectDescription, projectImages } = req.body;
+				await prisma.project.update({
 					where: {
 						startupId: startup.entrepreneur.startup.id,
 					},
 					data: {
-						report: req.body,
+						name: projectName,
+						description: projectDescription,
+						image: {
+							set: projectImages,
+						},
 					},
 				});
 
 				return res.json("Report updated");
 			}
 
-			await prisma.projectReport.create({
+			const { projectName, projectDescription, projectImages } = req.body;
+			await prisma.project.create({
 				data: {
 					startup: {
 						connect: {
 							id: startup.entrepreneur.startup.id,
 						},
 					},
-					report: req.body,
+					name: projectName,
+					description: projectDescription,
+					image: {
+						set: projectImages,
+					},
 				},
 			});
 
-			return res.json({ message: "Report created" });
+			return res.json({ message: "Project created" });
 		}
 	} catch (error) {
 		console.log(error);

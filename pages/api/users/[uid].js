@@ -33,8 +33,9 @@ export default async function handle(req, res) {
 			const updatedRole = data.type;
 			const prevRole = session.user.role.slice(1);
 
+			console.log(updatedRole, prevRole);
+
 			if (updatedRole[0] && updatedRole[1] && prevRole.length === 0) {
-				console.log("first condition")
 				const updatedUser = await prisma.user.update({
 					where: {
 						id: uid,
@@ -44,7 +45,7 @@ export default async function handle(req, res) {
 						bio: data.bio,
 						phoneNumber: data.phoneNumber,
 						address: data.address,
-						gender: data.gender,
+						gender: data.gender[0].id,
 						panNumber: data.ppanNumber,
 						role: {
 							set: [userRole.USER, userRole.INVESTOR, userRole.ENTREPRENEUR],
@@ -90,7 +91,7 @@ export default async function handle(req, res) {
 							set: [userRole.USER],
 						},
 						panNumber: null,
-						gender: data.gender,
+						gender: data.gender[0].id,
 						entrepreneur: {
 							delete: true,
 						},
@@ -106,7 +107,7 @@ export default async function handle(req, res) {
 						name: data.name,
 						bio: data.bio,
 						phoneNumber: data.phoneNumber,
-						gender: data.gender,
+						gender: data.gender[0].id,
 						panNumber: null,
 						role: {
 							set: [userRole.USER, userRole.ENTREPRENEUR],
@@ -123,7 +124,7 @@ export default async function handle(req, res) {
 						name: data.name,
 						bio: data.bio,
 						phoneNumber: data.phoneNumber,
-						gender: data.gender,
+						gender: data.gender[0].id,
 						panNumber: data.ppanNumber,
 						role: {
 							set: [userRole.USER, userRole.INVESTOR],
@@ -153,7 +154,7 @@ export default async function handle(req, res) {
 						},
 						email: session.user.email,
 						panNumber: data.ppanNumber,
-						gender: data.gender,
+						gender: data.gender[0].id,
 						entrepreneur: {
 							connectOrCreate: {
 								create: {
@@ -197,7 +198,7 @@ export default async function handle(req, res) {
 							set: [userRole.USER, userRole.INVESTOR, userRole.ENTREPRENEUR],
 						},
 						panNumber: data.ppanNumber,
-						gender: data.gender,
+						gender: data.gender[0].id,
 					},
 				});
 				return res.json(updatedUser);
@@ -215,7 +216,7 @@ export default async function handle(req, res) {
 							set: [userRole.USER, userRole.INVESTOR],
 						},
 						panNumber: data.ppanNumber,
-						gender: data.gender,
+						gender: data.gender[0].id,
 					},
 				});
 				return res.json(updatedUser);
@@ -234,7 +235,7 @@ export default async function handle(req, res) {
 						},
 						email: session.user.email,
 						panNumber: data.ppanNumber,
-						gender: data.gender,
+						gender: data.gender[0].id,
 						entrepreneur: {
 							connectOrCreate: {
 								create: {
@@ -278,7 +279,7 @@ export default async function handle(req, res) {
 							set: [userRole.USER],
 						},
 						panNumber: null,
-						gender: data.gender,
+						gender: data.gender[0].id,
 					},
 				});
 				return res.json(updatedUser);
@@ -296,12 +297,51 @@ export default async function handle(req, res) {
 						name: data.name,
 						bio: data.bio,
 						phoneNumber: data.phoneNumber,
-						gender: data.gender,
+						gender: data.gender[0].id,
 						role: {
 							set: [userRole.USER],
 						},
 						entrepreneur: {
 							delete: true,
+						},
+					},
+				});
+				return res.json(updatedUser);
+			} else {
+				const startup = await prisma.user.findUnique({
+					where: {
+						id: uid,
+					},
+					include: {
+						entrepreneur: {
+							include: {
+								startup: true,
+							},
+						},
+					},
+				});
+
+				const updatedUser = await prisma.user.update({
+					where: {
+						id: uid,
+					},
+					data: {
+						name: data.name,
+						bio: data.bio,
+						address: data.address,
+						gender: data.gender[0].id,
+						panNumber: data.ppanNumber,
+						entrepreneur: {
+							update: {
+								startup: {
+									update: {
+										name: data.startupName,
+										location: data.startupAddress,
+										panNumber: data.startupPanNumber,
+										gstNumber: data.gstin,
+									},
+								},
+							},
 						},
 					},
 				});

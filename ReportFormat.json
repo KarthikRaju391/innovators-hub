@@ -1,87 +1,333 @@
-{
-	"Executive Summary": {
-		"Problem": "Lack of efficient tools for roadrunner capture",
-		"Solution": "Developing advanced gadgets for roadrunner capture",
-		"Target Market": "Coyotes and hunters worldwide",
-		"Competitive Advantage": "Innovative designs and high success rates",
-		"Financial Highlights": "Projected revenue of $5M in the first year",
-		"Funding Requirements": "Seeking $1M in seed funding",
-		"Use of Funds": "Product development, marketing, and team expansion",
-		"Exit Strategy": "Acquisition by a larger hunting equipment manufacturer"
-	},
-	"Company Overview": {
-		"Company Name": "Roadrunner Catchers Inc.",
-		"Mission Statement": "To revolutionize roadrunner capture with cutting-edge gadgets",
-		"Company History": "Founded in 2022 by a team of experienced engineers",
-		"Legal Structure": "C-Corporation",
-		"Location": "Arizona, USA"
-	},
-	"Products and Services": [
-		{
-			"Product Name": "Super Speedy Net Launcher",
-			"Description": "A portable net launcher with high accuracy and speed",
-			"Features": "Compact design, adjustable power settings, and reusable nets",
-			"Benefits": "Increased capture rate, easy to carry, and cost-effective",
-			"Pricing Strategy": "One-time purchase",
-			"Development Timeline": "2022-06-01"
-		}
-	],
-	"Market Analysis": {
-		"Industry Analysis": {
-			"Industry Size": "Global hunting equipment market valued at $15B",
-			"Industry Growth Rate": "5% annual growth rate",
-			"Industry Trends": "Increasing demand for advanced hunting tools",
-			"Key Success Factors": "Innovation, quality, and customer satisfaction"
-		},
-		"Target Market": {
-			"Market Segmentation": "Coyotes and human hunters",
-			"Target Customer Profile": "Roadrunner predators and hunting enthusiasts",
-			"Market Size": "Estimated 1M potential customers worldwide",
-			"Market Growth Rate": "10% annual growth rate"
-		},
-		"Competitive Analysis": [
+[
+	{
+		"name": "Executive Summary",
+		"level": 0,
+		"fields": [
 			{
-				"Competitor Name": "Roadrunner Catchers Co.",
-				"Competitor Strengths": "Established brand and wide product range",
-				"Competitor Weaknesses": "Outdated technology and low success rates"
+				"name": "Problem",
+				"value": "Lack of efficient tools for roadrunner capture"
+			},
+			{
+				"name": "Solution",
+				"value": "Developing advanced gadgets for roadrunner capture"
+			},
+			{
+				"name": "Target Market",
+				"value": "Coyotes and hunters worldwide"
+			},
+			{
+				"name": "Competitive Advantage",
+				"value": "Innovative designs and high success rates"
+			},
+			{
+				"name": "Financial Highlights",
+				"value": "Projected revenue of $5M in the first year"
+			},
+			{
+				"name": "Funding Requirements",
+				"value": "Seeking $1M in seed funding"
+			},
+			{
+				"name": "Use of Funds",
+				"value": "Product development, marketing, and team expansion"
+			},
+			{
+				"name": "Exit Strategy",
+				"value": "Acquisition by a larger hunting equipment manufacturer"
+			}
+		]
+	},
+	{
+		"name": "Company Overview",
+		"level": 0,
+		"fields": [
+			{
+				"name": "Company Name",
+				"value": "Roadrunner Catchers Inc."
+			},
+			{
+				"name": "Mission Statement",
+				"value": "To revolutionize roadrunner capture with cutting-edge gadgets"
+			},
+			{
+				"name": "Company History",
+				"value": "Founded in 2022 by a team of experienced engineers"
+			},
+			{
+				"name": "Legal Structure",
+				"value": "C-Corporation"
+			},
+			{
+				"name": "Location",
+				"value": "Arizona, USA"
+			},
+			{
+				"name": "Image",
+				"value": [
+					"https://firebasestorage.googleapis.com/v0/b/innovators-hub-662f3.appspot.com/o/images%2FStealth.jpg?alt=media&token=393ab7cb-5340-4554-811e-ddface72d71a"
+				]
+			}
+		]
+	},
+	{
+		"name": "Products and Services",
+		"level": 0,
+		"fields": [
+			{
+				"name": "Product",
+				"level": 1,
+				"fields": [
+					{
+						"name": "Product Name",
+						"value": "Super Speedy Net Launcher"
+					},
+					{
+						"name": "Description",
+						"value": "A portable net launcher with high accuracy and speed"
+					},
+					{
+						"name": "Features",
+						"value": "Compact design, adjustable power settings, and reusable nets"
+					},
+					{
+						"name": "Benefits",
+						"value": "Increased capture rate, easy to carry, and cost-effective"
+					},
+					{
+						"name": "Pricing Strategy",
+						"value": "One-time purchase"
+					},
+					{
+						"name": "Development Timeline",
+						"value": "2023-06-01"
+					},
+					{
+						"name": "Image",
+						"value": [
+							"https://firebasestorage.googleapis.com/v0/b/innovators-hub-662f3.appspot.com/o/images%2Fmicrosoft_surface_duo.jpg?alt=media&token=315d52da-760f-4d41-8646-3a66847b14a3"
+						]
+					}
+				]
 			}
 		],
-		"SWOT Analysis": {
-			"Strengths": "Innovative products and experienced team",
-			"Weaknesses": "Limited market presence and brand recognition",
-			"Opportunities": "Growing demand for advanced hunting tools",
-			"Threats": "Competitors and potential regulations"
-		}
+		"dynamic": true
 	},
-	"Marketing Strategy": {
-		"Marketing Objectives": "Build brand awareness and acquire 10% market share in the first year",
-		"Marketing Mix": {
-			"Product Strategy": "Continuous innovation and expanding the product range",
-			"Pricing Strategy": "Competitive pricing with a focus on value for money",
-			"Promotion Strategy": "Digital marketing, trade shows, and partnerships",
-			"Distribution Strategy": "Online sales and partnerships with hunting equipment retailers"
-		},
-		"Sales Strategy": {
-			"Sales Process": "Direct sales through the website and retail partners",
-			"Sales Forecast": "Projected sales of 50,000 units in the first year"
-		}
+	{
+		"name": "Market Analysis",
+		"level": 0,
+		"fields": [
+			{
+				"name": "Industry Analysis",
+				"level": 1,
+				"fields": [
+					{
+						"name": "Industry Size",
+						"value": "Global hunting equipment market valued at $15B"
+					},
+					{
+						"name": "Industry Growth Rate",
+						"value": "5% annual growth rate"
+					},
+					{
+						"name": "Industry Trends",
+						"value": "Increasing demand for advanced hunting tools"
+					},
+					{
+						"name": "Key Success Factors",
+						"value": "Innovation, quality, and customer satisfaction"
+					}
+				]
+			},
+			{
+				"name": "Target Market",
+				"level": 1,
+				"fields": [
+					{
+						"name": "Market Segmentation",
+						"value": "Coyotes and human hunters"
+					},
+					{
+						"name": "Target Customer Profile",
+						"value": "Roadrunner predators and hunting enthusiasts"
+					},
+					{
+						"name": "Market Size",
+						"value": "Estimated 1M potential customers worldwide"
+					},
+					{
+						"name": "Market Growth Rate",
+						"value": "10% annual growth rate"
+					}
+				]
+			},
+			{
+				"name": "Competitive Analysis",
+				"level": 1,
+				"fields": [
+					{
+						"name": "Competitor",
+						"level": 2,
+						"fields": [
+							{
+								"name": "Competitor Name",
+								"value": "Roadrunner Catchers Co."
+							},
+							{
+								"name": "Competitor Strengths",
+								"value": "Established brand and wide product range"
+							},
+							{
+								"name": "Competitor Weaknesses",
+								"value": "Outdated technology and low success rates"
+							}
+						]
+					}
+				],
+				"dynamic": true
+			},
+			{
+				"name": "SWOT Analysis",
+				"level": 1,
+				"fields": [
+					{
+						"name": "Strengths",
+						"value": "Innovative products and experienced team"
+					},
+					{
+						"name": "Weaknesses",
+						"value": "Limited market presence and brand recognition"
+					},
+					{
+						"name": "Opportunities",
+						"value": "Growing demand for advanced hunting tools"
+					},
+					{
+						"name": "Threats",
+						"value": "Competitors and potential regulations"
+					},
+					{
+						"name": "Image",
+						"value": []
+					}
+				]
+			}
+		]
 	},
-	"Financial Projections": {
-		"Revenue Projections": "$5M in the first year",
-		"Expense Projections": "$3M in the first year",
-		"Profit and Loss Statement": "Estimated net profit of $2M in the first year",
-		"Cash Flow Statement": "Positive cash flow throughout the first year",
-		"Balance Sheet": "Healthy financial position with strong assets",
-		"Break-even Analysis": "Expected to break even in 8 months",
-		"Financial Assumptions": "Constant market growth and stable expenses",
-		"Financial Ratios": "Strong profitability and liquidity ratios"
+	{
+		"name": "Marketing Strategy",
+		"level": 0,
+		"fields": [
+			{
+				"name": "Marketing Objectives",
+				"value": "Build brand awareness and acquire 10% market share in the first year"
+			},
+			{
+				"name": "Marketing Mix",
+				"level": 1,
+				"fields": [
+					{
+						"name": "Product Strategy",
+						"value": "Continuous innovation and expanding the product range"
+					},
+					{
+						"name": "Pricing Strategy",
+						"value": "Competitive pricing with a focus on value for money"
+					},
+					{
+						"name": "Promotion Strategy",
+						"value": "Digital marketing, trade shows, and partnerships"
+					},
+					{
+						"name": "Distribution Strategy",
+						"value": "Online sales and partnerships with hunting equipment retailers"
+					}
+				]
+			},
+			{
+				"name": "Sales Strategy",
+				"level": 1,
+				"fields": [
+					{
+						"name": "Sales Process",
+						"value": "Direct sales through the website and retail partners"
+					},
+					{
+						"name": "Sales Forecast",
+						"value": "Projected sales of 50,000 units in the first year"
+					}
+				]
+			}
+		]
 	},
-	"Team": [
-		{
-			"Name": "John Doe",
-			"Title": "CEO and Co-founder",
-			"Experience": "10 years in the hunting equipment industry",
-			"Role": "Leading the company and overseeing product development"
-		}
-	]
-}
+	{
+		"name": "Financial Projections",
+		"level": 0,
+		"fields": [
+			{
+				"name": "Revenue Projections",
+				"value": "$5M in the first year"
+			},
+			{
+				"name": "Expense Projections",
+				"value": "$3M in the first year"
+			},
+			{
+				"name": "Profit and Loss Statement",
+				"value": "Estimated net profit of $2M in the first year"
+			},
+			{
+				"name": "Cash Flow Statement",
+				"value": "Positive cash flow throughout the first year"
+			},
+			{
+				"name": "Balance Sheet",
+				"value": "Healthy financial position with strong assets"
+			},
+			{
+				"name": "Break Even Analysis",
+				"value": "Expected to break even in 8 months"
+			},
+			{
+				"name": "Financial Assumptions",
+				"value": "Constant market growth and stable expenses"
+			},
+			{
+				"name": "Financial Ratios",
+				"value": "Strong profitability and liquidity ratios"
+			}
+		]
+	},
+	{
+		"name": "Team",
+		"level": 0,
+		"fields": [
+			{
+				"name": "Team Members",
+				"level": 1,
+				"fields": [
+					{
+						"name": "Name",
+						"value": "John Doe"
+					},
+					{
+						"name": "Title",
+						"value": "CEO and Co-founder"
+					},
+					{
+						"name": "Experience",
+						"value": "10 years in the hunting equipment industry"
+					},
+					{
+						"name": "Role",
+						"value": "Leading the company and overseeing product development"
+					},
+					{
+						"name": "Image",
+						"value": []
+					}
+				]
+			}
+		],
+		"dynamic": true
+	}
+]

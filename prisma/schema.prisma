@@ -210,26 +210,25 @@ model Venture {
 }
 
 model Project {
-  id              String         @id @default(cuid())
-  name            String
-  description     String
-  startup         Startup?       @relation(fields: [startupId], references: [id])
-  startupId       String?
-  projectReport   ProjectReport? @relation(fields: [projectReportId], references: [id])
-  projectReportId String?        @unique
-  venture         Venture[]
-  image           String[]
-  createdAt       DateTime       @default(now())
-  updatedAt       DateTime       @updatedAt
+  id            String    @id @default(cuid())
+  name          String
+  description   String
+  startup       Startup?  @relation(fields: [startupId], references: [id])
+  startupId     String?   @unique
+  projectReport Json?
+  venture       Venture[]
+  image         String[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
 }
 
-model ProjectReport {
-  id        String   @id @default(cuid())
-  project   Project?
-  report    Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
+// model ProjectReport {
+//   id        String   @id @default(cuid())
+//   project   Project?
+//   report    Json
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
 
 model Order {
   id             String    @id @default(cuid())
