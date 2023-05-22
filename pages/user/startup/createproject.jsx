@@ -1,11 +1,13 @@
 import { useState } from "react";
 import BackButton from "../../../components/BackButton";
 import LoginHeader from "../../../components/LoginHeader";
+import { useRouter } from "next/router";
 
 function createProject() {
 	const [projectName, setProjectName] = useState("");
 	const [projectDescription, setProjectDescription] = useState("");
 	const [projectImages, setProjectImages] = useState([]);
+	const router = useRouter();	
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -26,6 +28,10 @@ function createProject() {
 
 		await res.json();
 	};
+
+	const handleReport = () => {
+		router.push('/user/startup/pdf2')	
+	}
 
 	return (
 		<>
@@ -57,7 +63,7 @@ function createProject() {
 				/>
 				<label htmlFor="projectImage">Project Image</label>
 				<input type="file" name="projectImage" id="projectImage" />
-				<button type="button">Add Project Report</button>
+				<button onClick={handleReport} type="button">Add Project Report</button>
 				<button type="submit">Create Project</button>
 			</form>
 		</>

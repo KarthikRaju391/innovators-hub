@@ -57,11 +57,52 @@ export default async function handle(req, res) {
 			});
 			if (projectExists) {
 				const { projectName, projectDescription, projectImages } = req.body;
-				await prisma.project.update({
-					where: {
-						startupId: startup.entrepreneur.startup.id,
-					},
+				if (req.body.pdfValues) {
+					await prisma.project.update({
+						where: {
+							startupId: startup.entrepreneur.startup.id,
+						},
+						data: {
+							projectReport: req.body.pdfValues,
+						},
+					});
+				} else {
+					await prisma.project.update({
+						where: {
+							startupId: startup.entrepreneur.startup.id,
+						},
+						data: {
+							name: projectName,
+							description: projectDescription,
+							image: {
+								set: projectImages,
+							},
+						},
+					});
+				}
+				return res.json("Report updated");
+			}
+
+			const { projectName, projectDescription, projectImages } = req.body;
+			if (req.body.pdfValues) {
+				await prisma.project.create({
 					data: {
+						startup: {
+							connect: {
+								id: startup.entrepreneur.startup.id,
+							},
+						},
+						projectReport: req.body.pdfValues,
+					},
+				});
+			} else {
+				await prisma.project.create({
+					data: {
+						startup: {
+							connect: {
+								id: startup.entrepreneur.startup.id,
+							},
+						},
 						name: projectName,
 						description: projectDescription,
 						image: {
@@ -69,25 +110,7 @@ export default async function handle(req, res) {
 						},
 					},
 				});
-
-				return res.json("Report updated");
 			}
-
-			const { projectName, projectDescription, projectImages } = req.body;
-			await prisma.project.create({
-				data: {
-					startup: {
-						connect: {
-							id: startup.entrepreneur.startup.id,
-						},
-					},
-					name: projectName,
-					description: projectDescription,
-					image: {
-						set: projectImages,
-					},
-				},
-			});
 
 			return res.json({ message: "Project created" });
 		}

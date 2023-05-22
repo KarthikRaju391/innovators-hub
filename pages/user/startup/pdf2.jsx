@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Formik, FieldArray, Field, Form, useFormikContext } from "formik";
-import FileUpload from "../components/FileUpload";
-import DynamicFieldButtons from "../components/DynamicFieldButtons";
-import { initialValues } from "../InitialValues";
-import { app } from "../firebase";
-import PDFPreview from "../components/PDFPreview";
+import FileUpload from "../../../components/FileUpload";
+import DynamicFieldButtons from "../../../components/DynamicFieldButtons";
+import { initialValues } from "../../../InitialValues";
+import { app } from "../../../firebase";
+import PDFPreview from "../../../components/PDFPreview";
 import { getStorage, ref, deleteObject } from "firebase/storage";
 
 const Product = {
@@ -136,7 +136,11 @@ const renderFields = (fields, parentKey = "") => {
 						<Field name={fieldName}>
 							{({ field: { value }, form: { setFieldValue } }) => (
 								<div>
-									<FileUpload fieldName={fieldName} value={value} setFieldValue={setFieldValue} />
+									<FileUpload
+										fieldName={fieldName}
+										value={value}
+										setFieldValue={setFieldValue}
+									/>
 									{value &&
 										value.map((imageURL, index) => (
 											<img
@@ -170,9 +174,9 @@ const renderFields = (fields, parentKey = "") => {
 	);
 };
 
-const DynamicForm = ({ projectReport = null }) => {
+const DynamicForm = ({ project }) => {
 	const [pdfValues, setPdfValues] = useState(
-		projectReport?.report || initialValues
+		project?.projectReport || initialValues
 	);
 
 	const handleSubmit = async (values) => {
@@ -184,7 +188,7 @@ const DynamicForm = ({ projectReport = null }) => {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify(values),
+			body: JSON.stringify({ pdfValues, id: project.id }),
 		});
 
 		await res.json();
@@ -217,11 +221,11 @@ export async function getServerSideProps(context) {
 			Cookie: context.req.headers.cookie,
 		},
 	});
-	const projectReport = await res.json();
+	const project = await res.json();
 
 	return {
 		props: {
-			projectReport,
+			project,
 		},
 	};
 }
