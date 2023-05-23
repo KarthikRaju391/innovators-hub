@@ -2,8 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
 import BackButton from "./BackButton";
+import { useRouter } from "next/router";
 
 function Forbidden() {
+
+	const router = useRouter()
+
+	setTimeout(()=>{router.push("/")},2000)
+
 	return (
 		<>
 			<BackButton />
@@ -23,7 +29,7 @@ function Forbidden() {
 				</Link>
 				<p
 					className="cursor-pointer select-none text-xl"
-					onClick={() => signIn()}
+					onClick={() => signIn("google")}
 					style={{ fontFamily: "Syncopate" }}
 				>
 					Login

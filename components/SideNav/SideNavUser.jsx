@@ -111,7 +111,7 @@ function SideNavUser({open, handleOpen}) {
                 }
             />
             <button onClick={handleTheme} className="ml-6 mt-2 pt-1 pl-7 text-base">Change to { nowTheme === 0 ? "Light" : "Dark"} Theme</button> <br/>
-            { session.data ? <button onClick={()=>signOut()} className="mt-3 pt-2 ml-6 pl-7 text-base">Sign Out</button> : <button onClick={()=>signIn()} className="mt-3 pt-2 ml-6 pl-7 text-base">Sign In</button> }
+            { session.data ? <button onClick={()=>signOut()} className="mt-3 pt-2 ml-6 pl-7 text-base">Sign Out</button> : <button onClick={()=>signIn("google")} className="mt-3 pt-2 ml-6 pl-7 text-base">Sign In</button> }
         </Drawer>
     );
 }
