@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Formik, FieldArray, Field, Form, useFormikContext } from "formik";
 import FileUpload from "../../../components/FileUpload";
 import DynamicFieldButtons from "../../../components/DynamicFieldButtons";
@@ -6,6 +6,8 @@ import { initialValues } from "../../../InitialValues";
 import { app } from "../../../firebase";
 import PDFPreview from "../../../components/PDFPreview";
 import { getStorage, ref, deleteObject } from "firebase/storage";
+import SubmitContext from "../../../context/SubmitContext";
+import { useRouter } from "next/router";
 
 const Product = {
 	name: "Product",
@@ -174,24 +176,22 @@ const renderFields = (fields, parentKey = "") => {
 	);
 };
 
-const DynamicForm = ({ project }) => {
+const DynamicForm = () => {
+	const { submitted, setSubmitted, updateProject, project } =
+		useContext(SubmitContext);
+	const router = useRouter();
 	const [pdfValues, setPdfValues] = useState(
-		project?.projectReport || initialValues
+		project.projectReport.length > 0 ? project.projectReport : initialValues
 	);
 
 	const handleSubmit = async (values) => {
-		console.log("submit event");
-		setPdfValues(values);
+		updateProject({ projectReport: values });
+		setSubmitted(true);
+	};
 
-		const res = await fetch("/api/project", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ pdfValues, id: project.id }),
-		});
-
-		await res.json();
+	const handleBack = (values) => {
+		!submitted && updateProject({ projectReport: values });
+		router.back();
 	};
 
 	return (
@@ -201,7 +201,10 @@ const DynamicForm = ({ project }) => {
 					<Form className="flex justify-around">
 						<div>
 							{renderFields(values)}
-							<button type="submit">Submit</button>
+							<button type="submit">Save</button>
+							<button onClick={() => handleBack(values)} type="button">
+								Go Back
+							</button>
 						</div>
 						<div className="p-4">
 							<PDFPreview data={pdfValues} />
@@ -212,22 +215,5 @@ const DynamicForm = ({ project }) => {
 		</div>
 	);
 };
-
-export async function getServerSideProps(context) {
-	const res = await fetch(`${process.env.NEXT_APP_URL}/api/project/`, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-			Cookie: context.req.headers.cookie,
-		},
-	});
-	const project = await res.json();
-
-	return {
-		props: {
-			project,
-		},
-	};
-}
 
 export default DynamicForm;

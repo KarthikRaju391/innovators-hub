@@ -104,7 +104,14 @@ const recursivePDFComponent = (field, index) => {
 				{!field.level ? (
 					<Text style={{ fontSize: "20" }}>{field.name}</Text>
 				) : field.level === 0 ? (
-					<Text style={[styles.sectionTitle, {textAlign: "center", fontWeight: 'ultrabold'}]}>{field.name}</Text>
+					<Text
+						style={[
+							styles.sectionTitle,
+							{ textAlign: "center", fontWeight: "ultrabold" },
+						]}
+					>
+						{field.name}
+					</Text>
 				) : field.level === 1 ? (
 					<Text style={[styles.title]}>{field.name}</Text>
 				) : field.level === 2 ? (
@@ -118,7 +125,7 @@ const recursivePDFComponent = (field, index) => {
 	} else {
 		return (
 			<View key={index} style={styles.section}>
-				<Text style={{fontSize: '16'}}>{field.name}</Text>
+				<Text style={{ fontSize: "16" }}>{field.name}</Text>
 				{field.value && <Text style={styles.text}>{field.value}</Text>}
 			</View>
 		);
@@ -126,7 +133,7 @@ const recursivePDFComponent = (field, index) => {
 };
 
 const PDFPreview = ({ data = {} }) => {
-	const companyData = data[1].fields;
+	const companyData = data[1]?.fields;
 
 	return (
 		<PDFView style={styles.viewer}>
