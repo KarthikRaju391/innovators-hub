@@ -27,7 +27,7 @@ html, body {
   color: #cccccc;
 }
 
-.home {
+/* .home {
   display: inline-block;
   padding-top: 3em;
   font-size: 5em;
@@ -35,7 +35,7 @@ html, body {
   text-transform: uppercase;
   background-clip: text;
   text-align: center;
-}
+} */
 
 table {
   border-collapse: collapse;

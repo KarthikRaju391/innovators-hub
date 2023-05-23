@@ -52,8 +52,8 @@ function Dashboard() {
 
             {session.user.role.includes("INVESTOR") && (<><h3 className="select-none mx-[2rem] px-[2rem] mt-[1rem] pt-[1rem] ml-[0.5rem] pb-[.5rem] text-2xl cursor-default">Investments</h3>
             <div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2">
-                <Card head={"Investment History"} para={"Previous Investments"} url={"/user/investments/investmenthistory"} />
-                <Card head={"Venture"} para={"Show New Projects"} url={"/user/investments/venture"} />
+                <Card head={"Invest Now"} para={"Show New Projects"} url={"/user/investments/invest"} />
+                <Card head={" Venture"} para={"Previous Investments"} url={"/user/investments/venture"} />
                 <Card head={"Community Forum"} para={"Innovators' Social Network"} url={"/posts"}/>
             </div></>)}
 
