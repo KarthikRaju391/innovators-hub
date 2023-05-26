@@ -26,9 +26,12 @@ export default async function handle(req, res) {
 					},
 				},
 			});
-			const project = await prisma.project.findUnique({
-				where: {
-					startupId: startup.entrepreneur.startup.id,
+			const project = await prisma.project.findMany({
+				// where: {
+				// 	startupId: startup.entrepreneur.startup.id,
+				// },
+				include: {
+					startup: true,
 				},
 			});
 			return res.json(project);

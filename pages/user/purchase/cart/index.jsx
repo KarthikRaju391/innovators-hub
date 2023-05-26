@@ -5,6 +5,7 @@ import { FaMoneyCheckAlt } from "react-icons/fa";
 import { useState } from "react";
 import { makeSerializable } from "../../../../lib/util";
 import CartItems from "../../../../components/CartItems";
+import Link from "next/link";
 
 function Products({ cart }) {
 	const [load1, setLoad1] = useState(false);
@@ -12,8 +13,8 @@ function Products({ cart }) {
 	const buyAllHandler = async () => {
 		// all the items in the list should be added to the order list
 		setLoad1(true);
-		var items = data.map((i) => i.productId);
-		await console.log(items);
+		const items = cart.quantities.map((i) => i.productId);
+		console.log(items);
 		setLoad1(false);
 	};
 
@@ -21,48 +22,49 @@ function Products({ cart }) {
 		<>
 			<BackButton />
 			<LoginHeader />
-			<h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">
-				Cart Items
-			</h2>
-			<div className="flex justify-center flex-wrap gap-4 grid-cols-2 mb-[2rem]">
-				{cart ? (
-					cart.quantities.map((i) => {
-						return (
-							<CartItems
-								key={i.product.id}
-								data={i}
-								cartId={cart.id}
-								url={`/user/purchase/cart/${i.productId}`}
-							/>
-						);
-					})
+			<div className="mt-4">
+				<h1 className="text-3xl font-bold mb-8 w-3/4 mx-auto">Shopping Cart</h1>
+				{cart && cart.quantities.length > 0 ? (
+					<div>
+						<div className="w-3/4 mx-auto">
+							<div>
+								{cart.quantities.map((i) => {
+									return (
+										<CartItems
+											key={i.product.id}
+											data={i}
+											cartId={cart.id}
+											url={`/user/purchase/cart/${i.productId}`}
+										/>
+									);
+								})}
+							</div>
+						</div>
+						<div className="w-3/4 mx-auto flex justify-between items-center border-t-2 mt-4 py-4">
+							<h1 className="text-3xl font-bold">Subtotal</h1>
+							{/* <button onClick={clearCart}>Clear Cart</button> */}
+							<h2 className="text-2xl font-semibold">
+								${cart.totalCost.toFixed(2)}
+							</h2>
+						</div>
+						<div className="flex justify-center w-full">
+							<button
+								// onClick={handleOrder}
+								className="w-3/4 bg-gray-800 hover:bg-gray-700 py-4 text-xl text-slate-200"
+							>
+								Place Order
+								{/* {ordered ? "Order placed successfully!!" : "Place Order"} */}
+							</button>
+						</div>
+					</div>
 				) : (
-					<h2 className="select-none my-[.5rem] text-3xl cursor-default text-center py-[30vh] h-[60vh] ">
-						Hey!!! I'm Empty Here
-					</h2>
+					<Link
+						href={`/products`}
+						className="select-none my-[.5rem] text-3xl cursor-default text-center py-[30vh] h-[60vh] "
+					>
+						Nothing in cart, continue shopping
+					</Link>
 				)}
-			</div>
-			{/* <p
-				onClick={loadMore}
-				className="select-none cursor-pointer mt-2 pt-2 text-center mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]"
-			>
-				Load More...
-			</p> */}
-			<div className="flex justify-center gap-5 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
-				<Button
-					onClick={buyAllHandler}
-					isLoading={load1}
-					overrides={{
-						BaseButton: {
-							style: ({ $theme }) => ({
-								backgroundColor: $theme.colors.positive400,
-							}),
-						},
-					}}
-					startEnhancer={<FaMoneyCheckAlt style={{ fontSize: "1.5rem" }} />}
-				>
-					Purchase All Items In Cart
-				</Button>
 			</div>
 		</>
 	);
@@ -74,7 +76,7 @@ export async function getServerSideProps(context) {
 		headers: {
 			"Content-Type": "application/json",
 			Cookie: context.req.headers.cookie,
-			'Cache-Control': 'no-cache'
+			"Cache-Control": "no-cache",
 		},
 	});
 
