@@ -92,7 +92,7 @@ function productId({ product }) {
 
 			{product.description && (
 				<>
-					<p className="mx-10 cursor-default select-none text-center animate__animated animate__fadeInUp">
+					<p className="mx-10 cursor-default select-none text-center animate__animated animate__fadeInUp break-all">
 						<span className="text-xl cursor-default select-none">
 							Description:
 						</span>{" "}
