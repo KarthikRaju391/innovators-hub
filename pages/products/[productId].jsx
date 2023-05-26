@@ -109,7 +109,7 @@ function productId({ product }) {
 									{/* <br /> */}
 								</>
 							)}
-							<p className="font-medium text-left mt-2">
+							<p className="font-medium text-left mt-2 break-all">
 								{product.description}
 							</p>
 							{/* <p className="flex justify-start items-center mt-4">
@@ -122,7 +122,7 @@ function productId({ product }) {
 							</h2>
 							<div className="flex justify-start">
 								<button
-									className="mt-4 bg-gray-800 hover:bg-gray-700 rounded-md text-slate-200 p-4"
+									className="mt-4 mx-auto bg-gray-800 hover:bg-gray-700 rounded-md text-slate-200 p-4"
 									// onClick={handleClick}
 								>
 									{/* {added ? "Added to cart" : "Add to cart"} */}

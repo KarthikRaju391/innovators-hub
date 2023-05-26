@@ -23,7 +23,7 @@ function Products({ cart }) {
 			<BackButton />
 			<LoginHeader />
 			<div className="mt-4">
-				<h1 className="text-3xl font-bold mb-8 w-3/4 mx-auto">Shopping Cart</h1>
+				<h1 className="text-3xl font-bold mb-8 text-center">Shopping Cart</h1>
 				{cart && cart.quantities.length > 0 ? (
 					<div>
 						<div className="w-3/4 mx-auto">
@@ -58,12 +58,14 @@ function Products({ cart }) {
 						</div>
 					</div>
 				) : (
+					<div className="text-center mx-auto">
 					<Link
 						href={`/products`}
-						className="select-none my-[.5rem] text-3xl cursor-default text-center py-[30vh] h-[60vh] "
+						className="select-none my-[.5rem] text-3xl cursor-default py-[30vh] h-[60vh] cursor-pointer"
 					>
-						Nothing in cart, continue shopping
+						Nothing in cart, <span className="text-blue-400 underline underline-offset-[.5rem]">continue shopping</span>
 					</Link>
+					</div>
 				)}
 			</div>
 		</>
