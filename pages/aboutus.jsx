@@ -22,19 +22,15 @@ function aboutus() {
             <Header/>
             <div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
             <h2 className="select-none my-[1rem] py-[1rem] text-4xl cursor-default text-center" style={{fontFamily: "Syncopate"}}>About Us</h2>
-                <h3 className="pl-[15%] font-extrabold tracking-wider text-2xl pt-[.5rem]">Come and maximize yourself <br/> because when you maximize, we maximize</h3>
-                <br/>
-                <p className="pl-[15%] mr-[2rem] text-lg font-semibold">
-                    Our culture of care extends to our people, 
-                    <br/>stakeholders, customers and the planet! We do not
-                    <br/> believe in a one size fits all strategy. Our benefits
-                    <br/>and
-                    <br/>care policies are driven by empathy and
-                    <br/>customized
-                    <br/>to the unique needs of individuals . Because 
-                    <br/>when they and their families are cared for, they 
-                    <br/>can focus on doing their best work. We put your 
-                    <br/>hopes, dreams and endeavors first - always. 
+                <p className="pl-[15%] mr-[2rem] text-lg font-semibold mb-[2rem]">
+                    I am excited to announce the launch of my new venture,
+                    <br/><span className="font-bold tracking-wider text-2xl">Innovators' Hub -</span>
+                    <br/>A crowd funding application for projects of startups and e-commerce for selling products of startups.
+                    <br/>Our focus is to help get new and innovative projects off the ground and help them succeed.
+                    <br/> We will be using the <span className="font-bold tracking-wider text-2xl">Indian Postal Service</span> to deliver products to customers in <span className="font-bold tracking-wider text-2xl">India</span>.
+                    <br/>We understand how difficult it can be for new startups to get the funding they need to get their business up and running. 
+                    <br/>That's why our team is dedicated to making sure our application is easy to use and provides the best possible resources for businesses to get the <span className="font-bold tracking-wider text-2xl">Funds</span> they need. 
+                    <br/>We're confident that our application will be the <span className="font-bold tracking-wider text-2xl">Perfect Platform</span> for innovators to get their projects off the ground and into the hands of customers.
                 </p>
             </div>
         </>

@@ -24,6 +24,20 @@ function Home() {
             <Header/>
             {/* <button className="text-2xl flex mx-auto" onClick={() => openDraw()}>Sign-In</button> */}
             <h2 className="select-none my-[1rem] py-[1rem] text-4xl cursor-default text-center" onClick={() => openDraw()} style={{fontFamily: "Syncopate"}}>Home</h2>
+            <h3 className="pl-[15%] font-extrabold tracking-wider text-2xl pt-[.5rem]">Come and maximize yourself <br/> because when you maximize, we maximize</h3>
+                <br/>
+                <p className="pl-[15%] mr-[2rem] text-lg font-semibold mb-[2rem] ">
+                    Our culture of care extends to our people, 
+                    <br/>stakeholders, customers and the planet! We do not
+                    <br/> believe in a one size fits all strategy. Our benefits
+                    <br/>and
+                    <br/>care policies are driven by empathy and
+                    <br/>customized
+                    <br/>to the unique needs of individuals . Because 
+                    <br/>when they and their families are cared for, they 
+                    <br/>can focus on doing their best work. We put your 
+                    <br/>hopes, dreams and endeavors first - always. 
+                </p>
             <hr className="w-[90%] mx-auto mb-[1rem]"/>
             <h1 className="text-3xl mb-[2rem] text-center">CUSTOMER REVIEWS</h1>
                 <div className="select-none cursor-default mb-[2rem] flex justify-around flex-wrap text-black">
