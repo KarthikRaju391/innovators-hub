@@ -11,29 +11,35 @@ export default async function handle(req, res) {
 	}
 	try {
 		if (req.method === "GET") {
-			const users = await prisma.cart.findUnique({
+			const cart = await prisma.cart.findUnique({
 				where: {
 					userId: session.user.id,
 				},
 				include: {
-					products: {
-						include: {
-							startup: {
-								select: {
-									name: true,
-								},
-							},
-							category: true,
-						},
-					},
+					// products: {
+					// 	include: {
+					// 		startup: {
+					// 			select: {
+					// 				name: true,
+					// 			},
+					// 		},
+					// 		category: true,
+					// 	},
+					// },
 					quantities: {
 						include: {
-							product: true
-						}
+							product: true,
+						},
 					},
+					// quantities: {
+					// 	include: {
+					// 		product: true,
+					// 		quantity: true,
+					// 	},
+					// },
 				},
 			});
-			return res.json(users);
+			return res.json(cart);
 		} else if (req.method === "POST") {
 			const { productId, quantity } = req.body;
 			const cart = await prisma.cart.findUnique({

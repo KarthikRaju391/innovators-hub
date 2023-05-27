@@ -10,10 +10,24 @@ function Products({ cart }) {
 	const [load1, setLoad1] = useState(false);
 
 	const buyAllHandler = async () => {
+		const res = await fetch(`/api/cart/`);
+		const cartData = await res.json();
 		// all the items in the list should be added to the order list
 		setLoad1(true);
-		var items = data.map((i) => i.productId);
-		await console.log(items);
+		var items = cartData.quantities.map((i) => {
+			return { productId: i.productId, quantity: i.quantity };
+		});
+
+		const res1 = await fetch(`/api/order/`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(items),
+		});
+		const data = await res1.json();
+		console.log(data);
+
 		setLoad1(false);
 	};
 
@@ -74,11 +88,13 @@ export async function getServerSideProps(context) {
 		headers: {
 			"Content-Type": "application/json",
 			Cookie: context.req.headers.cookie,
-			'Cache-Control': 'no-cache'
+			"Cache-Control": "no-cache",
 		},
 	});
 
 	const cart = await res.json();
+
+	console.log(cart);
 	return {
 		props: {
 			cart: makeSerializable(cart),
