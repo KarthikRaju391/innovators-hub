@@ -8,7 +8,11 @@ export const authOptions = {
 		session({ session, user }) {
 			if (session.user) {
 				session.user.id = user.id;
+				session.user.name = user.name;
+				session.user.email = user.email;
+				session.user.contact = user.phoneNumber;
 				session.user.role = user.role;
+				session.user.address = user.address;
 			}
 			return session;
 		},

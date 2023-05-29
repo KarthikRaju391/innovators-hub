@@ -16,27 +16,11 @@ export default async function handle(req, res) {
 					userId: session.user.id,
 				},
 				include: {
-					// products: {
-					// 	include: {
-					// 		startup: {
-					// 			select: {
-					// 				name: true,
-					// 			},
-					// 		},
-					// 		category: true,
-					// 	},
-					// },
 					quantities: {
 						include: {
 							product: true,
 						},
 					},
-					// quantities: {
-					// 	include: {
-					// 		product: true,
-					// 		quantity: true,
-					// 	},
-					// },
 				},
 			});
 			return res.json(cart);
@@ -185,6 +169,13 @@ export default async function handle(req, res) {
 				},
 				include: { quantities: { include: { product: true } }, products: true },
 			});
+		} else if (req.method === "DELETE") {
+			await prisma.cart.delete({
+				where: {
+					userId: session.user.id,
+				},
+			});
+			return res.json({ message: "Cart deleted successfully" });
 		}
 	} catch (error) {
 		console.log(error);
