@@ -41,7 +41,7 @@ function SideNavUser({open, handleOpen}) {
         title: "Startup",
         itemId: "",
         subNav: [
-          { title: "Create Projects", itemId: "/user/startup/createproject" },
+          { title: "Create Projects", itemId: "/user/startup/project" },
           { title: "Sell Products", itemId: "/user/startup/sellproducts" },
           { title: "Create Products", itemId: "/user/startup/createproduct" },
           { title: "Orders", itemId: "/user/startup/orders" },
@@ -104,7 +104,7 @@ function SideNavUser({open, handleOpen}) {
                 items = {customerSidebar}       
                 activeItemId={activeItemId} 
                 onChange={async ({ event, item }) =>{
-                    await setActiveItemId(item.itemId)
+                    setActiveItemId(item.itemId)
                     event.preventDefault();
                     router.push(item.itemId);
                   }
