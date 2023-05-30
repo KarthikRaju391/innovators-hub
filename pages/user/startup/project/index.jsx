@@ -15,6 +15,17 @@ function createProject({ data }) {
 		router.push(`/user/startup/project/${id}/edit`);
 	};
 
+	const handleDelete = async (id) => {
+		const res = await fetch(`/api/project/${id}`, {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+			},
+		});
+		await res.json();
+		router.replace(router.asPath);
+	};
+
 	return (
 		<>
 			<LoginHeader />
@@ -27,10 +38,13 @@ function createProject({ data }) {
 			<div>
 				{data &&
 					data.map((project) => (
-						<p onClick={() => handleEdit(project.id)} key={project.id}>
-							{project.name}
-							<span>({project.startup.name})</span>
-						</p>
+						<>
+							<p onClick={() => handleEdit(project.id)} key={project.id}>
+								{project.name}
+								<span>({project.startup.name})</span>
+							</p>
+							<button onClick={() => handleDelete(project.id)}>Delete</button>
+						</>
 					))}
 			</div>
 		</>

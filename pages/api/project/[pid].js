@@ -40,6 +40,13 @@ export default async function handle(req, res) {
 				},
 			});
 			return res.json("Report updated");
+		} else if (req.method === "DELETE") {
+			await prisma.project.delete({
+				where: {
+					id: pid,
+				},
+			});
+			return res.json("Project deleted");
 		}
 	} catch (e) {
 		console.log(e);
