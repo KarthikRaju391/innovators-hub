@@ -193,8 +193,30 @@ model Order {
   updatedAt      DateTime         @updatedAt
   orderCost      Int
   user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  ProductOnOrder ProductOnOrder[]
-  Transaction    Transaction?
+  products       ProductOnOrder[]
+  transaction    Transaction?
+}
+
+model ProductOnOrder {
+  orderId         String
+  productId       String
+  productName     String
+  productQuantity Int
+  productPrice    Int
+  id              String @id @default(cuid())
+  order           Order  @relation(fields: [orderId], references: [id])
+}
+
+model Transaction {
+  id                    String  @id @default(cuid())
+  razorpayOrderId       String
+  razorpayPaymentId     String?
+  razorpaySignature     String?
+  razorpayPaymentLink   String?
+  razorpayPaymentStatus String?
+  razorpayPaymentAmount Int?
+  orderId               String? @unique
+  order                 Order?  @relation(fields: [orderId], references: [id])
 }
 
 model Cart {
@@ -249,27 +271,6 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
-}
-
-model ProductOnOrder {
-  orderId      String
-  productId    String
-  productName  String
-  productPrice Int
-  id           String @id
-  Order        Order  @relation(fields: [orderId], references: [id])
-}
-
-model Transaction {
-  id                    String  @id
-  razorpayOrderId       String
-  razorpayPaymentId     String?
-  razorpaySignature     String?
-  razorpayPaymentLink   String?
-  razorpayPaymentStatus String?
-  razorpayPaymentAmount Int?
-  orderId               String? @unique
-  Order                 Order?  @relation(fields: [orderId], references: [id])
 }
 
 enum userRole {
