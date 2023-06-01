@@ -198,12 +198,13 @@ model Order {
 }
 
 model ProductOnOrder {
-  orderId      String
-  productId    String
-  productName  String
-  productPrice Int
-  id           String @id @default(cuid())
-  order        Order  @relation(fields: [orderId], references: [id])
+  orderId         String
+  productId       String
+  productName     String
+  productQuantity Int
+  productPrice    Int
+  id              String @id @default(cuid())
+  order           Order  @relation(fields: [orderId], references: [id])
 }
 
 model Transaction {

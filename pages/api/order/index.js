@@ -58,6 +58,9 @@ export default async function handle(req, res) {
 							productId: product.id,
 							productName: product.name,
 							productPrice: product.price,
+							productQuantity: orderItems.find(
+								(item) => item.productId === product.id
+							).quantity,
 						})),
 					},
 					orderCost: totalPrice,
