@@ -1,12 +1,12 @@
-import { useContext, useState } from "react";
-import { Formik, FieldArray, Field, Form, useFormikContext } from "formik";
-import FileUpload from "../../../components/FileUpload";
-import DynamicFieldButtons from "../../../components/DynamicFieldButtons";
-import { initialValues } from "../../../InitialValues";
-import { app } from "../../../firebase";
-import PDFPreview from "../../../components/PDFPreview";
+import { useEffect, useContext, useState } from "react";
+import { Formik, FieldArray, Field, Form } from "formik";
+import FileUpload from "../../../../components/FileUpload";
+import DynamicFieldButtons from "../../../../components/DynamicFieldButtons";
+import { initialValues } from "../../../../InitialValues";
+import { app } from "../../../../firebase";
+import PDFPreview from "../../../../components/PDFPreview";
 import { getStorage, ref, deleteObject } from "firebase/storage";
-import SubmitContext from "../../../context/SubmitContext";
+import SubmitContext from "../../../../context/SubmitContext";
 import { useRouter } from "next/router";
 
 const Product = {
@@ -177,20 +177,42 @@ const renderFields = (fields, parentKey = "") => {
 };
 
 const DynamicForm = () => {
-	const { submitted, setSubmitted, updateProject, project } =
+	const { updated, setUpdated, updateProject, project } =
 		useContext(SubmitContext);
 	const router = useRouter();
 	const [pdfValues, setPdfValues] = useState(
 		project.projectReport.length > 0 ? project.projectReport : initialValues
 	);
 
+	// PdfReportGenerator
 	const handleSubmit = async (values) => {
-		updateProject({ projectReport: values });
-		setSubmitted(true);
+		const res = await fetch("/api/project", {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ ...project, projectReport: values }),
+		});
+
+		setUpdated(true);
+		updateProject({ projectReport: [] });
+		await res.json();
 	};
 
+	useEffect(() => {
+		// show the alert if the user tries to go back without saving
+		const alertUser = (e) => {
+			e.preventDefault();
+			e.returnValue = "";
+		};
+		window.addEventListener("beforeunload", alertUser);
+		return () => {
+			window.removeEventListener("beforeunload", alertUser);
+		};
+	}, []);
+
 	const handleBack = (values) => {
-		!submitted && updateProject({ projectReport: values });
+		!updated && updateProject({ projectReport: values });
 		router.back();
 	};
 

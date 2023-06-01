@@ -10,7 +10,7 @@ import SubmitContext from "../context/SubmitContext";
 import { initialValues } from "../InitialValues";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
-	const [submitted, setSubmitted] = useState(false);
+	const [updated, setUpdated] = useState(false);
 	const [project, setProject] = useState({
 		projectName: "",
 		projectDescription: "",
@@ -78,7 +78,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
 				<StyletronProvider value={styletron}>
 					<BaseProvider theme={theme === 1 ? LightTheme : DarkTheme}>
 						<SubmitContext.Provider
-							value={{ submitted, project, setSubmitted, updateProject }}
+							value={{ updated, project, setUpdated, updateProject }}
 						>
 							<Component {...pageProps} />
 						</SubmitContext.Provider>

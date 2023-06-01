@@ -1,15 +1,15 @@
 import React from "react";
 
 const SubmitContext = React.createContext({
-	submitted: false,
-	setSubmitted: () => {},
+	updated: false,
+	setUpdated: () => {},
 	project: {
 		projectName: "",
 		projectDescription: "",
 		projectImages: [],
 		projectReport: {},
 	},
-    setProject: () => {},
+	setProject: () => {},
 });
 
 export default SubmitContext;
