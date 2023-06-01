@@ -1,12 +1,21 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SubmitContext from "../context/SubmitContext";
 import { useRouter } from "next/router";
+import { Input } from "baseui/input";
+import { Textarea } from "baseui/textarea";
+import FileInput from "../components/FileInput";
+import { MdOutlineDeleteForever, MdOutlineTipsAndUpdates } from "react-icons/md";
+import { Button, SHAPE } from "baseui/button";
+import { HiDocumentAdd, HiPencilAlt } from "react-icons/hi";
+import { RxUpdate } from 'react-icons/rx';
 
 const ProjectForm = ({ edit = false, data = {} }) => {
 	const { updated, updateProject, project, setUpdated } =
 		useContext(SubmitContext);
 
 	const router = useRouter();
+	const [img, setImg] = useState("")
+	const [load, setLoad] = React.useState(false);
 
 	useEffect(() => {
 		if (edit) {
@@ -61,6 +70,7 @@ const ProjectForm = ({ edit = false, data = {} }) => {
 	};
 
 	const handleReport = async () => {
+		setLoad(true)
 		if (edit) {
 			if (data.projectReport.length > 0) {
 				updateProject({
@@ -78,39 +88,113 @@ const ProjectForm = ({ edit = false, data = {} }) => {
 				alert("Please fill out the form before adding a project report");
 			}
 		}
+		setLoad(false)
 	};
+
+	
 
 	return (
 		<form
 			onSubmit={handleSubmit}
 			className="flex flex-col items-center justify-center"
 		>
-			<label htmlFor="projectName">Project Name</label>
-			<input
+			<label htmlFor="projectName" className="font-semibold">Project Name</label>
+			<Input
+				name="projectName"
+				id="projectName"
+				value={project.projectName}
+				onChange={(e) => updateProject({ projectName: e.target.value })}
+				placeholder="Eg. Vertical Gardening System"
+				autoFocus
+				clearable
+				required
+				clearOnEscape
+				overrides={{
+					Root: {
+						style: ({ $theme }) => ({ width: "18rem" }),
+					},
+				}}
+			/>
+			{/* <input
 				type="text"
 				name="projectName"
 				id="projectName"
 				value={project.projectName}
 				onChange={(e) => updateProject({ projectName: e.target.value })}
-			/>
-			<label htmlFor="projectDescription">Project Description</label>
-			<input
+			/> */}
+			<label htmlFor="projectDescription" className="font-semibold mt-4">Project Description</label>
+			<div className="w-[18rem]">
+				<Textarea
+					name="projectDescription"
+					id="projectDescription"
+					value={project.projectDescription}
+					onChange={(e) => updateProject({ projectDescription: e.target.value })}
+					placeholder={`Reduce the space required by plants to grow by growing them on walls.`}
+					clearOnEscape
+				/>
+			</div>
+			{/* <input
 				type="text"
 				name="projectDescription"
 				id="projectDescription"
 				value={project.projectDescription}
 				onChange={(e) => updateProject({ projectDescription: e.target.value })}
-			/>
-			<label htmlFor="projectImage">Project Image</label>
-			<input type="file" name="projectImage" id="projectImage" />
-			<button onClick={handleReport} type="button">
+			/> */}
+			<label htmlFor="projectImage" className="font-semibold mt-4">Project Image</label>
+			{/* <input type="file" name="projectImage" id="projectImage" /> */}
+			<FileInput name="projectImage" id="projectImage" file={img} setFiles={setImg} type={"image/*"} />
+			<p className="flex justify-center gap-4 text-sm underline mb-5">{img && <>{img.path} <MdOutlineDeleteForever title="Delete Image" style={{fontSize: "1.5rem",}} onClick={()=>{setImg("")}} /></>}</p>
+			{/* <button onClick={handleReport} type="button">
 				{edit || data?.projectReport?.length > 0
 					? "Edit Project Report"
 					: "Add Project Report"}
-			</button>
-			<button type="submit">
+			</button> */}
+			{/* <button type="submit">
 				{edit ? "Update Project" : "Create Project"}
-			</button>
+			</button> */}
+			<div className="flex gap-4">
+			<Button
+				type="button"
+				onClick={handleReport}
+				isLoading={load}
+				overrides={{
+					BaseButton: {
+						style: ({ $theme }) => ({
+							backgroundColor: $theme.colors.accent500,
+						}),
+					},
+				}}
+				startEnhancer={
+					edit || data?.projectReport?.length > 0 
+					? <HiPencilAlt style={{ fontSize: "1.5rem" }} />
+					: <HiDocumentAdd style={{ fontSize: "1.5rem" }} />
+				}
+			>
+					{edit || data?.projectReport?.length > 0
+					? "Edit Project Report"
+					: "Add Project Report"}
+			</Button>
+
+			<Button
+				type="button"
+				onClick={handleReport}
+				isLoading={load}
+				overrides={{
+					BaseButton: {
+						style: ({ $theme }) => ({
+							backgroundColor: $theme.colors.accent500,
+						}),
+					},
+				}}
+				startEnhancer={
+					edit || data?.projectReport?.length > 0 
+					? <RxUpdate style={{ fontSize: "1.5rem" }} />
+					: <MdOutlineTipsAndUpdates style={{ fontSize: "1.5rem" }} />
+				}
+			>
+			{edit ? "Update Project" : "Create Project"}
+			</Button>
+			</div>
 		</form>
 	);
 };

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import BackButton from "../../../../components/BackButton";
 import LoginHeader from "../../../../components/LoginHeader";
 import { useRouter } from "next/router";
@@ -10,6 +10,15 @@ function createProject({ data }) {
 	// const { updated, updateProject, project } = useContext(SubmitContext);
 
 	const router = useRouter();
+	const [hydrated, setHydrated] = React.useState(false);
+    React.useEffect(() => {
+        setHydrated(true);
+    }, []);
+    if (!hydrated) {
+        // Returns null on first render, so the client and server match
+        return null;
+    }
+
 
 	const handleEdit = (id) => {
 		router.push(`/user/startup/project/${id}/edit`);
@@ -35,18 +44,22 @@ function createProject({ data }) {
 			</h2>
 			<ProjectForm />
 
-			<div>
+			<div className="border-2 border-zinc-800 rounded-3xl flex flex-wrap gap-4 mx-[2rem] px-[2rem] mt-4 min-h-[10rem] py-[2rem]">
 				{data &&
 					data.map((project) => (
-						<>
-							<p onClick={() => handleEdit(project.id)} key={project.id}>
-								{project.name}
-								<span>({project.startup.name})</span>
-							</p>
-							<button onClick={() => handleDelete(project.id)}>Delete</button>
-						</>
+						<div className="border-2 h-fit p-2 rounded-lg min-w-[15rem] min-h-[5rem]">
+							<div className="cursor-default" key={project.id}>
+								<p>{project.name || "-"}</p>
+								<p className="cursor-default text-xs">{project.startup.name || "-"}</p>
+							</div>
+							<div className="flex justify-end">
+								<button className="text-blue-600 mr-3 font-semibold" onClick={() => handleEdit(project.id)}>Edit</button>
+								<button className="text-red-600 font-semibold" onClick={() => handleDelete(project.id)}>Delete</button>
+							</div>
+						</div>
 					))}
 			</div>
+			<div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]" />
 		</>
 	);
 }
