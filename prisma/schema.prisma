@@ -194,6 +194,7 @@ model Order {
   orderCost      Int
   user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
   products       ProductOnOrder[]
+  startupIds     String[]
   transaction    Transaction?
 }
 
@@ -203,6 +204,7 @@ model ProductOnOrder {
   productName     String
   productQuantity Int
   productPrice    Int
+  startupId       String
   id              String @id @default(cuid())
   order           Order  @relation(fields: [orderId], references: [id])
 }

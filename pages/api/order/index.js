@@ -15,8 +15,9 @@ export default async function handle(req, res) {
 	}
 	try {
 		if (req.method === "GET") {
-			const users = await prisma.user.findMany({});
-			res.json(users);
+			// const users = await prisma.user.findMany({});
+			// res.json(users);
+			return res.json({ message: "done" });
 		} else if (req.method === "POST") {
 			const orderItems = req.body;
 			console.log(orderItems);
@@ -58,10 +59,14 @@ export default async function handle(req, res) {
 							productId: product.id,
 							productName: product.name,
 							productPrice: product.price,
+							startupId: product.startupId,
 							productQuantity: orderItems.find(
 								(item) => item.productId === product.id
 							).quantity,
 						})),
+					},
+					startupIds: {
+						set: [...new Set(products.map((product) => product.startupId))],
 					},
 					orderCost: totalPrice,
 					transaction: {

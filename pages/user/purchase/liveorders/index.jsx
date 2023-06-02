@@ -1,9 +1,10 @@
 import BackButton from "../../../../components/BackButton";
 import LoginHeader from "../../../../components/LoginHeader";
 import ProductCard from "../../../../components/ProductCard";
+import { useState } from "react";
 import { makeSerializable } from "../../../../lib/util";
 
-function Products() {
+function Products({products, initialCursor}) {
 	// show orders that are still "PENDING" or "COLLECTED"
     // Fetch after order is created.
 	const [cursor, setCursor] = useState(initialCursor);
@@ -35,10 +36,6 @@ function Products() {
 		setIsLoadingMore(false);
 	};
 
-	const loadMore = () => {
-		console.log("Load More...");
-	};
-
 	return (
 		<>
 			<BackButton />
@@ -47,7 +44,7 @@ function Products() {
 				Live Orders
 			</h2>
 			<div className="flex justify-center flex-wrap gap-4 grid-cols-2">
-				{data.map((i) => (
+				{loadedProducts.map((i) => (
 					<ProductCard
 						key={i.productId}
 						data={i}
@@ -56,7 +53,7 @@ function Products() {
 				))}
 			</div>
 			<p
-				onClick={loadMore}
+				onClick={loadMoreProducts}
 				className="select-none cursor-pointer mt-2 pt-2 text-center mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]"
 			>
 				Load More...

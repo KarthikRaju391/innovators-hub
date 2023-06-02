@@ -3,7 +3,6 @@ import { Input } from "baseui/input";
 import { Textarea } from "baseui/textarea";
 import { useState } from "react";
 import BackButton from "../../../components/BackButton";
-import FileInput from "../../../components/FileInput";
 import LoginHeader from "../../../components/LoginHeader";
 import { Button, SHAPE } from "baseui/button";
 import { useRouter } from "next/router";

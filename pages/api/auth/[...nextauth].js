@@ -5,7 +5,7 @@ import prisma from "../../../lib/prisma";
 
 export const authOptions = {
 	callbacks: {
-		session({ session, user }) {
+		async session({ session, user }) {
 			if (session.user) {
 				session.user.id = user.id;
 				session.user.name = user.name;
@@ -13,6 +13,24 @@ export const authOptions = {
 				session.user.contact = user.phoneNumber;
 				session.user.role = user.role;
 				session.user.address = user.address;
+
+				if (user.role.includes("ENTREPRENEUR")) {
+					const startup = await prisma.user.findUnique({
+						where: {
+							id: user.id,
+						},
+						include: {
+							entrepreneur: {
+								include: {
+									startup: true,
+								},
+							},
+						},
+					});
+					if (startup) {
+						session.user.startupId = startup.entrepreneur.startup.id;
+					}
+				}
 			}
 			return session;
 		},
