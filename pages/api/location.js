@@ -22,17 +22,18 @@ export default async function handle(req, res) {
 
 	try {
 		if (req.method === "POST") {
-			const { lat, long, sp, id } = req.body;
+			// const { lat, long, sp, id } = req.body;
 
-			const location = await prisma.location.create({
-				data: {
-					deviceId: id,
-					speed: sp,
-					latitude: lat,
-					longitude: long,
-				},
-			});
-			return res.json(location);
+			console.log(req.body);
+			// const location = await prisma.location.create({
+			// 	data: {
+			// 		deviceId: id,
+			// 		speed: sp,
+			// 		latitude: lat,
+			// 		longitude: long,
+			// 	},
+			// });
+			return res.json({ message: req.body });
 		}
 	} catch (err) {
 		console.log(err);
