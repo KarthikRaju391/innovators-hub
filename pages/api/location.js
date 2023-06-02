@@ -3,23 +3,6 @@ import prisma from "../../lib/prisma";
 import { authOptions } from "./auth/[...nextauth]";
 
 export default async function handle(req, res) {
-	// const session = await getServerSession(req, res, authOptions);
-
-	// if(!session) {
-	//     res.status(401).json({ error: "Not authenticated" });
-	//     return;
-	// }
-	// fetch ('/api/location', {
-	//     method: 'POST',
-	//     headers: {
-	//         'Content-Type': 'application/json'
-	//     },
-	//     body: JSON.stringify({
-	//         latitude: latitude,
-	//         longitude: longitude
-	//     })
-	// })
-
 	try {
 		if (req.method === "POST") {
 			const validJSONString = req.body.replace(/'/g, '"');
