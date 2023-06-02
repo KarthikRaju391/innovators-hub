@@ -22,8 +22,6 @@ export default async function handle(req, res) {
 
 	try {
 		if (req.method === "POST") {
-			// const { lat, long, sp, id } = req.body;
-			console.log(req.body);
 			const validJSONString = req.body.replace(/'/g, '"');
 			const jsonData = JSON.parse(validJSONString);
 
@@ -32,9 +30,9 @@ export default async function handle(req, res) {
 			const location = await prisma.location.create({
 				data: {
 					deviceId: id,
-					speed: sp,
-					latitude: lat,
-					longitude: long,
+					speed: parseFloat(sp),
+					latitude: parseFloat(lat),
+					longitude: parseFloat(long),
 				},
 			});
 			return res.json({ location });
