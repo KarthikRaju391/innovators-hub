@@ -22,12 +22,14 @@ export default async function handle(req, res) {
 
 	try {
 		if (req.method === "POST") {
-			const { latitude, longitude } = req.body;
+			const { lat, long, sp, id } = req.body;
 
 			const location = await prisma.location.create({
 				data: {
-					latitude: latitude,
-					longitude: longitude,
+					deviceId: id,
+					speed: sp,
+					latitude: lat,
+					longitude: long,
 				},
 			});
 			return res.json(location);

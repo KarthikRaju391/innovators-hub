@@ -261,8 +261,10 @@ model Admin {
 
 model Location {
   id        String   @id @default(cuid())
+  deviceId  String
   latitude  Float
   longitude Float
+  speed     Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

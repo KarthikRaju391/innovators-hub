@@ -12,8 +12,6 @@ function orders({ orders }) {
 			? JSON.parse(localStorage.getItem("theme"))
 			: 1;
 
-	console.log(orders, "orders");
-
 	// get user data & place them in data variable at line14
 
 	const data = [

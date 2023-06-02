@@ -10,7 +10,7 @@ function Header() {
 
 	return (
 		<nav className={`${classes.naver} flex`}>
-			<div className={classes.name}>Innovators' Hub</div>
+			<div className={classes.name} onClick={() => router.push('/')}>Innovators' Hub</div>
 			<ul className={classes.uls}>
 					<div className="flex">
 						<li className={classes.lis} onClick={()=>router.push("/")}>Home</li>
