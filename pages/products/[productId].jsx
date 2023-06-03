@@ -66,10 +66,10 @@ function productId({ product }) {
 			<BackButton />
 			<LoginHeader />
 
-			<div>
+			<div className="h-screen grid place-items-center">
 				{product && (
 					<div className="grid md:grid-cols-2">
-						<div className="flex justify-center flex-wrap gap-2  animate__animated animate__fadeInUp">
+						<div className="flex justify-center flex-wrap gap-2 animate__animated animate__fadeInUp">
 							{product.image.map(
 								(src, index) =>
 									src &&
@@ -78,8 +78,8 @@ function productId({ product }) {
 											src={src}
 											className="object-contain"
 											onClick={() => openImageViewer(index)}
-											width="550"
-											height="100"
+											width={550}
+											height={50}
 											key={index}
 											quality={100}
 											placeholder="blur"
@@ -120,10 +120,10 @@ function productId({ product }) {
 							<h2 className="font-bold text-xl text-left mt-2">
 								${product.price}
 							</h2>
-							<div className="flex justify-start">
+							<div className="flex">
 								<button
-									className="mt-4 mx-auto bg-gray-800 hover:bg-gray-700 rounded-md text-slate-200 p-4"
-									// onClick={handleClick}
+									className="mt-4 bg-gray-800 hover:bg-gray-700 rounded-md text-slate-200 p-4"
+									onClick={cartHandler}
 								>
 									{/* {added ? "Added to cart" : "Add to cart"} */}
 									Add to cart

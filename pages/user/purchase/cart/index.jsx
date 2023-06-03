@@ -59,12 +59,15 @@ function Products({ cart }) {
 					</div>
 				) : (
 					<div className="text-center mx-auto">
-					<Link
-						href={`/products`}
-						className="select-none my-[.5rem] text-3xl cursor-default py-[30vh] h-[60vh] cursor-pointer"
-					>
-						Nothing in cart, <span className="text-blue-400 underline underline-offset-[.5rem]">continue shopping</span>
-					</Link>
+						<Link
+							href={`/products`}
+							className="select-none my-[.5rem] text-3xl py-[30vh] h-[60vh] cursor-pointer"
+						>
+							Nothing in cart,{" "}
+							<span className="text-blue-400 underline underline-offset-[.5rem]">
+								continue shopping
+							</span>
+						</Link>
 					</div>
 				)}
 			</div>

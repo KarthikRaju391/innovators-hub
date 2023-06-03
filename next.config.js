@@ -3,7 +3,7 @@ module.exports = {
 	reactStrictMode: true,
 	images: {
 		formats: ["image/avif", "image/webp"],
-		domains: ["firebasestorage.googleapis.com"],
+		domains: ["firebasestorage.googleapis.com", "fakestoreapi.com"],
 		remotePatterns: [
 			{
 				protocol: "https",

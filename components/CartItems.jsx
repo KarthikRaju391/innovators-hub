@@ -74,27 +74,26 @@ function CartItems(props) {
 					<div className="flex justify-between items-center gap-2">
 						<button
 							className="border-2 border-gray-800 px-2 rounded-md flex text-2xl font-semibold"
-							// onClick={() => updateCart(item.product.id, item.quantity + 1)}
+							onClick={() => handleQuantityUpdate(quantity + 1)}
 						>
 							+
 						</button>
 						<button
 							className="border-2 border-gray-800 px-2 rounded-md flex text-2xl font-semibold"
-							// onClick={() => updateCart(item.product.id, item.quantity - 1)}
+							onClick={() => handleQuantityUpdate(quantity - 1)}
 						>
 							-
 						</button>
 					</div>
 					<button
 						className="mt-8 bg-red-500 hover:bg-red-600 px-4 py-2 text-slate-100"
-						onClick={() => removeFromCart(item.product.id)}
+						onClick={() => deleteItem(props.data.product.id)}
 					>
 						Remove
 					</button>
 				</div>
 			</div>
 		</div>
-
 	);
 }
 
