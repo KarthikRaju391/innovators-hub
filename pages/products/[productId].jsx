@@ -65,7 +65,7 @@ function productId({ product }) {
 			<BackButton />
 			<LoginHeader />
 
-			<div className="h-screen grid place-items-center">
+			<div className="h-[80vh] grid place-items-center">
 				{product && (
 					<div className="grid md:grid-cols-2">
 						<div className="flex justify-center flex-wrap gap-2 animate__animated animate__fadeInUp">
@@ -77,7 +77,7 @@ function productId({ product }) {
 											src={src}
 											className="object-contain"
 											onClick={() => openImageViewer(index)}
-											width={550}
+											width={350}
 											height={50}
 											key={index}
 											quality={100}
@@ -117,7 +117,7 @@ function productId({ product }) {
 							</p> */}
 							{/* <p className="text-left mt-2">{product.rating.count} reviews</p> */}
 							<h2 className="font-bold text-xl text-left mt-2">
-								${product.price}
+								₹{product.price}
 							</h2>
 							<div className="flex">
 								<button

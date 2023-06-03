@@ -59,6 +59,7 @@ function CartItems(props) {
 				<div className="md:w-1/4">
 					<img
 						className="object-cover"
+						width={200}
 						src={props?.data.product?.image && props?.data.product?.image[0]}
 						alt={props?.data.product?.name}
 					/>
@@ -66,7 +67,7 @@ function CartItems(props) {
 				<div className="md:w-1/2 mx-auto flex flex-col justify-center items-center">
 					<h1 className="text-2xl">{props.data.product.name}</h1>
 					<h2 className="text-xl font-bold">
-						${props.data.product.price * quantity}
+						₹{props.data.product.price * quantity}
 					</h2>
 					<h3 className="font-semibold mt-4">Quantity: {quantity}</h3>
 				</div>
