@@ -11,29 +11,19 @@ export default async function handle(req, res) {
 	}
 	try {
 		if (req.method === "GET") {
-			const users = await prisma.cart.findUnique({
+			const cart = await prisma.cart.findUnique({
 				where: {
 					userId: session.user.id,
 				},
 				include: {
-					products: {
-						include: {
-							startup: {
-								select: {
-									name: true,
-								},
-							},
-							category: true,
-						},
-					},
 					quantities: {
 						include: {
-							product: true
-						}
+							product: true,
+						},
 					},
 				},
 			});
-			return res.json(users);
+			return res.json(cart);
 		} else if (req.method === "POST") {
 			const { productId, quantity } = req.body;
 			const cart = await prisma.cart.findUnique({
@@ -179,6 +169,13 @@ export default async function handle(req, res) {
 				},
 				include: { quantities: { include: { product: true } }, products: true },
 			});
+		} else if (req.method === "DELETE") {
+			await prisma.cart.delete({
+				where: {
+					userId: session.user.id,
+				},
+			});
+			return res.json({ message: "Cart deleted successfully" });
 		}
 	} catch (error) {
 		console.log(error);

@@ -3,7 +3,6 @@ import { Input } from "baseui/input";
 import { Textarea } from "baseui/textarea";
 import { useState } from "react";
 import BackButton from "../../../../../components/BackButton";
-import FileInput from "../../../../../components/FileInput";
 import LoginHeader from "../../../../../components/LoginHeader";
 import { Button, SHAPE } from "baseui/button";
 import { useRouter } from "next/router";
@@ -137,7 +136,7 @@ function edit() {
             </div>
             
             <div className="mx-auto" style={{width: "18rem"}}>
-            <FormControl label={() => "Image 1 Of The Product: "} caption={() => "Required*"}>
+            {/* <FormControl label={() => "Image 1 Of The Product: "} caption={() => "Required*"}>
             <>
                 <FileInput file={file1} setFiles={img1} type={"image/*"} />
                 <p className="flex justify-center gap-4">{file1 && <>{file1.path} <MdOutlineDeleteForever title="Delete Image" style={{fontSize: "1.5rem",}} onClick={()=>{setFile1(undefined)}} /></>}</p>
@@ -163,7 +162,7 @@ function edit() {
                 <FileInput file={file4} setFiles={img4} type={"image/*"} />
                 <p className="flex justify-center gap-4">{file4 && <>{file4.path} <MdOutlineDeleteForever title="Delete Image" style={{fontSize: "1.5rem",}} onClick={()=>{setFile4(undefined)}} /></>}</p>
             </>
-            </FormControl>
+            </FormControl> */}
             </div>
             </div>
             <div className="grid justify-center">

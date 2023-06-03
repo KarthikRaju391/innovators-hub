@@ -331,6 +331,7 @@ export default async function handle(req, res) {
 						address: data.address,
 						gender: data.gender[0].id,
 						panNumber: data.ppanNumber,
+						address: data.address,
 						entrepreneur: {
 							update: {
 								startup: {

@@ -1,22 +1,21 @@
 import * as React from "react";
 import Header from "../components/Header";
 import SideNavUser from "../components/SideNav/SideNavUser";
-// import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import {CgQuote} from "react-icons/cg"
+import { CgQuote } from "react-icons/cg";
 
 function Home() {
+	const [isOpen, setIsOpen] = React.useState(false);
+	const router = useRouter();
 
-    const [isOpen, setIsOpen] = React.useState(false);
-    const router = useRouter();
+	var handleOpen = () => {
+		setIsOpen(false);
+	};
 
-    var handleOpen = () =>{
-        setIsOpen(false)
-    }
-
-    var openDraw = () =>{
-        setIsOpen(true)
-    }
+	var openDraw = () => {
+		setIsOpen(true);
+	};
 
     return (
         <div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
@@ -48,11 +47,19 @@ function Home() {
                         <br/><p className="text-right pr-[2rem] mt-[1rem]">- Susana <br/>Santos</p>
                     </div>
 
-                    <div class="box-border bg-white border border-gray-300 px-[2rem] pb-[2rem] mb-[1rem]">
-                        <CgQuote fontSize={"3rem"}/>
-                        <p className="text-center">What an amazing shopping <br/>experience! I tried other jewelers and <br/>didn't find anything <br/>I liked. Thank you so much.<br/></p>
-                        <p className="text-right pr-[2rem] mt-[1rem]">- Tracy <br/>Willis</p>
-                    </div>
+				<div className="box-border bg-white border border-gray-300 px-[2rem] pb-[2rem] mb-[1rem]">
+					<CgQuote fontSize={"3rem"} />
+					<p className="text-center">
+						What an amazing shopping <br />
+						experience! I tried other jewelers and <br />
+						didn't find anything <br />I liked. Thank you so much.
+						<br />
+					</p>
+					<p className="text-right pr-[2rem] mt-[1rem]">
+						- Tracy <br />
+						Willis
+					</p>
+				</div>
 
                     <div class="box-border bg-white border border-gray-300 px-[2rem] pb-[2rem] mb-[1rem]">
                         <CgQuote fontSize={"3rem"}/>

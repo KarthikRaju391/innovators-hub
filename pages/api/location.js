@@ -3,34 +3,53 @@ import prisma from "../../lib/prisma";
 import { authOptions } from "./auth/[...nextauth]";
 
 export default async function handle(req, res) {
-	// const session = await getServerSession(req, res, authOptions);
-
-	// if(!session) {
-	//     res.status(401).json({ error: "Not authenticated" });
-	//     return;
-	// }
-	// fetch ('/api/location', {
-	//     method: 'POST',
-	//     headers: {
-	//         'Content-Type': 'application/json'
-	//     },
-	//     body: JSON.stringify({
-	//         latitude: latitude,
-	//         longitude: longitude
-	//     })
-	// })
-
 	try {
 		if (req.method === "POST") {
-			const { latitude, longitude } = req.body;
+			const validJSONString = req.body.replace(/'/g, '"');
+			const jsonData = JSON.parse(validJSONString);
+
+			const { lat, long, sp, id } = jsonData;
+
+			if (
+				lat === "0" ||
+				lat === "0.00" ||
+				long === "0" ||
+				long === "0.00" ||
+				sp === "0" ||
+				sp === "0.00"
+			) {
+				return res.status(400).json({ error: "Missing required fields" });
+			}
+
+			const existingLocation = await prisma.location.findFirst({
+				where: {
+					deviceId: id,
+				},
+			});
+
+			if (existingLocation) {
+				const location = await prisma.location.update({
+					where: {
+						id: existingLocation.id,
+					},
+					data: {
+						speed: parseFloat(sp),
+						latitude: parseFloat(lat),
+						longitude: parseFloat(long),
+					},
+				});
+				return res.json({ location });
+			}
 
 			const location = await prisma.location.create({
 				data: {
-					latitude: latitude,
-					longitude: longitude,
+					deviceId: id,
+					speed: parseFloat(sp),
+					latitude: parseFloat(lat),
+					longitude: parseFloat(long),
 				},
 			});
-			return res.json(location);
+			return res.json({ location });
 		}
 	} catch (err) {
 		console.log(err);

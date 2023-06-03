@@ -145,13 +145,16 @@ function productId({ product }) {
 
 export async function getServerSideProps(context) {
 	const { productId } = context.query;
-	const res = await fetch(`${process.env.NEXT_APP_URL}/api/products/${productId}`, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-			Cookie: context.req.headers.cookie,
-		},
-	});
+	const res = await fetch(
+		`${process.env.NEXT_APP_URL}/api/products/${productId}`,
+		{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Cookie: context.req.headers.cookie,
+			},
+		}
+	);
 	const product = await res.json();
 	return {
 		props: {

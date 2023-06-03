@@ -51,11 +51,10 @@ function productId({ product }) {
 		if (!res.ok) {
 			console.error("Error adding to cart");
 		} else {
-			const cart = res.json();
-			console.log(cart);
+			await res.json();
 		}
 
-		if (session.product) {
+		if (session) {
 			setLoad2(true);
 			setLoad2(false);
 		} else signIn();

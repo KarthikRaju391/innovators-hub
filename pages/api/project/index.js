@@ -9,50 +9,55 @@ export default async function handle(req, res) {
 		return;
 	}
 	try {
-		if (req.method === "GET") {
-			const startup = await prisma.user.findUnique({
-				where: {
-					id: session.user.id,
-				},
-				include: {
-					entrepreneur: {
-						include: {
-							startup: {
-								select: {
-									id: true,
-								},
+		const startup = await prisma.user.findUnique({
+			where: {
+				id: session.user.id,
+			},
+			include: {
+				entrepreneur: {
+					include: {
+						startup: {
+							select: {
+								id: true,
 							},
 						},
 					},
 				},
-			});
+			},
+		});
+
+		if (req.method === "GET") {
 			const project = await prisma.project.findMany({
-				// where: {
-				// 	startupId: startup.entrepreneur.startup.id,
-				// },
+				where: {
+					startupId: startup.entrepreneur.startup.id,
+				},
 				include: {
 					startup: true,
 				},
 			});
 			return res.json(project);
 		} else if (req.method === "POST") {
-			const startup = await prisma.user.findUnique({
-				where: {
-					id: session.user.id,
-				},
-				include: {
-					entrepreneur: {
-						include: {
-							startup: {
-								select: {
-									id: true,
-								},
-							},
+			const { projectName, projectDescription, projectImages, projectReport } =
+				req.body;
+
+			const project = await prisma.project.create({
+				data: {
+					startup: {
+						connect: {
+							id: startup.entrepreneur.startup.id,
 						},
 					},
+					name: projectName,
+					description: projectDescription,
+					image: {
+						set: projectImages,
+					},
+					projectReport: projectReport,
 				},
 			});
 
+			return res.json({project});
+		} else if (req.method === "PUT") {
 			const projectExists = await prisma.project.findUnique({
 				where: {
 					startupId: startup.entrepreneur.startup.id,
@@ -80,27 +85,6 @@ export default async function handle(req, res) {
 				});
 				return res.json("Report updated");
 			}
-
-			const { projectName, projectDescription, projectImages, projectReport } =
-				req.body;
-
-			await prisma.project.create({
-				data: {
-					startup: {
-						connect: {
-							id: startup.entrepreneur.startup.id,
-						},
-					},
-					name: projectName,
-					description: projectDescription,
-					image: {
-						set: projectImages,
-					},
-					projectReport: projectReport,
-				},
-			});
-
-			return res.json({ message: "Project created" });
 		}
 	} catch (error) {
 		console.log(error);
