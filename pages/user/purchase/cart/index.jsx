@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { makeSerializable } from "../../../../lib/util";
 import CartItems from "../../../../components/CartItems";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 
 function Products({ cart }) {
 	const [load1, setLoad1] = useState(false);
@@ -142,7 +143,7 @@ function Products({ cart }) {
 						</div>
 						<div className="flex justify-center w-full">
 							<button
-								// onClick={handleOrder}
+								onClick={buyAllHandler}
 								className="w-3/4 bg-gray-800 hover:bg-gray-700 py-4 text-xl text-slate-200"
 							>
 								Place Order
