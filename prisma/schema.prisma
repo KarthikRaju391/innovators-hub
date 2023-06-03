@@ -116,6 +116,8 @@ model Product {
   startup      Startup?      @relation(fields: [startupId], references: [id])
   cart         Cart[]        @relation("CartToProduct")
   category     Category[]    @relation("CategoryToProduct")
+  Order        Order?        @relation(fields: [orderId], references: [id])
+  orderId      String?
 }
 
 model Category {
@@ -127,25 +129,26 @@ model Category {
 }
 
 model Startup {
-  id              String           @id @default(cuid())
-  name            String
-  description     String?
-  images          String[]
-  panNumber       String           @unique
-  gstNumber       String
-  industry        String[]
-  stage           String?
-  location        String
-  website         String?
-  email           String?
-  social          String[]
-  createdAt       DateTime         @default(now())
-  updatedAt       DateTime         @updatedAt
-  entrepreneur    Entrepreneur?
-  post            Post[]
-  products        Product[]
-  project         Project[]
-  productsOnOrder ProductOnOrder[]
+  id           String         @id @default(cuid())
+  name         String
+  description  String?
+  images       String[]
+  products     Product[]
+  panNumber    String         @unique
+  gstNumber    String
+  post         Post[]
+  industry     String[]
+  stage        String?
+  location     String
+  website      String?
+  email        String?
+  social       String[]
+  project      Project[]
+  entrepreneur Entrepreneur[]
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  ProductOnOrder ProductOnOrder[]
 }
 
 model Investor {
@@ -185,42 +188,18 @@ model Project {
 }
 
 model Order {
-  id             String           @id @default(cuid())
+  id             String    @id @default(cuid())
   userId         String
   quantity       Int
   deliverTo      String
-  deliveryStatus Status           @default(PENDING)
+  deliveryStatus Status    @default(PENDING)
+  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  products       Product[]
+
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
-  orderCost      Int
-  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
-  products       ProductOnOrder[]
-  startupIds     String[]
-  transaction    Transaction?
-}
-
-model ProductOnOrder {
-  id              String  @id @default(cuid())
-  orderId         String
-  productId       String
-  productName     String
-  productQuantity Int
-  productPrice    Int
-  startupId       String
-  startup         Startup @relation(fields: [startupId], references: [id])
-  order           Order   @relation(fields: [orderId], references: [id])
-}
-
-model Transaction {
-  id                    String  @id @default(cuid())
-  razorpayOrderId       String
-  razorpayPaymentId     String?
-  razorpaySignature     String?
-  razorpayPaymentLink   String?
-  razorpayPaymentStatus String?
-  razorpayPaymentAmount Int?
-  orderId               String? @unique
-  order                 Order?  @relation(fields: [orderId], references: [id])
+  ProductOnOrder ProductOnOrder[]
+  Transaction    Transaction?
 }
 
 model Cart {
@@ -277,6 +256,30 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model ProductOnOrder {
+  orderId         String
+  productId       String
+  productName     String
+  productQuantity Int
+  productPrice    Int
+  startupId       String
+  id              String  @id
+  Order           Order   @relation(fields: [orderId], references: [id])
+  Startup         Startup @relation(fields: [startupId], references: [id])
+}
+
+model Transaction {
+  id                    String  @id
+  razorpayOrderId       String
+  razorpayPaymentId     String?
+  razorpaySignature     String?
+  razorpayPaymentLink   String?
+  razorpayPaymentStatus String?
+  razorpayPaymentAmount Int?
+  orderId               String? @unique
+  Order                 Order?  @relation(fields: [orderId], references: [id])
 }
 
 enum userRole {

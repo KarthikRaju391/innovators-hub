@@ -64,7 +64,75 @@ function productId({ product }) {
 		<>
 			<BackButton />
 			<LoginHeader />
-			<h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">
+
+			<div className="h-screen grid place-items-center">
+				{product && (
+					<div className="grid md:grid-cols-2">
+						<div className="flex justify-center flex-wrap gap-2 animate__animated animate__fadeInUp">
+							{product.image.map(
+								(src, index) =>
+									src &&
+									index === 0 && (
+										<Image
+											src={src}
+											className="object-contain"
+											onClick={() => openImageViewer(index)}
+											width={550}
+											height={50}
+											key={index}
+											quality={100}
+											placeholder="blur"
+											blurDataURL="blur"
+											alt={product.name}
+										/>
+									)
+							)}
+
+							{isViewerOpen && (
+								<ImageViewer
+									src={product.image.filter((el) => el !== undefined)}
+									currentIndex={currentImage}
+									disableScroll={false}
+									closeOnClickOutside={true}
+									onClose={closeImageViewer}
+								/>
+							)}
+						</div>
+						<div className="md:w-3/4 mx-auto md:py-20">
+							<h1 className="text-2xl text-left">{product.name}</h1>
+							{product.category && (
+								<>
+									<p className="font-light text-left cursor-default">
+										{product.category.map((item) => item.name).join(", ")}
+									</p>
+									{/* <br /> */}
+								</>
+							)}
+							<p className="font-medium text-left mt-2 break-all">
+								{product.description}
+							</p>
+							{/* <p className="flex justify-start items-center mt-4">
+								<Star />
+								{product.rating.rate}
+							</p> */}
+							{/* <p className="text-left mt-2">{product.rating.count} reviews</p> */}
+							<h2 className="font-bold text-xl text-left mt-2">
+								${product.price}
+							</h2>
+							<div className="flex">
+								<button
+									className="mt-4 bg-gray-800 hover:bg-gray-700 rounded-md text-slate-200 p-4"
+									onClick={cartHandler}
+								>
+									{/* {added ? "Added to cart" : "Add to cart"} */}
+									Add to cart
+								</button>
+							</div>
+						</div>
+					</div>
+				)}
+			</div>
+			{/* <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">
 				{product.name}
 			</h2>
 			<div className="my-2 py-2 ml-5 pl-5 flex justify-center flex-wrap gap-2 grid-cols-2 animate__animated animate__fadeInUp">
@@ -109,28 +177,6 @@ function productId({ product }) {
 				</>
 			)}
 			<div className="flex gap-2 flex-wrap mb-2 pb-5 justify-center animate__animated animate__fadeInUp">
-				{/* {product.build && (
-					<>
-						<p className="mx-10 cursor-default select-none">
-							<span className="text-xl cursor-default select-none">Build:</span>{" "}
-							<br />
-							{product.build}
-						</p>
-						<br />
-					</>
-				)} */}
-				{/* {product.quality && (
-					<>
-						<p className="mx-10 cursor-default select-none">
-							<span className="text-xl cursor-default select-none">
-								Quality:
-							</span>{" "}
-							<br />
-							{product.quality}
-						</p>
-						<br />
-					</>
-				)} */}
 				{product.price && (
 					<>
 						<p className="mx-10 cursor-default select-none">
@@ -197,20 +243,23 @@ function productId({ product }) {
 				>
 					Add To Cart
 				</Button>
-			</div>
+			</div> */}
 		</>
 	);
 }
 
 export async function getServerSideProps(context) {
 	const { productId } = context.query;
-	const res = await fetch(`${process.env.NEXT_APP_URL}/api/products/${productId}`, {
-		method: "GET",
-		headers: {
-			"Content-Type": "application/json",
-			Cookie: context.req.headers.cookie,
-		},
-	});
+	const res = await fetch(
+		`${process.env.NEXT_APP_URL}/api/products/${productId}`,
+		{
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				Cookie: context.req.headers.cookie,
+			},
+		}
+	);
 	const product = await res.json();
 	return {
 		props: {

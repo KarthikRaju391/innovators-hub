@@ -54,45 +54,44 @@ function CartItems(props) {
 	};
 
 	return (
-		<div className="flex gap-x-5 items-center justify-around w-[80%] bg-slate-600 rounded-2xl text-slate-200">
-			<img
-				className="h-[15rem] w-[12rem] object-contain"
-				src={props?.data.product?.image && props?.data.product?.image[0]}
-				alt="Product Image"
-				loading="lazy"
-			/>
-			<div className="flex flex-wrap justify-between gap-y-2 gap-x-5 items-center w-[60%]">
+		<div className="border-t-2 py-8">
+			<div className="flex flex-col md:flex-row items-center mx-auto">
+				<div className="md:w-1/4">
+					<img
+						className="object-cover"
+						src={props?.data.product?.image && props?.data.product?.image[0]}
+						alt={props?.data.product?.name}
+					/>
+				</div>
+				<div className="md:w-1/2 mx-auto flex flex-col justify-center items-center">
+					<h1 className="text-2xl">{props.data.product.name}</h1>
+					<h2 className="text-xl font-bold">
+						${props.data.product.price * quantity}
+					</h2>
+					<h3 className="font-semibold mt-4">Quantity: {quantity}</h3>
+				</div>
 				<div>
-					<p className="break-all">{props.data.product.name}</p>
-					<p>{"₹ " + props.data.product.price}</p>
+					<div className="flex justify-between items-center gap-2">
+						<button
+							className="border-2 border-gray-800 px-2 rounded-md flex text-2xl font-semibold"
+							onClick={() => handleQuantityUpdate(quantity + 1)}
+						>
+							+
+						</button>
+						<button
+							className="border-2 border-gray-800 px-2 rounded-md flex text-2xl font-semibold"
+							onClick={() => handleQuantityUpdate(quantity - 1)}
+						>
+							-
+						</button>
+					</div>
+					<button
+						className="mt-8 bg-red-500 hover:bg-red-600 px-4 py-2 text-slate-100"
+						onClick={() => deleteItem(props.data.product.id)}
+					>
+						Remove
+					</button>
 				</div>
-				<div className="flex gap-4">
-					<HiPlusCircle
-						fontSize={"1.5rem"}
-						onClick={() => handleQuantityUpdate(quantity + 1)}
-					/>
-					<p>{quantity}</p>
-					<HiMinusCircle
-						fontSize={"1.5rem"}
-						onClick={() => handleQuantityUpdate(quantity - 1)}
-					/>
-				</div>
-				<div title="Remove item">
-					<RiDeleteBin2Fill
-						fontSize={"1.5rem"}
-						onClick={(e) => deleteItem(props.data.product.id)}
-					/>
-				</div>
-				<p
-					className="break-keep cursor-pointer select-none outline outline-offset-2 outline-slate-300 hover:bg-slate-300 hover:text-slate-900 rounded-lg p-.5"
-					onClick={() => {
-						props.url != undefined || props.url != null
-							? router.push(props.url)
-							: router.push(router.asPath);
-					}}
-				>
-					View More...
-				</p>
 			</div>
 		</div>
 	);
