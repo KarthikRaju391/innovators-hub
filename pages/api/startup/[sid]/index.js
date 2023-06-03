@@ -1,6 +1,6 @@
 import prisma from "../../../../lib/prisma";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]";
+import { authOptions } from "../../../auth/[...nextauth]";f
 
 export default async function handle(req, res) {
 	const session = await getServerSession(req, res, authOptions);
@@ -10,13 +10,7 @@ export default async function handle(req, res) {
 	}
 	try {
 		if (req.method === "GET") {
-			const { sid } = req.query;
-			const orders = await prisma.order.findMany({
-				where: {
-					startupIds: {
-						has: sid,
-					},
-				},
+			const orders = await prisma.startup.findMany({
 				include: {
 					products: true,
 					user: true,

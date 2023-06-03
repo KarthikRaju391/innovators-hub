@@ -15,7 +15,7 @@ export default async function handle(req, res) {
 		if (req.method === "GET") {
 			const { cursor } = req.query;
 
-			const take = 1;
+			const take = 4;
 
 			const where = cursor
 				? { createdAt: { lt: new Date(parseInt(cursor)) } }

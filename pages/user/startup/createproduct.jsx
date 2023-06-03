@@ -56,7 +56,8 @@ function createproduct() {
 				body: JSON.stringify(productData),
 			});
 			router.back();
-		} else alert("Inserting image 1 is compulsory"); //modal
+		}
+		// else alert("Inserting image 1 is compulsory"); //modal
 	};
 
 	return (

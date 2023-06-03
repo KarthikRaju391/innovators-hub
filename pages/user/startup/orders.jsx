@@ -3,9 +3,13 @@ import LoginHeader from "../../../components/LoginHeader";
 import { Accordion, Panel } from "baseui/accordion";
 import { Button, SIZE, SHAPE } from "baseui/button";
 import { makeSerializable } from "../../../lib/util";
-import { getSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
+import { useState } from "react";
+import { Status } from "@prisma/client";
 
 function orders({ orders }) {
+	const [parcelReady, setParcelReady] = useState(false);
+	const { data: session } = useSession();
 	var currentTheme;
 	currentTheme =
 		typeof window !== "undefined"
@@ -14,32 +18,19 @@ function orders({ orders }) {
 
 	// get user data & place them in data variable at line14
 
-	const data = [
-		{
-			productName: "Product 1",
-			productId: "1",
-			orders: [
-				{ name: "Customer 1", pieces: "1", orderId: "1" },
-				{ name: "Customer 2", pieces: "2", orderId: "2" },
-			],
-		},
-		{
-			productName: "Product 2",
-			productId: "2",
-			orders: [
-				{ name: "Customer 1", pieces: "1", orderId: "3" },
-				{ name: "Customer 2", pieces: "2", orderId: "4" },
-			],
-		},
-		{
-			productName: "Product 3",
-			productId: "3",
-			orders: [
-				{ name: "Customer 1", pieces: "1", orderId: "5" },
-				{ name: "Customer 2", pieces: "2", orderId: "6" },
-			],
-		},
-	];
+	const handleParcelReady = async (orderId) => {
+		const res = await fetch(
+			`/api/startup/${session.user.startupId}/order/${orderId}`,
+			{
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			}
+		);
+		await res.json();
+		setParcelReady(true);
+	};
 
 	return (
 		<>
@@ -81,38 +72,17 @@ function orders({ orders }) {
 								<p>Location: {order.deliverTo}</p>
 							</div>
 							<Button
-								onClick={() => console.log(order.id)}
+								onClick={() => handleParcelReady(order.id)}
 								size={SIZE.compact}
+								disabled={parcelReady || order.deliveryStatus === "READY"}
 								shape={SHAPE.pill}
 							>
-								{" "}
-								Parcel Ready{" "}
+								{parcelReady || order.deliveryStatus === "READY"
+									? "Ready"
+									: "Parcel Ready"}
 							</Button>
 						</Panel>
 					))}
-
-					{/* onChange={({ expanded }) => console.log(expanded)} */}
-					{/* {orders.products.map((product) => (
-						<Panel title={product.productName} key={product.productId}>
-							{product.orders.map((order) => (
-								<div
-									key={order.orderId}
-									className="flex gap-4 items-center mt-1 pt-1"
-								>
-									<p>Name: {order.name}</p>
-									<p>Pieces Ordered: {order.pieces}</p>
-									<Button
-										onClick={() => console.log(order.orderId)}
-										size={SIZE.compact}
-										shape={SHAPE.pill}
-									>
-										{" "}
-										Parcel Ready{" "}
-									</Button>
-								</div>
-							))}
-						</Panel>
-					))} */}
 				</Accordion>
 			</div>
 		</>
@@ -124,7 +94,7 @@ export default orders;
 export async function getServerSideProps(context) {
 	const session = await getSession(context);
 	const ordersApi = await fetch(
-		`${process.env.NEXT_APP_URL}/api/startup/${session.user.startupId}/orders`,
+		`${process.env.NEXT_APP_URL}/api/startup/${session.user.startupId}/order`,
 		{
 			method: "GET",
 			headers: {

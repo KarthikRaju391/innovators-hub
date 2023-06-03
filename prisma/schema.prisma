@@ -127,24 +127,25 @@ model Category {
 }
 
 model Startup {
-  id           String        @id @default(cuid())
-  name         String
-  description  String?
-  images       String[]
-  panNumber    String        @unique
-  gstNumber    String
-  industry     String[]
-  stage        String?
-  location     String
-  website      String?
-  email        String?
-  social       String[]
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  entrepreneur Entrepreneur?
-  post         Post[]
-  products     Product[]
-  project      Project[]
+  id              String           @id @default(cuid())
+  name            String
+  description     String?
+  images          String[]
+  panNumber       String           @unique
+  gstNumber       String
+  industry        String[]
+  stage           String?
+  location        String
+  website         String?
+  email           String?
+  social          String[]
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  entrepreneur    Entrepreneur?
+  post            Post[]
+  products        Product[]
+  project         Project[]
+  productsOnOrder ProductOnOrder[]
 }
 
 model Investor {
@@ -199,14 +200,15 @@ model Order {
 }
 
 model ProductOnOrder {
+  id              String  @id @default(cuid())
   orderId         String
   productId       String
   productName     String
   productQuantity Int
   productPrice    Int
   startupId       String
-  id              String @id @default(cuid())
-  order           Order  @relation(fields: [orderId], references: [id])
+  startup         Startup @relation(fields: [startupId], references: [id])
+  order           Order   @relation(fields: [orderId], references: [id])
 }
 
 model Transaction {
