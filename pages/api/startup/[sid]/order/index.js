@@ -11,15 +11,17 @@ export default async function handle(req, res) {
 	try {
 		if (req.method === "GET") {
 			const { sid } = req.query;
-			const orders = await prisma.order.findMany({
+			console.log(sid)
+			const orders = await prisma.productOnOrder.findMany({
 				where: {
-					startupIds: {
-						has: sid,
-					},
+					startupId: sid,
 				},
 				include: {
-					products: true,
-					user: true,
+					order: {
+						include: {
+							user: true,
+						},
+					},
 				},
 			});
 			return res.json(orders);

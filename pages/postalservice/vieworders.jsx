@@ -3,12 +3,19 @@ import LoginHeader from "../../components/LoginHeader";
 import { Button, SIZE } from "baseui/button";
 import { fetcher } from "../../lib/util";
 import useSWR from "swr";
+import { useRouter } from "next/router";
+import { useState } from "react";
 
 function viewmanager() {
 	const { data, error, isLoading } = useSWR(
-		"/api/postalService/orders",
+		"/api/postalService/orders?deliveryStatus=Ready",
 		fetcher
 	);
+
+	const [orderCollected, setOrderCollected] = useState(false);
+	const [orderDelivered, setOrderDelivered] = useState(false);
+
+	const router = useRouter();
 
 	if (isLoading) {
 		console.log("orders data loading");
@@ -18,15 +25,31 @@ function viewmanager() {
 		console.log(data, "orders data");
 	}
 
-	// get order data
-	var collected = (pro) => {
-		pro["collected"] = true;
-		console.log(pro);
+	const handleCollected = async (orderId) => {
+		setOrderCollected(true);
+		const res = await fetch(`/api/postalService/orders/${orderId}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ deliveryStatus: "Collected" }),
+		});
+
+		const data = await res.json();
+		router.replace(router.asPath);
 	};
 
-	var delivered = (pro) => {
-		pro["delivered"] = true;
-		console.log(pro);
+	const handleDelivered = async (orderId) => {
+		setOrderDelivered(true);
+		const res = await fetch(`/api/postalService/orders/${orderId}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ deliveryStatus: "Delivered" }),
+		});
+		const data = await res.json();
+		router.replace(router.asPath);
 	};
 
 	var tblContent = data?.map((product, i) => (
@@ -34,17 +57,31 @@ function viewmanager() {
 			{" "}
 			<td className="col">{product.startup.location}</td>{" "}
 			<td className="col">{product.order.deliverTo}</td>{" "}
-			<td className="col">{new Date(product.order.createdAt).toLocaleDateString()}</td>{" "}
+			<td className="col">
+				{new Date(product.order.createdAt).toLocaleDateString()}
+			</td>{" "}
 			<td className="col">{product.productName}</td>{" "}
 			<td className="col">{product.startup.email}</td>{" "}
 			<td className="col">{product.order.user.phoneNumber}</td>{" "}
 			<td className="col">
-				<Button onClick={() => collected(e)} size={SIZE.compact}>
+				<Button
+					onClick={() => handleCollected(product.order.id)}
+					disabled={
+						orderCollected || product.order.deliveryStatus === "Collected"
+					}
+					size={SIZE.compact}
+				>
 					Collected
 				</Button>
 			</td>{" "}
 			<td className="col">
-				<Button onClick={() => delivered(e)} size={SIZE.compact}>
+				<Button
+					onClick={() => handleDelivered(product.order.id)}
+					disabled={
+						orderDelivered || product.order.deliveryStatus === "Delivered"
+					}
+					size={SIZE.compact}
+				>
 					Delivered
 				</Button>
 			</td>{" "}
@@ -59,7 +96,7 @@ function viewmanager() {
 				View Orders
 			</h2>
 
-			{data ? (
+			{data?.length > 0 ? (
 				<div className="flex overflow-x-auto">
 					<table className="mx-auto mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
 						<thead>
@@ -79,7 +116,11 @@ function viewmanager() {
 				</div>
 			) : (
 				<p className="mt-2 cursor-default text-center mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
-					No Orders Yet
+					{isLoading
+						? "Loading..."
+						: data.length === 0
+						? "No Orders Yet"
+						: "Error"}{" "}
 				</p>
 			)}
 		</>

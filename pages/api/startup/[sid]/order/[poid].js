@@ -2,6 +2,7 @@ import prisma from "../../../../../lib/prisma";
 import { getServerSession } from "next-auth";
 import { authOptions } from "../../../auth/[...nextauth]";
 import { Status } from "@prisma/client";
+import { checkOrderReadiness } from "../../../../../lib/checkOrderReadiness";
 
 export default async function handle(req, res) {
 	const session = await getServerSession(req, res, authOptions);
@@ -24,17 +25,20 @@ export default async function handle(req, res) {
 			});
 			return res.json(order);
 		} else if (req.method === "PUT") {
-			const { oid } = req.query;
-			const updatedOrder = await prisma.order.update({
+			const { poid } = req.query;
+			const updatedProductStatus = await prisma.productOnOrder.update({
 				where: {
-					id: oid,
+					id: poid,
 				},
 				data: {
-					deliveryStatus: Status.READY,
+					readyToShip: true,
 				},
 			});
 
-			return res.json(updatedOrder);
+			// check if all products are ready
+			await checkOrderReadiness(updatedProductStatus.orderId);
+
+			return res.json(updatedProductStatus);
 		}
 	} catch (error) {
 		console.log(error);

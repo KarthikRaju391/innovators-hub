@@ -8,7 +8,7 @@ function Forbidden() {
 
 	const router = useRouter()
 
-	setTimeout(()=>{router.push("/")},2000)
+	// setTimeout(()=>{router.push("/")},2000)
 
 	return (
 		<>

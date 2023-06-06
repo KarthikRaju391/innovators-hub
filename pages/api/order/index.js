@@ -49,7 +49,11 @@ export default async function handle(req, res) {
 
 			const createdOrder = await prisma.order.create({
 				data: {
-					userId: session.user.id,
+					user: {
+						connect: {
+							id: session.user.id,
+						},
+					},
 					quantity: orderItems.reduce((acc, item) => {
 						return acc + item.quantity;
 					}, 0),

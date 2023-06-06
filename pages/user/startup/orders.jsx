@@ -5,11 +5,11 @@ import { Button, SIZE, SHAPE } from "baseui/button";
 import { makeSerializable } from "../../../lib/util";
 import { getSession, useSession } from "next-auth/react";
 import { useState } from "react";
-import { Status } from "@prisma/client";
 
-function orders({ orders }) {
+function orders({ products }) {
 	const [parcelReady, setParcelReady] = useState(false);
 	const { data: session } = useSession();
+
 	var currentTheme;
 	currentTheme =
 		typeof window !== "undefined"
@@ -18,9 +18,9 @@ function orders({ orders }) {
 
 	// get user data & place them in data variable at line14
 
-	const handleParcelReady = async (orderId) => {
+	const handleParcelReady = async (productId) => {
 		const res = await fetch(
-			`/api/startup/${session.user.startupId}/order/${orderId}`,
+			`/api/startup/${session.user.startupId}/order/${productId}`,
 			{
 				method: "PUT",
 				headers: {
@@ -50,36 +50,26 @@ function orders({ orders }) {
 						},
 					}}
 				>
-					{orders.map((order) => (
+					{products.map((product) => (
 						<Panel
-							title={`Order ID: ${order.id}`}
-							key={order.id}
+							title={product.productName}
+							key={product.id}
 							// expanded={expandedOrderId === order.orderId}
 							// onClick={() => handlePanelClick(order.orderId)}
 						>
-							{order.products.map((product) => (
-								<div>
-									<div key={product.productId}>
-										<p>{product.productName}</p>
-										<p>{product.productPrice}</p>
-										<p>{product.productQuantity}</p>
-									</div>
-								</div>
-							))}
 							<div>
-								<p>Order Total: {order.orderCost}</p>
-								<p>Deliver to: {order.user.name}</p>
-								<p>Location: {order.deliverTo}</p>
+								<p>Quantity: {product.productQuantity}</p>
+								<p>Price: {product.productPrice}</p>
+								<p>Deliver to: {product.order.user.name}</p>
+								<p>Location: {product.order.deliverTo}</p>
 							</div>
 							<Button
-								onClick={() => handleParcelReady(order.id)}
+								onClick={() => handleParcelReady(product.id)}
 								size={SIZE.compact}
-								disabled={parcelReady || order.deliveryStatus === "READY"}
+								disabled={parcelReady || product.ready}
 								shape={SHAPE.pill}
 							>
-								{parcelReady || order.deliveryStatus === "READY"
-									? "Ready"
-									: "Parcel Ready"}
+								{parcelReady || product.ready ? "Ready" : "Parcel Ready"}
 							</Button>
 						</Panel>
 					))}
@@ -104,11 +94,11 @@ export async function getServerSideProps(context) {
 		}
 	);
 
-	const orders = await ordersApi.json();
+	const products = await ordersApi.json();
 
 	return {
 		props: {
-			orders: makeSerializable(orders),
+			products: makeSerializable(products),
 		},
 	};
 }

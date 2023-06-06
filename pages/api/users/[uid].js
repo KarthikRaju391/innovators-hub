@@ -6,7 +6,6 @@ import { authOptions } from "../auth/[...nextauth]";
 export default async function handle(req, res) {
 	const session = await getServerSession(req, res, authOptions);
 
-	console.log(session);
 	const { uid } = req.query;
 
 	if (!session) {
@@ -32,9 +31,6 @@ export default async function handle(req, res) {
 			const data = req.body;
 			const updatedRole = data.type;
 			const prevRole = session.user.role.slice(1);
-
-			console.log(updatedRole, prevRole);
-
 			if (updatedRole[0] && updatedRole[1] && prevRole.length === 0) {
 				const updatedUser = await prisma.user.update({
 					where: {
@@ -86,6 +82,7 @@ export default async function handle(req, res) {
 					data: {
 						name: data.name,
 						bio: data.bio,
+						address: data.address,
 						phoneNumber: data.phoneNumber,
 						role: {
 							set: [userRole.USER],
@@ -107,6 +104,7 @@ export default async function handle(req, res) {
 						name: data.name,
 						bio: data.bio,
 						phoneNumber: data.phoneNumber,
+						address: data.address,
 						gender: data.gender[0].id,
 						panNumber: null,
 						role: {
@@ -124,6 +122,7 @@ export default async function handle(req, res) {
 						name: data.name,
 						bio: data.bio,
 						phoneNumber: data.phoneNumber,
+						address: data.address,
 						gender: data.gender[0].id,
 						panNumber: data.ppanNumber,
 						role: {
@@ -149,6 +148,7 @@ export default async function handle(req, res) {
 						name: data.name,
 						bio: data.bio,
 						phoneNumber: data.phoneNumber,
+						address: data.address,
 						role: {
 							set: [userRole.USER, userRole.INVESTOR, userRole.ENTREPRENEUR],
 						},
@@ -194,6 +194,7 @@ export default async function handle(req, res) {
 						name: data.name,
 						bio: data.bio,
 						phoneNumber: data.phoneNumber,
+						address: data.address,
 						role: {
 							set: [userRole.USER, userRole.INVESTOR, userRole.ENTREPRENEUR],
 						},
@@ -211,6 +212,7 @@ export default async function handle(req, res) {
 					data: {
 						name: data.name,
 						bio: data.bio,
+						address: data.address,
 						phoneNumber: data.phoneNumber,
 						role: {
 							set: [userRole.USER, userRole.INVESTOR],
@@ -234,6 +236,7 @@ export default async function handle(req, res) {
 							set: [userRole.USER, userRole.ENTREPRENEUR],
 						},
 						email: session.user.email,
+						address: data.address,
 						panNumber: data.ppanNumber,
 						gender: data.gender[0].id,
 						entrepreneur: {
@@ -275,6 +278,7 @@ export default async function handle(req, res) {
 						name: data.name,
 						bio: data.bio,
 						phoneNumber: data.phoneNumber,
+						address: data.address,
 						role: {
 							set: [userRole.USER],
 						},
@@ -298,6 +302,7 @@ export default async function handle(req, res) {
 						bio: data.bio,
 						phoneNumber: data.phoneNumber,
 						gender: data.gender[0].id,
+						address: data.address,
 						role: {
 							set: [userRole.USER],
 						},

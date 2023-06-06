@@ -18,10 +18,8 @@ import { useSession } from "next-auth/react";
 //personal pan: ABCDE1234F
 //startup pan: ABCE12345F
 
-function manage({ data }) {
+function manage({ user }) {
 	const router = useRouter();
-
-	const user = { ...data };
 	const [name, setName] = React.useState(user.name || "");
 	const [bio, setBio] = React.useState(user.bio ? user.bio : "");
 	const [phoneNumber, setPhoneNumber] = React.useState(user.phoneNumber || "");
@@ -29,7 +27,12 @@ function manage({ data }) {
 	const [address, setAddress] = React.useState(
 		user.address ? user.address : ""
 	);
-	const [gender, setGender] = React.useState([{ id: user?.gender }]); //user.gender ? user.gender : ""
+	const [gender, setGender] = React.useState([
+		user.gender
+			? { label: user.gender, id: user.gender }
+			: { label: "Female", id: "Female" },
+	]);
+
 	const [load, setLoad] = React.useState(false);
 	//investor details #Note: variable name changed please verify
 	const [ppanNumber, setPpanNumber] = React.useState(
@@ -64,7 +67,7 @@ function manage({ data }) {
 	const genderdrop = [
 		{ label: "Male", id: "Male" },
 		{ label: "Female", id: "Female" },
-		{ label: "Others", id: "Other" },
+		{ label: "Other", id: "Other" },
 	];
 
 	const submit1 = async (e) => {
@@ -201,7 +204,6 @@ function manage({ data }) {
 									value={name}
 									onChange={(e) => setName(e.target.value)}
 									placeholder="Eg. Suresh Kumar"
-									pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
 									autoFocus
 									clearable
 									required
@@ -233,7 +235,7 @@ function manage({ data }) {
 									placeholder="Eg. 9656732560"
 									clearable
 									required
-									pattern="^[6-9]\d{9}$"
+									pattern="((\+*)((0[ -]*)*|((91 )*))((\d{12})+|(\d{10})+))|\d{5}([- ]*)\d{6}"
 									type="tel"
 									clearOnEscape
 									overrides={{
@@ -254,7 +256,7 @@ function manage({ data }) {
 									clearable
 									required
 									type="email"
-									pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
+									pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}"
 									clearOnEscape
 									overrides={{
 										Root: {
@@ -281,7 +283,7 @@ function manage({ data }) {
 									value={gender}
 									placeholder="Select Gender"
 									onChange={(params) => {
-										setGender(params.value[0].id);
+										setGender(params.value);
 									}}
 									overrides={{
 										ControlContainer: {
@@ -337,7 +339,7 @@ function manage({ data }) {
 								value={ppanNumber}
 								onChange={(e) => setPpanNumber(e.target.value)}
 								placeholder="XXXXXXXXXX"
-								pattern="^[A-Z]{5}[0-9]{4}[A-Z]{1}$"
+								pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
 								clearable
 								disabled={!investorRole}
 								required
@@ -388,7 +390,6 @@ function manage({ data }) {
 									value={startupName}
 									onChange={(e) => setStartupName(e.target.value)}
 									placeholder="Eg. Infotech Solutions"
-									pattern="^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$"
 									autoFocus
 									clearable
 									required
@@ -424,7 +425,7 @@ function manage({ data }) {
 									value={startupPanNumber}
 									onChange={(e) => setStartuppanNumber(e.target.value)}
 									placeholder="XXXXXXXXXX"
-									pattern="^[A-Z]{4}[0-9]{5}[A-Z]{1}$"
+									pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
 									clearable
 									disabled={!startupRole}
 									required
@@ -501,7 +502,7 @@ export async function getServerSideProps(context) {
 	const data = await res.json();
 	return {
 		props: {
-			data: makeSerializable(data),
+			user: makeSerializable(data),
 		},
 	};
 }

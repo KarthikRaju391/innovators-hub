@@ -116,7 +116,6 @@ model Product {
   startup      Startup?      @relation(fields: [startupId], references: [id])
   cart         Cart[]        @relation("CartToProduct")
   category     Category[]    @relation("CategoryToProduct")
-  Order        Order?        @relation(fields: [orderId], references: [id])
   orderId      String?
 }
 
@@ -148,7 +147,7 @@ model Startup {
 
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
-  ProductOnOrder ProductOnOrder[]
+  productOnOrder ProductOnOrder[]
 }
 
 model Investor {
@@ -188,18 +187,19 @@ model Project {
 }
 
 model Order {
-  id             String    @id @default(cuid())
+  id             String           @id @default(cuid())
   userId         String
   quantity       Int
   deliverTo      String
-  deliveryStatus Status    @default(PENDING)
-  user           User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  products       Product[]
+  orderCost      Int
+  startupIds     String[]
+  deliveryStatus Status           @default(PENDING)
+  user           User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  products       ProductOnOrder[]
+  transaction    Transaction?
 
-  createdAt      DateTime         @default(now())
-  updatedAt      DateTime         @updatedAt
-  ProductOnOrder ProductOnOrder[]
-  Transaction    Transaction?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Cart {
@@ -259,19 +259,20 @@ model VerificationToken {
 }
 
 model ProductOnOrder {
-  orderId         String
+  id              String  @id @default(cuid())
+  orderId         String  @unique
   productId       String
   productName     String
   productQuantity Int
   productPrice    Int
   startupId       String
-  id              String  @id
-  Order           Order   @relation(fields: [orderId], references: [id])
-  Startup         Startup @relation(fields: [startupId], references: [id])
+  readyToShip     Boolean @default(false)
+  order           Order   @relation(fields: [orderId], references: [id])
+  startup         Startup @relation(fields: [startupId], references: [id])
 }
 
 model Transaction {
-  id                    String  @id
+  id                    String  @id @default(cuid())
   razorpayOrderId       String
   razorpayPaymentId     String?
   razorpaySignature     String?
@@ -279,7 +280,7 @@ model Transaction {
   razorpayPaymentStatus String?
   razorpayPaymentAmount Int?
   orderId               String? @unique
-  Order                 Order?  @relation(fields: [orderId], references: [id])
+  order                 Order?  @relation(fields: [orderId], references: [id])
 }
 
 enum userRole {

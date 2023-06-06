@@ -11,11 +11,15 @@ export default async function handle(req, res) {
 	}
 	try {
 		if (req.method === "GET") {
-			const users = await prisma.user.findMany({});
-			res.json(users);
+			const result = await prisma.postalService.findMany({});
+			res.json(result);
 		} else if (req.method === "POST") {
-			const user = await prisma.user.create({
-				data: req.body,
+			const { email, accessType } = req.body;
+			const user = await prisma.postalService.create({
+				data: {
+					email,
+					accessType: accessType.toUpperCase(),
+				},
 			});
 			return res.json(user);
 		}
