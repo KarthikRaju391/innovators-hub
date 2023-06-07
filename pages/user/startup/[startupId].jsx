@@ -64,13 +64,14 @@ function startupId() {
             </>}
 
             { startup.team.length > 0 && <> <hr className="w-[90%] mx-auto mb-[1rem]"/>
-                <div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
+                <div className="mb-[1rem] pb-[1rem] ">
                     <h3 className="text-2xl cursor-default ml-[20%] font-semibold mb-4">Our Team:</h3>
                     <div className="ml-[5%] pl-[5%] flex flex-wrap ">
                         {startup.team.map((e, i)=>(<p className="cursor-default break-all">{ `${i!==0 ? "," : ""} ${e.trim()}` }</p>))}
                     </div>
                 </div>
             </>}
+            <div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]" />
         </>
     );
 }
