@@ -25,31 +25,50 @@ var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className={`row anim
     <>
         <BackButton/>
         <LoginHeader/>
-          <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">{initial.projectName}</h2>
-          <h2 className="select-none my-[.5rem] py-[.5rem] text-2xl cursor-default text-center animate__animated animate__fadeInUp">Startup: {initial.startupName}</h2>
-          <h2 className="select-none text-lg cursor-default text-center animate__animated animate__fadeInUp">Invested Amount:{initial.amount}</h2>
-          <h2 className="select-none text-lg cursor-default text-center animate__animated animate__fadeInUp">Investment Date:{initial.investmentDate}</h2>
-          <h2 className="select-none text-lg cursor-default text-center animate__animated animate__fadeInUp">Contact:{initial.ownerEmail}</h2>
+          <h2 className="select-none flex my-[.5rem] py-[.5rem] text-3xl cursor-default justify-center gap-4">{initial.projectName} </h2>
+  
+          <div className="flex flex-wrap justify-around gap-4 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
+                <div>
+                    <div>
+                        <h2 className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center"> Project Details </h2>
+                        <div className='text-justify'>
+                          <p className="select-none mt-[.5rem] pt-[.5rem] text-lg cursor-default animate__animated animate__fadeInUp">Startup: {initial.startupName}</p>
+                          <p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">Investment Requirement:{initial.investmentRequired}</p>
+                          <p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">Publish Date:{initial.publishDate}</p>
+                          <p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">Contact:{initial.ownerEmail}</p>
+                        </div>
+                        {/* add more */}
+                    </div>
+                    <br/> <br/>
+                    <div>
+                        <h2 className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center"> Project Report Over View </h2>
+                        {/* add more */}
+                    </div>
+                    <br/> <br/>
+                    <div>
+                        <p className='mt-5 cursor-default text-center text-lg underline'>List of backers</p>
 
-        <embed className='mx-auto mt-3 pt-3 w-[90%] h-[100vh] ' src={`data:application/pdf;base64,${initial.file}`} />
-        
-        <p className='mt-5 cursor-default text-center text-lg underline'>List of backers</p>
+                        {initial?.backers?.length > 0 ? (
+                        <div className='grid justify-center'>
+                        <table className='mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]'>
+                            <thead>
+                            <tr className='animate__animated animate__fadeInUp'>
+                                <th>Name</th>
+                                <th>Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {tblContent}
+                            </tbody>
+                        </table>
+                        </div>
+                        ) : <p className='mt-2 cursor-default text-center mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]'>No Backers Yet</p> }
+                    </div>
+                </div>
 
-        {initial?.backers?.length > 0 ? (
-          <div className='grid justify-center'>
-          <table className='mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]'>
-            <thead>
-              <tr className='animate__animated animate__fadeInUp'>
-                <th>Name</th>
-                <th>Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tblContent}
-            </tbody>
-          </table>
-          </div>
-        ) : <p className='mt-2 cursor-default text-center mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]'>No Backers Yet</p> }
+                <embed className='min-w-[40%] h-[100vh]' src={`data:application/pdf;base64,${""}`} />
+                {/* change the src according to requirement. if the report is in base64 the just add the paramater inside `${}` | else replace complete src */}
+            </div>
         {/* <p className='mt-5 cursor-default text-center underline'>No file to display</p> */}
     </>
   )

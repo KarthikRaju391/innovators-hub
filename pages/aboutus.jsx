@@ -29,7 +29,7 @@ function aboutus() {
                 </p>
             </div>
 
-            <Link href={"/termsandconditions"} className="text-blue-800 text-center cursor-pointer select-none mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">Click Here To View TERMS & CONDITIONS</Link>
+            <Link href={"/termsandconditions"} className="text-blue-800 flex justify-center text-lg cursor-pointer select-none mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">Click Here To View TERMS & CONDITIONS</Link>
         </>
     );
 }

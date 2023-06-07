@@ -49,7 +49,9 @@ const CommentForm = ({ parentId = null }) => {
 
     return (
             <form className="" onSubmit={(e) => handleSubmit(e)}>
-                <div className="mx-4 my-3"><Textarea value={body} required name="comment" id="comment" onChange={e => setBody(e.target.value)} placeholder="Write your comment here..." clearOnEscape /></div> 
+                <div className="mx-4 my-3">
+                    <Textarea value={body} required name="comment" id="comment" onChange={e => setBody(e.target.value)} placeholder="Write your comment here..." clearOnEscape />
+                </div> 
                 {/* w-[18rem] md:w-[22rem] */}
                 <div className="mx-4"><Button type="submit" shape={SHAPE.pill} > {parentId ? "Post Reply" : "Post Comment"} </Button></div>
             </form>

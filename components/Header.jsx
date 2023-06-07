@@ -23,6 +23,9 @@ function Header() {
 						{session && (<li onClick={() => router.push("/user")} className={classes.lis}>Dashboard</li>)}	
 						{session && (<li onClick={() => signOut()} className={classes.lis}>Logout</li>)}	
 					</div>
+					<div className="flex">
+						<li className={classes.lis} onClick={()=>router.push("/posts")}>Community Forum</li>
+					</div>
 			</ul>
 		</nav>
 
