@@ -1,12 +1,15 @@
 import BackButton from '../../../../components/BackButton';
 import LoginHeader from '../../../../components/LoginHeader';
-import { Button } from "baseui/button";
 import { useState } from 'react';
 import { FaHandsHelping } from 'react-icons/fa';
 import { useSession } from 'next-auth/react';
 import {FiEdit} from 'react-icons/fi'
 import {MdOutlineVideoCameraFront} from 'react-icons/md'
+import {SiRazorpay} from 'react-icons/si'
 import { useRouter } from 'next/router';
+import { Modal, ModalHeader, ModalBody, SIZE, ROLE } from "baseui/modal";
+import { Input } from "baseui/input";
+import { Button, KIND } from "baseui/button";
 
 
 export default function investmentHistoryId() {
@@ -28,11 +31,14 @@ export default function investmentHistoryId() {
 
 const [load1, setLoad1] = useState(false);
 const [load2, setLoad2] = useState(false);
+const [isOpen, setIsOpen] = useState(false)
 
 const router = useRouter()
+const [amount, setAmount] = useState("");
 
 const buyHandler = async() =>{
   setLoad1(true)
+  setIsOpen(true)
   await console.log(initial.projectId + " investing")
   setLoad1(false)
 }
@@ -43,11 +49,57 @@ const meethandler = async() =>{
   setLoad2(false)
 }
 
+const payHandler = async(e)=>{
+  e.preventDefault()
+  console.log("Paying " + amount)
+  setIsOpen(false)
+}
+
 var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className="row animate__animated animate__fadeInUp"> <td className='col'>{e.name}</td> <td className='col'>{e.amount}</td> </tr> )) 
   return (
     <>
         <BackButton/>
         <LoginHeader/>
+
+        <Modal
+          onClose={() => setIsOpen(false)}
+          closeable
+          isOpen={isOpen}
+          animate
+          autoFocus
+          size={SIZE.default}
+          role={ROLE.dialog}
+          >
+          <ModalHeader>INVESTING!!!</ModalHeader>
+          <ModalBody>
+            <p className='text-sm cursor-pointer mb-2 text-center' onClick={e=>router.push("/termsandconditions")}>Please go through <span className='underline'>TERMS & CONDITIONS</span> before investing.</p>
+            <form onSubmit={e=>payHandler(e)} className='flex flex-col justify-center items-center gap-4'>
+              <Input
+                value={amount}
+                onChange={e => setAmount(e.target.value)}
+                placeholder="Amount"
+                type="number"
+                clearable
+                clearOnEscape
+                startEnhancer="₹"
+                autoComplete="on"
+                autoFocus
+                min={0}
+                required
+                overrides={{
+                  Root: { style: ({ $theme }) => ({ width: 18 }) }
+                }}
+              />
+              <div className='flex gap-4'>
+                <p className='cursor-pointer font-semibold text-lg text-fuchsia-600' onClick={e=>setAmount("500")}>500</p>
+                <p className='cursor-pointer font-semibold text-lg text-fuchsia-600' onClick={e=>setAmount("1000")}>1000</p>
+                <p className='cursor-pointer font-semibold text-lg text-fuchsia-600' onClick={e=>setAmount("2000")}>2000</p>
+              </div>
+              <Button type='Submit' overrides={{ BaseButton: { style: ({ $theme }) => ({ backgroundColor: $theme.colors.positive300, }) } }} startEnhancer={<SiRazorpay style={{fontSize: "1.5rem"}}/>} >Pay Now</Button>
+            </form>
+          </ModalBody>
+        </Modal>
+
           <h2 className="select-none flex my-[.5rem] py-[.5rem] text-3xl cursor-default justify-center gap-4">{initial.projectName} {session.data?.user?.id === initial.creatorId && <FiEdit className='animate__animated animate__fadeInRight' title='Edit The Information' style={{cursor: "pointer"}} onClick={()=>router.push(`http://localhost:3000/user/startup/project/${initial?.projectId}/edit`)} />}</h2>
   
           <div className="flex flex-wrap justify-around gap-4 mb-[1rem] pb-[1rem]">
