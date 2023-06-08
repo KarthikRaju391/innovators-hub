@@ -66,10 +66,10 @@ function orders({ products }) {
 							<Button
 								onClick={() => handleParcelReady(product.id)}
 								size={SIZE.compact}
-								disabled={parcelReady || product.ready}
+								disabled={parcelReady || product.readyToShip}
 								shape={SHAPE.pill}
 							>
-								{parcelReady || product.ready ? "Ready" : "Parcel Ready"}
+								{parcelReady || product.readyToShip ? "Ready" : "Parcel Ready"}
 							</Button>
 						</Panel>
 					))}

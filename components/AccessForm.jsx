@@ -3,12 +3,14 @@ import { Select } from "baseui/select";
 import { FormControl } from "baseui/form-control";
 import { Input } from "baseui/input";
 import { Button, SHAPE } from "baseui/button";
+import { useRouter } from "next/router";
 
 function AccessForm(props) {
 	// handle POST request to set access
 	const [allowEmail, setAllowEmail] = React.useState("");
 	const [access, setAccess] = React.useState("");
 	const [load, setLoad] = React.useState(false);
+	const router = useRouter();
 
 	const assignHandleSubmit = async (e) => {
 		//submit Allot Access form from here
@@ -21,8 +23,8 @@ function AccessForm(props) {
 			},
 			body: JSON.stringify({ email: allowEmail, accessType: access[0]?.id }),
 		});
-		const data = await res.json();
-		console.log(data);
+		await res.json();
+		router.replace(router.asPath);
 		props.closeOpen();
 	};
 
