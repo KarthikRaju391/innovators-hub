@@ -1,14 +1,17 @@
+import { useRouter } from 'next/router';
 import BackButton from '../../../../components/BackButton';
 import LoginHeader from '../../../../components/LoginHeader';
 
 export default function investmentHistoryId() {
 
+    const router = useRouter()
   //get data regarding the project & set them accordingly in the `var initial` at Line10
   var initial ={
     projectName: 'Project',
     projectId: 10,
     ownerEmail: "s@g.co",
     startupName: "Company",
+    startupId:10,
     amount: "5000",
     investmentDate: "18/12/2022",
     backers: [{name: "Karthik", amount: 2000}, {name: "Harsha", amount: 1000}, {name: "Ram", amount: 2000},],
@@ -32,7 +35,7 @@ var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className={`row anim
                     <div>
                         <h2 className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center"> Project Details </h2>
                         <div className='text-justify'>
-                          <p className="select-none mt-[.5rem] pt-[.5rem] text-lg cursor-default animate__animated animate__fadeInUp">Startup: {initial.startupName}</p>
+                          <p className="select-none mt-[.5rem] pt-[.5rem] text-lg cursor-default animate__animated animate__fadeInUp cursor-pointer" onClick={e=>router.push(`/user/startup/${initial.startupId}`)}>Startup: {initial.startupName}</p>
                           <p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">Investment Requirement:{initial.investmentRequired}</p>
                           <p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">Publish Date:{initial.publishDate}</p>
                           <p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">Contact:{initial.ownerEmail}</p>
