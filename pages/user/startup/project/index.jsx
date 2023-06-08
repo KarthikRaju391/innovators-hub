@@ -47,10 +47,10 @@ function createProject({ data }) {
 			<div className="border-2 border-zinc-800 rounded-3xl flex flex-wrap gap-4 mx-[2rem] px-[2rem] mt-4 min-h-[10rem] py-[2rem]">
 				{data &&
 					data.map((project) => (
-						<div className="border-2 h-fit p-2 rounded-lg min-w-[15rem] min-h-[5rem]">
-							<div className="cursor-default" key={project.id}>
+						<div className="border-2 h-fit p-2 rounded-lg min-w-[15rem] min-h-[5rem] cursor-pointer select-none" title={`View project ${project.name || "-"}`} >
+							<div className="" key={project.id} onClick={e=>router.push(`/user/startup/project/${project.id}/about`)}>
 								<p>{project.name || "-"}</p>
-								<p className="cursor-default text-xs">{project.startup.name || "-"}</p>
+								<p className="text-xs">{project.startup.name || "-"}</p>
 							</div>
 							<div className="flex justify-end">
 								<button className="text-blue-600 mr-3 font-semibold" onClick={() => handleEdit(project.id)}>Edit</button>

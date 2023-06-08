@@ -30,9 +30,9 @@ function investmenthistory({ projects }) {
 				<div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2">
 					{projects.map((i) => (
 						<Card
-							head={i.name}
+							head={i.name || "-"}
 							key={i.id}
-							para={i.startup.name}
+							para={i.startup.name || "-"}
 							url={`/user/investments/venture/${i.projectId}`}
 						/>
 					))}

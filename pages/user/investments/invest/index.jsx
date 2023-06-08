@@ -16,7 +16,7 @@ function investmenthistory() {
                 <div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2">
                     {initial.map((i) => (
                         <Badge content={ i.status || ""} color={ i.status === "Seeding" ? COLOR.accent : COLOR.negative }>
-                            <Card head={i.projectName} key={i.projectId} para={i.startupName} url={`/user/investments/invest/${i.projectId}`} />   
+                            <Card head={i.projectName || "-"} key={i.projectId} para={i.startupName || "-"} url={`/user/investments/invest/${i.projectId}`} />   
                         </Badge>
                     ))}
                 </div>
