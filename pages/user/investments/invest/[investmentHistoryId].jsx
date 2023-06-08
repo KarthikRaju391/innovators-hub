@@ -51,7 +51,7 @@ const meethandler = async() =>{
 
 const payHandler = async(e)=>{
   e.preventDefault()
-  console.log("Paying " + amount)
+  console.log("Paying" + amount)
   setIsOpen(false)
 }
 
@@ -107,7 +107,7 @@ var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className="row anima
                     <div>
                         <h2 className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center"> Project Details </h2>
                         <div className='text-justify'>
-                          <p className="select-none mt-[.5rem] pt-[.5rem] text-lg cursor-default animate__animated animate__fadeInUp">Startup: {initial.startupName}</p>
+                          <p className="select-none mt-[.5rem] pt-[.5rem] text-lg cursor-default animate__animated animate__fadeInUp cursor-pointer">Startup: {initial.startupName}</p>
                           <p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">Investment Requirement:{initial.investmentRequired}</p>
                           <p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">Publish Date:{initial.publishDate}</p>
                           <p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">Contact:{initial.ownerEmail}</p>
