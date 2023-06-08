@@ -1,5 +1,5 @@
 export default async function handler(req, res) {
-	const { code } = req.query;
+	const { code, state } = req.query;
 
 	if (!code) {
 		res.status(400).json({ error: "Authorization code is missing" });
@@ -27,12 +27,17 @@ export default async function handler(req, res) {
 		}
 
 		const data = await response.json();
-		const { access_token, refresh_token } = data;
+		const { access_token, refresh_token, expires_in } = data;
 
 		// Save access_token and refresh_token to your database or session.
-		// Redirect the user to a protected page or send a success response.
 
-		res.status(200).json({ access_token, refresh_token });
+		// Redirect the user to a protected page or send a success response.
+		const originalUrl =
+			state && access_token
+				? decodeURIComponent(`${state}?authorization=success`)
+				: decodeURIComponent(`${state}?authorization=failed`);
+
+		res.redirect(originalUrl);
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}
