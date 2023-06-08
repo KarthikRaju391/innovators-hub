@@ -42,23 +42,21 @@ model User {
   phoneNumber   String?       @unique
   phoneVerified Boolean?      @default(false)
   emailVerified Boolean?      @default(false)
-  password      String?
   address       String?
   image         String?
-  panNumber     String?
   role          userRole[]    @default([USER])
-  panVerified   Boolean?      @default(false)
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
   accounts      Account[]
   cart          Cart?
   social        String[]
   comments      Comment[]
   entrepreneur  Entrepreneur?
+  investor      Investor?
   order         Order[]
   post          Post[]
   sessions      Session[]
-  investor      Investor?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Entrepreneur {
@@ -66,7 +64,7 @@ model Entrepreneur {
   userId    String    @unique
   website   String?
   startupId String    @unique
-  startup   Startup   @relation(fields: [startupId], references: [id])
+  startup   Startup   @relation(fields: [startupId], references: [id], onDelete: Cascade)
   user      User      @relation(fields: [userId], references: [id])
   meeting   Meeting[]
   createdAt DateTime  @default(now())
@@ -74,14 +72,16 @@ model Entrepreneur {
 }
 
 model Investor {
-  id               String       @id @default(cuid())
-  type             InvestorType
+  id               String    @id @default(cuid())
+  type             String
   email            String
   organizationName String?
   website          String?
+  panNumber        String?
+  panVerified      Boolean?  @default(false)
   venture          Venture?
-  userId           String       @unique
-  user             User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String    @unique
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   meeting          Meeting[]
 
   createdAt DateTime @default(now())
@@ -153,14 +153,12 @@ model Startup {
   panNumber      String           @unique
   gstNumber      String
   post           Post[]
-  industry       String[]
-  stage          String?
   location       String
   website        String?
   email          String?
   social         String[]
   project        Project[]
-  entrepreneur   Entrepreneur[]
+  entrepreneur   Entrepreneur?
   productOnOrder ProductOnOrder[]
 
   createdAt DateTime @default(now())
@@ -318,11 +316,6 @@ enum userRole {
   INVESTOR
   ENTREPRENEUR
   ADMIN
-}
-
-enum InvestorType {
-  INDIVIDUAL
-  ORGANIZATION
 }
 
 enum InvestmentStage {

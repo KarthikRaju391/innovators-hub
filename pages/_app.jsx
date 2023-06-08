@@ -10,6 +10,7 @@ import SubmitContext from "../context/SubmitContext";
 import { initialValues } from "../InitialValues";
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
+	const [role, setRole] = useState(["USER"]);
 	const [updated, setUpdated] = useState(false);
 	const [project, setProject] = useState({
 		projectName: "",
