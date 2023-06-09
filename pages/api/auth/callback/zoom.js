@@ -1,3 +1,5 @@
+import prisma from "../../../../lib/prisma";
+
 export default async function handler(req, res) {
 	const { code, state } = req.query;
 
@@ -30,6 +32,17 @@ export default async function handler(req, res) {
 		const { access_token, refresh_token, expires_in } = data;
 
 		// Save access_token and refresh_token to your database or session.
+		const saveAccessToken = await prisma.accessToken.create({
+			data: {
+				accessToken: access_token,
+				refreshToken: refresh_token,
+				expiresIn: expires_in,
+			},
+		});
+
+		if (!saveAccessToken) {
+			throw new Error("Failed to save access token");
+		}
 
 		// Redirect the user to a protected page or send a success response.
 		const originalUrl =

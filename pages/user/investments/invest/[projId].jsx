@@ -1,71 +1,117 @@
 import BackButton from "../../../../components/BackButton";
 import LoginHeader from "../../../../components/LoginHeader";
 import { Button } from "baseui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaHandsHelping } from "react-icons/fa";
 import { useSession } from "next-auth/react";
+import { Modal, ModalHeader, ModalBody, SIZE, ROLE } from "baseui/modal"; //ModalFooter, ModalButton,
 import { FiEdit } from "react-icons/fi";
 import { MdOutlineVideoCameraFront } from "react-icons/md";
+import DateForm from "../../../../components/DateForm";
 import { useRouter } from "next/router";
+import useSWR from "swr";
+import { fetcher } from "../../../../lib/fetcher";
 
-export default function investmentHistoryId() {
-	const session = useSession();
-
-	//get data regarding the project & set them accordingly in the `var initial` at Line16
-	var initial = {
-		projectName: "Project",
-		projectId: 10,
-		startupName: "Company",
-		ownerEmail: "s@g.co",
-		creatorId: "d56909a0-daeb-44be-acb9-eb52392065cb",
-		investmentRequired: "5000",
-		publishDate: "18/12/2022",
-		backers: [
-			{ name: "Karthik", amount: 2000 },
-			{ name: "Harsha", amount: 1000 },
-			{ name: "Ram", amount: 2000 },
-		],
-		file: "JVBERi0xLjcKCjEgMCBvYmogICUgZW50cnkgcG9pbnQKPDwKICAvVHlwZSAvQ2F0YWxvZwogIC9QYWdlcyAyIDAgUgo+PgplbmRvYmoKCjIgMCBvYmoKPDwKICAvVHlwZSAvUGFnZXMKICAvTWVkaWFCb3ggWyAwIDAgMjAwIDIwMCBdCiAgL0NvdW50IDEKICAvS2lkcyBbIDMgMCBSIF0KPj4KZW5kb2JqCgozIDAgb2JqCjw8CiAgL1R5cGUgL1BhZ2UKICAvUGFyZW50IDIgMCBSCiAgL1Jlc291cmNlcyA8PAogICAgL0ZvbnQgPDwKICAgICAgL0YxIDQgMCBSIAogICAgPj4KICA+PgogIC9Db250ZW50cyA1IDAgUgo+PgplbmRvYmoKCjQgMCBvYmoKPDwKICAvVHlwZSAvRm9udAogIC9TdWJ0eXBlIC9UeXBlMQogIC9CYXNlRm9udCAvVGltZXMtUm9tYW4KPj4KZW5kb2JqCgo1IDAgb2JqICAlIHBhZ2UgY29udGVudAo8PAogIC9MZW5ndGggNDQKPj4Kc3RyZWFtCkJUCjcwIDUwIFRECi9GMSAxMiBUZgooSGVsbG8sIHdvcmxkISkgVGoKRVQKZW5kc3RyZWFtCmVuZG9iagoKeHJlZgowIDYKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDEwIDAwMDAwIG4gCjAwMDAwMDAwNzkgMDAwMDAgbiAKMDAwMDAwMDE3MyAwMDAwMCBuIAowMDAwMDAwMzAxIDAwMDAwIG4gCjAwMDAwMDAzODAgMDAwMDAgbiAKdHJhaWxlcgo8PAogIC9TaXplIDYKICAvUm9vdCAxIDAgUgo+PgpzdGFydHhyZWYKNDkyCiUlRU9G",
-	};
-
+export default function Invest() {
+	const [meetingUrl, setMeetingUrl] = useState("");
+	const [isOpen, setIsOpen] = useState(false);
 	const [load1, setLoad1] = useState(false);
 	const [load2, setLoad2] = useState(false);
-
+	const session = useSession();
 	const router = useRouter();
 
-	const buyHandler = async () => {
-		setLoad1(true);
-		await console.log(initial.projectId + " investing");
-		setLoad1(false);
+	const { projId } = router.query;
+
+	const { data: project, isLoading } = useSWR(`/api/invest/${projId}`, fetcher);
+
+	if (isLoading) return <div>Loading...</div>;
+
+	const closeOpen = () => {
+		setIsOpen(false);
 	};
 
-	const meethandler = async () => {
+	const buyHandler = async () => {
+		console.log("invest");
+	};
+
+	const meethandler = async (meetingTime) => {
 		setLoad2(true);
-		console.log(router.asPath);
-		window.location.href = `/api/auth/authorize?path=${router.asPath}`;
+
+		const checkIfAccessTokenExists = async () => {
+			const res = await fetch("/api/zoom/getValidToken");
+			const data = await res.json();
+			return data;
+		};
+
+		const accessToken = await checkIfAccessTokenExists();
+
+		if (
+			// router.query.authorization === "success" ||
+			accessToken.validAccessToken
+		) {
+			const res = await fetch("/api/zoom/scheduleMeeting", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					projectId: projId,
+					investorEmail: session.data?.user?.email,
+					meetingTime,
+					accessToken: accessToken.validAccessToken,
+				}),
+			});
+
+			const meetUrl = await res.json();
+			setMeetingUrl(meetUrl.message);
+			alert(meetUrl.message);
+		} else {
+			router.replace(`/api/auth/authorize?path=${router.asPath}`);
+		}
+
 		setLoad2(false);
 	};
 
-	var tblContent = initial?.backers?.map((e, i) => (
-		<tr key={i} className="row animate__animated animate__fadeInUp">
-			{" "}
-			<td className="col">{e.name}</td> <td className="col">{e.amount}</td>{" "}
-		</tr>
-	));
+	if (!project) return <div>Project not found</div>;
+
+	var tblContent =
+		project.venture.length > 0 &&
+		project.venture.map((vent) => (
+			<tr key={venture.id} className="row animate__animated animate__fadeInUp">
+				{" "}
+				<td className="col">{vent.investor.user.name}</td>{" "}
+				<td className="col">{vent.amountInvested}</td>{" "}
+				<td className="col">{vent.createdAt}</td>
+			</tr>
+		));
 	return (
 		<>
 			<BackButton />
 			<LoginHeader />
+			<Modal
+				onClose={() => setIsOpen(false)}
+				closeable
+				isOpen={isOpen}
+				animate
+				autoFocus
+				size={SIZE.default}
+				role={ROLE.dialog}
+			>
+				<ModalHeader>Choose Date and Time</ModalHeader>
+				<ModalBody>
+					<DateForm closeOpen={closeOpen} meethandler={meethandler} />
+				</ModalBody>
+			</Modal>
 			<h2 className="select-none flex my-[.5rem] py-[.5rem] text-3xl cursor-default justify-center gap-4">
-				{initial.projectName}{" "}
-				{session.data?.user?.id === initial.creatorId && (
+				{project.name}{" "}
+				{session.data?.user?.id === project.startup.entrepreneur.userId && (
 					<FiEdit
 						className="animate__animated animate__fadeInRight"
 						title="Edit The Information"
 						style={{ cursor: "pointer" }}
 						onClick={() =>
 							router.push(
-								`http://localhost:3000/user/startup/project/${initial?.projectId}/edit`
+								`http://localhost:3000/user/startup/project/${project?.id}/edit`
 							)
 						}
 					/>
@@ -81,16 +127,16 @@ export default function investmentHistoryId() {
 						</h2>
 						<div className="text-justify">
 							<p className="select-none mt-[.5rem] pt-[.5rem] text-lg cursor-default animate__animated animate__fadeInUp">
-								Startup: {initial.startupName}
+								Startup: {project.startup.name}
 							</p>
-							<p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">
+							{/* <p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">
 								Investment Requirement:{initial.investmentRequired}
+							</p> */}
+							<p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">
+								Publish Date:{project.createdAt}
 							</p>
 							<p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">
-								Publish Date:{initial.publishDate}
-							</p>
-							<p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">
-								Contact:{initial.ownerEmail}
+								Contact:{project.startup.email}
 							</p>
 						</div>
 						{/* add more */}
@@ -109,13 +155,14 @@ export default function investmentHistoryId() {
 							List of backers
 						</p>
 
-						{initial?.backers?.length > 0 ? (
+						{project.venture.length > 0 ? (
 							<div className="grid justify-center">
 								<table className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
 									<thead>
 										<tr className="animate__animated animate__fadeInUp">
 											<th>Name</th>
 											<th>Amount</th>
+											<th>Date Invested</th>
 										</tr>
 									</thead>
 									<tbody>{tblContent}</tbody>
@@ -138,7 +185,7 @@ export default function investmentHistoryId() {
 
 			<div className="flex justify-center mt-3 pt-3 mb-[1rem] pb-[1rem] gap-x-[2rem]">
 				<Button
-					onClick={buyHandler}
+					onClick={() => setModal(true)}
 					isLoading={load1}
 					overrides={{
 						BaseButton: {
@@ -152,7 +199,7 @@ export default function investmentHistoryId() {
 					Contribute
 				</Button>
 				<Button
-					onClick={meethandler}
+					onClick={() => setIsOpen(true)}
 					isLoading={load2}
 					overrides={{
 						BaseButton: {

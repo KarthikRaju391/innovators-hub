@@ -16,7 +16,7 @@ const InvestorForm = ({
 }) => {
 	const router = useRouter();
 	const [investorDetails, setInvestorDetails] = useState({
-		email: user.investor?.email || "",
+		email: user.email || "",
 		panNumber: user.investor?.panNumber || "",
 		organizationName: user.investor?.organizationName || "",
 		website: user.investor?.website || "",

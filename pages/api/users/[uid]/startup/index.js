@@ -13,6 +13,12 @@ export default async function handle(req, res) {
 		return;
 	}
 
+	const existingStartup = await prisma.entrepreneur.findUnique({
+		where: {
+			userId: uid,
+		},
+	});
+
 	try {
 		if (req.method === "POST") {
 			const {
@@ -25,20 +31,11 @@ export default async function handle(req, res) {
 				gstNumber,
 			} = req.body;
 
-			const existingStartup = await prisma.user.findUnique({
-				where: {
-					id: uid,
-				},
-				include: {
-					entrepreneur: true,
-				},
-			});
-
-			if (existingStartup.startup) {
+			if (existingStartup.startupId) {
 				// put request
 				const updatedStartup = await prisma.startup.update({
 					where: {
-						id: existingStartup.entrepreneur.startup.id,
+						id: existingStartup.startupId,
 					},
 					data: {
 						name,
@@ -87,23 +84,11 @@ export default async function handle(req, res) {
 				return res.json(startup);
 			}
 		} else if (req.method === "DELETE") {
-			const existingStartup = await prisma.user.findUnique({
-				where: {
-					id: uid,
-				},
-				include: {
-					entrepreneur: {
-						include: {
-							startup: true,
-						},
-					},
-				},
-			});
 			const { investor } = req.query;
 
 			const deletedStartup = await prisma.startup.delete({
 				where: {
-					id: existingStartup.entrepreneur.startup.id,
+					id: existingStartup.startupId,
 				},
 			});
 
