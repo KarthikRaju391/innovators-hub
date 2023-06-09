@@ -198,10 +198,11 @@ const StartupForm = ({
 				</div>
 			</div>
 
-			<div className="w-1/2 mx-auto">
 				<p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">
 					Startup Address:
 				</p>
+			<div className="flex flex-wrap justify-around gap-x-4">
+			<div>
 				<FormControl label={() => "Street 1:"}>
 					<Input
 						value={startupDetails?.location.street1}
@@ -217,6 +218,11 @@ const StartupForm = ({
 						placeholder="Eg. 5071, Koramangala 6th block"
 						clearOnEscape
 						required
+						overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
 					/>
 				</FormControl>
 
@@ -234,6 +240,11 @@ const StartupForm = ({
 						}
 						placeholder="Eg. Kormanagala"
 						clearOnEscape
+						overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
 					/>
 				</FormControl>
 				<FormControl label={() => "City:"}>
@@ -248,9 +259,15 @@ const StartupForm = ({
 						placeholder="Eg. Bengaluru"
 						clearOnEscape
 						required
+						overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
 					/>
 				</FormControl>
-
+				</div>
+				<div>
 				<FormControl label={() => "State:"}>
 					<Input
 						value={startupDetails?.location.state}
@@ -263,6 +280,11 @@ const StartupForm = ({
 						placeholder="Eg. Karnataka"
 						clearOnEscape
 						required
+						overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
 					/>
 				</FormControl>
 
@@ -282,6 +304,11 @@ const StartupForm = ({
 						clearOnEscape
 						required
 						type="number"
+						overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
 					/>
 				</FormControl>
 
@@ -291,8 +318,14 @@ const StartupForm = ({
 						disabled
 						clearOnEscape
 						required
+						overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
 					/>
 				</FormControl>
+				</div>
 			</div>
 
 			<div className="flex justify-center gap-4 grid-cols-2 flex-wrap  ">

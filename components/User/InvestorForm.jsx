@@ -72,7 +72,8 @@ const InvestorForm = ({
 				Fill Investor Details:
 			</p>
 
-			<div className="grid justify-center">
+			<div className="flex flex-wrap justify-around gap-x-4">
+				<div className="">
 				<FormControl label={() => "Email: "}>
 					<Input
 						value={investorDetails.email}
@@ -123,6 +124,8 @@ const InvestorForm = ({
 						}}
 					/>
 				</FormControl>
+				</div>
+				<div>
 				<FormControl label={() => "Investor Type: "}>
 					<Select
 						options={[
@@ -145,6 +148,7 @@ const InvestorForm = ({
 						}}
 					/>
 				</FormControl>
+
 				{type[0].id === "Venture Capitalist" && (
 					<FormControl label={() => "Organization Name: "}>
 						<Input
@@ -169,6 +173,7 @@ const InvestorForm = ({
 						/>
 					</FormControl>
 				)}
+				
 				<FormControl label={() => "Website: "}>
 					<Input
 						value={investorDetails.website}
@@ -191,6 +196,7 @@ const InvestorForm = ({
 						}}
 					/>
 				</FormControl>
+				</div>
 			</div>
 
 			<div className="flex justify-center gap-4 grid-cols-2 flex-wrap  ">

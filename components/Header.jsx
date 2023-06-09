@@ -23,7 +23,7 @@ function Header() {
 						{session && (<li onClick={() => router.push("/user")} className={classes.lis}>Dashboard</li>)}	
 					</div>
 					<div className="flex">
-						<li className={classes.lis} onClick={()=>router.push("/posts")}>Community Forum</li>
+						{session && (<li className={classes.lis} onClick={()=>router.push("/posts")}>Community Forum</li>)}
 						{session && (<li onClick={() => signOut()} className={classes.lis}>Logout</li>)}	
 					</div>
 			</ul>

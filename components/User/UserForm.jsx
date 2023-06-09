@@ -78,8 +78,8 @@ const UserForm = ({ user, progress, setProgress, load, setLoad, steps }) => {
 			<p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">
 				Fill Customer Details:
 			</p>
-			<div className="grid grid-cols-2 w-3/4 mx-auto">
-				<div className="mx-auto w-3/4">
+			<div className="flex flex-wrap justify-around gap-x-4">
+				<div className="">
 					<FormControl
 						label={() => "Name: "}
 						caption={() => "Name as per PAN Card"}
@@ -154,9 +154,29 @@ const UserForm = ({ user, progress, setProgress, load, setLoad, steps }) => {
 							}}
 						/>
 					</FormControl>
+					
+					<FormControl label={() => "Gender:"}>
+						<Select
+							options={genderdrop}
+							required
+							value={gender}
+							placeholder="Select Gender"
+							onChange={(params) => {
+								setGender(params.value);
+							}}
+							overrides={{
+								ControlContainer: {
+									style: ({ $theme }) => ({
+										borderRadius: "10px",
+										width: "18rem",
+									}),
+								},
+							}}
+						/>
+					</FormControl>
 				</div>
 
-				<div className="mx-auto w-3/4">
+				<div className="">
 					<FormControl label={() => "Street 1:"}>
 						<Input
 							value={userDetails?.address.street1}
@@ -172,6 +192,11 @@ const UserForm = ({ user, progress, setProgress, load, setLoad, steps }) => {
 							placeholder="Eg. 5071, Koramangala 6th block"
 							clearOnEscape
 							required
+							overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
 						/>
 					</FormControl>
 
@@ -189,6 +214,11 @@ const UserForm = ({ user, progress, setProgress, load, setLoad, steps }) => {
 							}
 							placeholder="Eg. Kormanagala"
 							clearOnEscape
+							overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
 						/>
 					</FormControl>
 					<FormControl label={() => "City:"}>
@@ -203,6 +233,11 @@ const UserForm = ({ user, progress, setProgress, load, setLoad, steps }) => {
 							placeholder="Eg. Bengaluru"
 							clearOnEscape
 							required
+							overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
 						/>
 					</FormControl>
 
@@ -218,6 +253,11 @@ const UserForm = ({ user, progress, setProgress, load, setLoad, steps }) => {
 							placeholder="Eg. Karnataka"
 							clearOnEscape
 							required
+							overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
 						/>
 					</FormControl>
 
@@ -237,6 +277,11 @@ const UserForm = ({ user, progress, setProgress, load, setLoad, steps }) => {
 							clearOnEscape
 							required
 							type="number"
+							overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
 						/>
 					</FormControl>
 
@@ -246,24 +291,9 @@ const UserForm = ({ user, progress, setProgress, load, setLoad, steps }) => {
 							disabled
 							clearOnEscape
 							required
-						/>
-					</FormControl>
-
-					<FormControl label={() => "Gender:"}>
-						<Select
-							options={genderdrop}
-							required
-							value={gender}
-							placeholder="Select Gender"
-							onChange={(params) => {
-								setGender(params.value);
-							}}
 							overrides={{
-								ControlContainer: {
-									style: ({ $theme }) => ({
-										borderRadius: "10px",
-										width: "18rem",
-									}),
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
 								},
 							}}
 						/>
