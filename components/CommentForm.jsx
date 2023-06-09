@@ -1,8 +1,10 @@
 import { useRouter } from "next/router"
 import { useState } from "react";
-import { Textarea } from "baseui/textarea";
+// import { Textarea } from "baseui/textarea";
 import { Button, SHAPE } from "baseui/button";
 import {useSession, signIn} from 'next-auth/react';
+// import ReactMarkdown from 'react-markdown';
+import MarkdownEditor from '../components/MarkdownEditor';
 
 const CommentForm = ({ parentId = null }) => {
     const session = useSession()
@@ -47,10 +49,15 @@ const CommentForm = ({ parentId = null }) => {
     else signIn()
     }
 
+    const handleMarkdownChange = (text) => {
+        setBody(text);
+      };
+
     return (
             <form className="" onSubmit={(e) => handleSubmit(e)}>
                 <div className="mx-4 my-3">
-                    <Textarea value={body} required name="comment" id="comment" onChange={e => setBody(e.target.value)} placeholder="Write your comment here..." clearOnEscape />
+                    <MarkdownEditor value={body} onChange={handleMarkdownChange} />
+                    {/* <Textarea value={body} required name="comment" id="comment" onChange={e => setBody(e.target.value)} placeholder="Write your comment here..." clearOnEscape /> */}
                 </div> 
                 {/* w-[18rem] md:w-[22rem] */}
                 <div className="mx-4"><Button type="submit" shape={SHAPE.pill} > {parentId ? "Post Reply" : "Post Comment"} </Button></div>

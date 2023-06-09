@@ -21,10 +21,10 @@ function Header() {
 						<li className={classes.lis} onClick={()=>router.push("/verify")}>Verify</li>
 						{!session && <li className={classes.lis} onClick={() => { signIn("google"); }}>Get Started</li> }
 						{session && (<li onClick={() => router.push("/user")} className={classes.lis}>Dashboard</li>)}	
-						{session && (<li onClick={() => signOut()} className={classes.lis}>Logout</li>)}	
 					</div>
 					<div className="flex">
 						<li className={classes.lis} onClick={()=>router.push("/posts")}>Community Forum</li>
+						{session && (<li onClick={() => signOut()} className={classes.lis}>Logout</li>)}	
 					</div>
 			</ul>
 		</nav>
