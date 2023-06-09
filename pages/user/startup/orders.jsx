@@ -32,6 +32,8 @@ function orders({ products }) {
 		setParcelReady(true);
 	};
 
+	console.log(products)
+
 	return (
 		<>
 			<LoginHeader />

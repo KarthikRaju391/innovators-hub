@@ -21,6 +21,7 @@ function productId() {
         productPrice: "58",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua",
         startupName: "E Raja",
+        startupId:10,
         category: "andar tho aaja",
         build: "xyz",
         quality: "abc",
@@ -77,7 +78,7 @@ function productId() {
                 {data.quality && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Quality:</span> <br/>{data.quality}</p><br/></>)}
                 {data.productPrice && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Price:</span> <br/> ₹{data.productPrice}</p><br/></>)}
                 {data.category && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Category:</span> <br/>{data.category}</p><br/></>)}
-                {data.startupName && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none">Startup:</span> <br/>{data.startupName}</p><br/></>)}
+                {data.startupName && (<><p className="mx-10 cursor-default select-none"><span className="text-xl cursor-default select-none cursor-pointer" onClick={e=>router.push(`/user/startup/${initial.startupId}`)}>Startup:</span> <br/>{data.startupName}</p><br/></>)}
             </div>
 
             {/* <div className="flex justify-center gap-5 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">

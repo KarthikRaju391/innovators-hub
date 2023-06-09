@@ -37,7 +37,6 @@ function startupId() {
             { startup.projects.length > 0 && <> <hr className="w-[90%] mx-auto mb-[1rem]"/>
                 <div className="mb-[2rem]">
                     <h3 className="text-2xl cursor-default ml-[20%] font-semibold mb-4">Our Projects:</h3>
-                    {/* {startup.projects.map(e=>(<p className="cursor-default text-center break-all">{e}</p>))} */}
                     <div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2">
                     {startup.projects.map((i) => (
                         <Badge content={ i.status || ""} color={ i.status === "Seeding" ? COLOR.accent : COLOR.negative }>
