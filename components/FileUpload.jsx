@@ -115,8 +115,12 @@ const FileUpload = ({
 						<p>Loading...</p>
 					) : (
 						<div className="h-[6rem] border-2 cursor-pointer border-dashed rounded-lg border-neutral-400 pl-[1.5rem] pt-[1rem] mb-2">
-							<p className="text-neutral-400 text-sm font-bold">Drag'n'drop files, or click to select files</p>
-							<button className="ml-[4.5rem] mt-3 font-semibold bg-neutral-400 py-1 px-3 rounded-2xl text-black">Browse File</button>
+							<p className="text-neutral-400 text-sm font-bold">
+								Drag'n'drop files, or click to select files
+							</p>
+							<button className="ml-[4.5rem] mt-3 font-semibold bg-neutral-400 py-1 px-3 rounded-2xl text-black">
+								Browse File
+							</button>
 						</div>
 					)}
 				</div>

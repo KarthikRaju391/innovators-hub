@@ -7,7 +7,7 @@ import useSWR from "swr";
 import AccessForm from "../../components/AccessForm";
 import { TiUserDelete } from "react-icons/ti";
 import { Button } from "baseui/button";
-import { fetcher } from "../../lib/util";
+import { fetcher } from "../../lib/fetcher";
 
 function createmanager() {
 	const [isOpen, setIsOpen] = React.useState(false);

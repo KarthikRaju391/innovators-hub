@@ -11,7 +11,7 @@ import { useRouter } from "next/router";
 import BackButton from "../../../../../components/BackButton";
 import LoginHeader from "../../../../../components/LoginHeader";
 import { Button } from "baseui/button";
-import { RiArrowGoBackLine, RiBookmarkFill } from 'react-icons/ri';
+import { RiArrowGoBackLine, RiBookmarkFill } from "react-icons/ri";
 
 const Product = {
 	name: "Product",
@@ -121,7 +121,12 @@ const renderFields = (fields, parentKey = "") => {
 					<FieldArray name={fieldName} key={fieldName}>
 						{({ push, pop }) => (
 							<>
-								<label htmlFor={fieldName} className="font-bold text-xl underline">{name}</label>
+								<label
+									htmlFor={fieldName}
+									className="font-bold text-xl underline"
+								>
+									{name}
+								</label>
 								{renderFields(fields, fieldName)}
 								{field.dynamic && (
 									<DynamicFieldButtons
@@ -129,7 +134,7 @@ const renderFields = (fields, parentKey = "") => {
 										fields={fields}
 										fieldTemplate={fieldTemplate}
 										push={push}
-										pop={pop}										
+										pop={pop}
 									/>
 								)}
 							</>
@@ -171,7 +176,10 @@ const renderFields = (fields, parentKey = "") => {
 				return (
 					<div key={fieldName} className="mb-3">
 						<label className="block text-xl font-bold">{name}</label>
-						<Field className="text-black rounded-lg p-2 bg-neutral-200" name={fieldName} />
+						<Field
+							className="text-black rounded-lg p-2 bg-neutral-200"
+							name={fieldName}
+						/>
 						{renderFields(field, fieldName)}
 					</div>
 				);
@@ -234,54 +242,58 @@ const DynamicForm = () => {
 		<>
 			<LoginHeader />
 			<BackButton />
-		
-		<div>
-			<Formik initialValues={pdfValues} onSubmit={handleSubmit}>
-				{({ values }) => (
-					<Form className="flex flex-wrap justify-around">
-						<div>
-							{renderFields(values)}
-							{/* <button type="submit">Save</button> */}
-							{/* <button onClick={() => handleBack(values)} type="button"> Go Back </button> */}
-							<div className="flex flex-wrap gap-4 my-4">
-							<Button
-								type="submit"
-								isLoading={load}
-								overrides={{
-									BaseButton: {
-										style: ({ $theme }) => ({
-											backgroundColor: $theme.colors.accent500,
-										}),
-									},
-								}}
-								startEnhancer={ <RiBookmarkFill style={{ fontSize: "1.5rem" }} /> }
-								>
-								Save
-							</Button>
-							<Button
-								type="button"
-								onClick={()=>handleBack(values)}
-								isLoading={load}
-								overrides={{
-									BaseButton: {
-										style: ({ $theme }) => ({
-											backgroundColor: $theme.colors.negative400,
-										}),
-									},
-								}}
-								startEnhancer={ <RiArrowGoBackLine style={{ fontSize: "1.5rem" }} /> }
-								>
-								Go Back
-							</Button>
+
+			<div>
+				<Formik initialValues={pdfValues} onSubmit={handleSubmit}>
+					{({ values }) => (
+						<Form className="flex flex-wrap justify-around">
+							<div>
+								{renderFields(values)}
+								{/* <button type="submit">Save</button> */}
+								{/* <button onClick={() => handleBack(values)} type="button"> Go Back </button> */}
+								<div className="flex flex-wrap gap-4 my-4">
+									<Button
+										type="submit"
+										isLoading={load}
+										overrides={{
+											BaseButton: {
+												style: ({ $theme }) => ({
+													backgroundColor: $theme.colors.accent500,
+												}),
+											},
+										}}
+										startEnhancer={
+											<RiBookmarkFill style={{ fontSize: "1.5rem" }} />
+										}
+									>
+										Save
+									</Button>
+									<Button
+										type="button"
+										onClick={() => handleBack(values)}
+										isLoading={load}
+										overrides={{
+											BaseButton: {
+												style: ({ $theme }) => ({
+													backgroundColor: $theme.colors.negative400,
+												}),
+											},
+										}}
+										startEnhancer={
+											<RiArrowGoBackLine style={{ fontSize: "1.5rem" }} />
+										}
+									>
+										Go Back
+									</Button>
+								</div>
 							</div>
-						</div>
-						<div className="p-4">
-							<PDFPreview data={pdfValues} />
-						</div>
-					</Form>
-				)}
-			</Formik>
-		</div>
+							<div className="p-4">
+								<PDFPreview data={pdfValues} />
+							</div>
+						</Form>
+					)}
+				</Formik>
+			</div>
 		</>
 	);
 };

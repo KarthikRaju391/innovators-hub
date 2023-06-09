@@ -1,7 +1,7 @@
 import BackButton from "../../components/BackButton";
 import LoginHeader from "../../components/LoginHeader";
 import { Button, SIZE } from "baseui/button";
-import { fetcher } from "../../lib/util";
+import { fetcher } from "../../lib/fetcher";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import { useState } from "react";
