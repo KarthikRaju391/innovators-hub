@@ -13,6 +13,7 @@
 		"@uploadthing/react": "^2.0.1",
 		"@zoomus/websdk": "^2.13.0",
 		"baseui": "^12.2.0",
+		"date-fns": "^2.30.0",
 		"firebase": "^9.21.0",
 		"formik": "^2.2.9",
 		"jsrsasign": "^10.8.6",
