@@ -19,7 +19,16 @@ const StartupForm = ({
 		name: user.entrepreneur?.startup.name || "",
 		email: user.entrepreneur?.startup.email || "",
 		description: user.entrepreneur?.startup.description || "",
-		location: user.entrepreneur?.startup.location || "",
+		location: user.entrepreneur?.startup.location
+			? user.entrepreneur?.startup.location
+			: {
+					street1: "",
+					street2: "",
+					city: "",
+					state: "",
+					postalCode: "",
+					country: "IN",
+			  },
 		website: user.entrepreneur?.startup.website || "",
 		panNumber: user.entrepreneur?.startup.panNumber || "",
 		gstNumber: user.entrepreneur?.startup.gstNumber || "",
@@ -85,22 +94,6 @@ const StartupForm = ({
 						/>
 					</FormControl>
 
-					<FormControl label={() => "Startup Location:"}>
-						<Textarea
-							value={startupDetails.location}
-							onChange={(e) =>
-								setStartupDetails({
-									...startupDetails,
-									location: e.target.value,
-								})
-							}
-							placeholder={`F-17, Jangpura Extn, Delhi 110014, India`}
-							clearOnEscape
-							required
-							disabled={!startupRole}
-						/>
-					</FormControl>
-
 					<FormControl label={() => "Startup Description:"}>
 						<Textarea
 							value={startupDetails.description}
@@ -116,8 +109,6 @@ const StartupForm = ({
 							disabled={!startupRole}
 						/>
 					</FormControl>
-				</div>
-				<div className="mx-auto" style={{ width: "18rem" }}>
 					<FormControl
 						label={() => "Startup PAN Number: "}
 						caption={() =>
@@ -133,7 +124,8 @@ const StartupForm = ({
 								})
 							}
 							placeholder="XXXXXXXXXX"
-							pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+							// pattern="^[a-zA-z]{5}\d{4}[a-zA-Z]{1}$"
+							pattern="^[a-zA-Z]{5}\d{4}[a-zA-Z]{1}$"
 							clearable
 							disabled={!startupRole}
 							required
@@ -145,7 +137,8 @@ const StartupForm = ({
 							}}
 						/>
 					</FormControl>
-
+				</div>
+				<div className="mx-auto" style={{ width: "18rem" }}>
 					<FormControl label={() => "Startup Website:"}>
 						<Input
 							value={startupDetails.website}
@@ -161,7 +154,6 @@ const StartupForm = ({
 							disabled={!startupRole}
 						/>
 					</FormControl>
-
 					<FormControl label={() => "Startup Email:"}>
 						<Input
 							value={startupDetails.email}
@@ -190,7 +182,8 @@ const StartupForm = ({
 								})
 							}
 							placeholder="XXXXXXXXXXXXXXX"
-							pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[Z]{1}[0-9]{1}$"
+							// pattern="^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[0-9]{1}[Z]{1}[0-9]{1}$"
+							pattern="^[0123][0-9][A-Z]{5}[0-9]{4}[A-Z][0-9][A-Z0-9][A-Z0-9]$"
 							clearable
 							disabled={!startupRole}
 							required
@@ -203,6 +196,103 @@ const StartupForm = ({
 						/>
 					</FormControl>
 				</div>
+			</div>
+
+			<div className="w-1/2 mx-auto">
+				<p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">
+					Startup Address:
+				</p>
+				<FormControl label={() => "Street 1:"}>
+					<Input
+						value={startupDetails?.location.street1}
+						onChange={(e) =>
+							setStartupDetails({
+								...startupDetails,
+								location: {
+									...startupDetails.location,
+									street1: e.target.value,
+								},
+							})
+						}
+						placeholder="Eg. 5071, Koramangala 6th block"
+						clearOnEscape
+						required
+					/>
+				</FormControl>
+
+				<FormControl label={() => "Street 2:"}>
+					<Input
+						value={startupDetails?.location.street2}
+						onChange={(e) =>
+							setStartupDetails({
+								...startupDetails,
+								location: {
+									...startupDetails.location,
+									street2: e.target.value,
+								},
+							})
+						}
+						placeholder="Eg. Kormanagala"
+						clearOnEscape
+					/>
+				</FormControl>
+				<FormControl label={() => "City:"}>
+					<Input
+						value={startupDetails?.location.city}
+						onChange={(e) =>
+							setStartupDetails({
+								...startupDetails,
+								location: { ...startupDetails.location, city: e.target.value },
+							})
+						}
+						placeholder="Eg. Bengaluru"
+						clearOnEscape
+						required
+					/>
+				</FormControl>
+
+				<FormControl label={() => "State:"}>
+					<Input
+						value={startupDetails?.location.state}
+						onChange={(e) =>
+							setStartupDetails({
+								...startupDetails,
+								location: { ...startupDetails.location, state: e.target.value },
+							})
+						}
+						placeholder="Eg. Karnataka"
+						clearOnEscape
+						required
+					/>
+				</FormControl>
+
+				<FormControl label={() => "Postal Code:"}>
+					<Input
+						value={startupDetails?.location.postalCode}
+						onChange={(e) =>
+							setStartupDetails({
+								...startupDetails,
+								location: {
+									...startupDetails.location,
+									postalCode: e.target.value,
+								},
+							})
+						}
+						placeholder="Eg. 560047"
+						clearOnEscape
+						required
+						type="number"
+					/>
+				</FormControl>
+
+				<FormControl label={() => "Country:"}>
+					<Input
+						value={startupDetails?.location.country}
+						disabled
+						clearOnEscape
+						required
+					/>
+				</FormControl>
 			</div>
 
 			<div className="flex justify-center gap-4 grid-cols-2 flex-wrap  ">

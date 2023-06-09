@@ -31,7 +31,7 @@ export default async function handle(req, res) {
 				gstNumber,
 			} = req.body;
 
-			if (existingStartup.startupId) {
+			if (existingStartup?.startupId) {
 				// put request
 				const updatedStartup = await prisma.startup.update({
 					where: {
@@ -41,7 +41,14 @@ export default async function handle(req, res) {
 						name,
 						email,
 						description,
-						location,
+						location: {
+							street1: location.street1,
+							street2: location.street2,
+							city: location.city,
+							state: location.state,
+							postalCode: location.postalCode,
+							country: location.country,
+						},
 						website,
 						panNumber,
 						gstNumber,
@@ -53,7 +60,14 @@ export default async function handle(req, res) {
 					data: {
 						name,
 						description,
-						location,
+						location: {
+							street1: location.street1,
+							street2: location.street2,
+							city: location.city,
+							state: location.state,
+							postalCode: location.postalCode,
+							country: location.country,
+						},
 						email,
 						website,
 						panNumber,

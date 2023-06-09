@@ -13,7 +13,16 @@ const UserForm = ({ user, progress, setProgress, load, setLoad, steps }) => {
 		bio: user.bio ? user.bio : "",
 		phoneNumber: user.phoneNumber ? user.phoneNumber : "",
 		email: user.email ? user.email : "",
-		address: user.address ? user.address : "",
+		address: user.address
+			? user.address
+			: {
+					street1: "",
+					street2: "",
+					city: "",
+					state: "",
+					postalCode: "",
+					country: "IN",
+			  },
 	});
 
 	const [gender, setGender] = useState([
@@ -53,6 +62,7 @@ const UserForm = ({ user, progress, setProgress, load, setLoad, steps }) => {
 				router.back();
 			} else {
 				setProgress(progress + getProgressIncrement());
+				router.replace(router.asPath)
 			}
 		} else {
 			setLoad(false);
@@ -68,8 +78,8 @@ const UserForm = ({ user, progress, setProgress, load, setLoad, steps }) => {
 			<p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">
 				Fill Customer Details:
 			</p>
-			<div className="flex flex-wrap gap-2 grid-cols-2 ">
-				<div className="mx-auto" style={{ width: "18rem" }}>
+			<div className="grid grid-cols-2 w-3/4 mx-auto">
+				<div className="mx-auto w-3/4">
 					<FormControl
 						label={() => "Name: "}
 						caption={() => "Name as per PAN Card"}
@@ -125,9 +135,6 @@ const UserForm = ({ user, progress, setProgress, load, setLoad, steps }) => {
 							}}
 						/>
 					</FormControl>
-				</div>
-
-				<div className="mx-auto" style={{ width: "18rem" }}>
 					<FormControl label={() => "Email: "}>
 						<Input
 							value={userDetails?.email}
@@ -147,14 +154,96 @@ const UserForm = ({ user, progress, setProgress, load, setLoad, steps }) => {
 							}}
 						/>
 					</FormControl>
+				</div>
 
-					<FormControl label={() => "Address:"}>
-						<Textarea
-							value={userDetails?.address}
+				<div className="mx-auto w-3/4">
+					<FormControl label={() => "Street 1:"}>
+						<Input
+							value={userDetails?.address.street1}
 							onChange={(e) =>
-								setUserDetails({ ...userDetails, address: e.target.value })
+								setUserDetails({
+									...userDetails,
+									address: {
+										...userDetails.address,
+										street1: e.target.value,
+									},
+								})
 							}
-							placeholder={`F-17, Jangpura Extn, Delhi 110014, India`}
+							placeholder="Eg. 5071, Koramangala 6th block"
+							clearOnEscape
+							required
+						/>
+					</FormControl>
+
+					<FormControl label={() => "Street 2:"}>
+						<Input
+							value={userDetails?.address.street2}
+							onChange={(e) =>
+								setUserDetails({
+									...userDetails,
+									address: {
+										...userDetails.address,
+										street2: e.target.value,
+									},
+								})
+							}
+							placeholder="Eg. Kormanagala"
+							clearOnEscape
+						/>
+					</FormControl>
+					<FormControl label={() => "City:"}>
+						<Input
+							value={userDetails?.address.city}
+							onChange={(e) =>
+								setUserDetails({
+									...userDetails,
+									address: { ...userDetails.address, city: e.target.value },
+								})
+							}
+							placeholder="Eg. Bengaluru"
+							clearOnEscape
+							required
+						/>
+					</FormControl>
+
+					<FormControl label={() => "State:"}>
+						<Input
+							value={userDetails?.address.state}
+							onChange={(e) =>
+								setUserDetails({
+									...userDetails,
+									address: { ...userDetails.address, state: e.target.value },
+								})
+							}
+							placeholder="Eg. Karnataka"
+							clearOnEscape
+							required
+						/>
+					</FormControl>
+
+					<FormControl label={() => "Postal Code:"}>
+						<Input
+							value={userDetails?.address.postalCode}
+							onChange={(e) =>
+								setUserDetails({
+									...userDetails,
+									address: {
+										...userDetails.address,
+										postalCode: e.target.value,
+									},
+								})
+							}
+							placeholder="Eg. 560047"
+							clearOnEscape
+							required
+							type="number"
+						/>
+					</FormControl>
+
+					<FormControl label={() => "Country:"}>
+						<Input
+							value={userDetails?.address.country}
+							disabled
 							clearOnEscape
 							required
 						/>

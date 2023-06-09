@@ -14,7 +14,7 @@ import { authOptions } from "../../api/auth/[...nextauth]";
 
 //gstin: 22ABCDE1234F1Z5
 //personal pan: ABCDE1234F
-//startup pan: ABCE12345F
+//startup pan:	AVOJB1111K 
 
 function manage({ user }) {
 	const router = useRouter();

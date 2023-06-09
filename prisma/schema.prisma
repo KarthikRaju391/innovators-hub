@@ -42,7 +42,7 @@ model User {
   phoneNumber   String?       @unique
   phoneVerified Boolean?      @default(false)
   emailVerified Boolean?      @default(false)
-  address       String?
+  address       Json?
   image         String?
   role          userRole[]    @default([USER])
   accounts      Account[]
@@ -153,7 +153,7 @@ model Startup {
   panNumber      String           @unique
   gstNumber      String
   post           Post[]
-  location       String
+  location       Json
   website        String?
   email          String?
   social         String[]

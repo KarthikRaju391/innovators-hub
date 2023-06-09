@@ -30,7 +30,6 @@ export default async function handle(req, res) {
 			return res.json(user);
 		} else if (req.method === "PUT") {
 			const data = req.body;
-
 			const updateUser = await prisma.user.update({
 				where: {
 					id: uid,
@@ -39,7 +38,14 @@ export default async function handle(req, res) {
 					name: data.name,
 					bio: data.bio,
 					phoneNumber: data.phoneNumber,
-					address: data.address,
+					address: {
+						street1: data.address.street1,
+						street2: data.address.street2,
+						city: data.address.city,
+						state: data.address.state,
+						postalCode: data.address.postalCode,
+						country: data.address.country,
+					},
 					gender: data.gender[0].id,
 				},
 			});

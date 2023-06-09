@@ -50,14 +50,14 @@ function Dashboard() {
 						Startup
 					</h3>
 					<div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2">
-						{!session.user.role.includes("INVESTOR") && (
+						{/* {!session.user.role.includes("INVESTOR") && (
 							<Card
 								className=""
 								head={"Venture Ideas"}
 								para={"View All Projects"}
 								url={"/user/investments/venture"}
 							/>
-						)}
+						)} */}
 						<Card
 							head={"Create Projects"}
 							para={"Create New Project Idea"}
@@ -101,7 +101,7 @@ function Dashboard() {
 							url={"/user/investments/invest"}
 						/>
 						<Card
-							head={" Venture"}
+							head={" Ventures"}
 							para={"Previous Investments"}
 							url={"/user/investments/venture"}
 						/>
