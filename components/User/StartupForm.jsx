@@ -4,6 +4,9 @@ import { Input } from "baseui/input";
 import { Textarea } from "baseui/textarea";
 import { Button, SHAPE } from "baseui/button";
 import { useRouter } from "next/router";
+import { Select } from "baseui/select";
+import { BusinessCategory, BusinessTypes } from "../../constants/BusinessTypes";
+import Autocomplete from "../AutoComplete";
 
 const StartupForm = ({
 	user,
@@ -34,6 +37,31 @@ const StartupForm = ({
 		gstNumber: user.entrepreneur?.startup.gstNumber || "",
 	});
 
+	const [businessType, setBusinessType] = useState(
+		user.entrepreneur?.startup.businessType
+			? [
+					BusinessTypes.find(
+						(business) =>
+							business.id === user.entrepreneur?.startup.businessType
+					),
+			  ]
+			: ""
+	);
+	const [businessCategory, setBusinessCategory] = useState(
+		user.entrepreneur?.startup.businessCategory
+			? [
+					BusinessCategory.find(
+						(business) =>
+							business.id === user.entrepreneur?.startup.businessCategory
+					),
+			  ]
+			: ""
+	);
+
+	const [subCategory, setSubCategory] = useState(
+		user.entrepreneur?.startup.businessSubCategory || ""
+	);
+
 	const getProgressIncrement = () => {
 		return 100 / steps;
 	};
@@ -52,7 +80,12 @@ const StartupForm = ({
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ ...startupDetails }),
+			body: JSON.stringify({
+				...startupDetails,
+				businessType: businessType[0].id,
+				businessCategory: businessCategory[0].id,
+				subCategory: subCategory,
+			}),
 		});
 		if (res.ok) {
 			setLoad(false);
@@ -198,133 +231,193 @@ const StartupForm = ({
 				</div>
 			</div>
 
+			<div>
+				<p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">
+					Business Details:
+				</p>
+				<div className="flex flex-wrap gap-2 grid-cols-2">
+					<div className="mx-auto" style={{ width: "18rem" }}>
+						<FormControl label={() => "Bussiness Type: "}>
+							<Select
+								options={BusinessTypes}
+								value={businessType}
+								placeholder="Select Business Type"
+								onChange={(params) => {
+									setBusinessType(params.value);
+								}}
+								overrides={{
+									ControlContainer: {
+										style: ({ $theme }) => ({
+											borderRadius: "10px",
+											width: "18rem",
+										}),
+									},
+								}}
+							/>
+						</FormControl>
+						<FormControl label={() => "Bussiness Category: "}>
+							<Select
+								options={BusinessCategory}
+								required
+								value={businessCategory}
+								placeholder="Select Business Type"
+								onChange={(params) => {
+									setBusinessCategory(params.value);
+								}}
+								overrides={{
+									ControlContainer: {
+										style: ({ $theme }) => ({
+											borderRadius: "10px",
+											width: "18rem",
+										}),
+									},
+								}}
+							/>
+						</FormControl>
+						<FormControl label={() => "Sub Category"}>
+							<Autocomplete
+								mainCategory={businessCategory}
+								subCategory={subCategory}
+								setSubCategory={setSubCategory}
+							/>
+						</FormControl>
+					</div>
+				</div>
+			</div>
+
+			<div className="w-1/2 mx-auto">
 				<p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">
 					Startup Address:
 				</p>
-			<div className="flex flex-wrap justify-around gap-x-4">
-			<div>
-				<FormControl label={() => "Street 1:"}>
-					<Input
-						value={startupDetails?.location.street1}
-						onChange={(e) =>
-							setStartupDetails({
-								...startupDetails,
-								location: {
-									...startupDetails.location,
-									street1: e.target.value,
-								},
-							})
-						}
-						placeholder="Eg. 5071, Koramangala 6th block"
-						clearOnEscape
-						required
-						overrides={{
+				<div className="flex flex-wrap justify-around gap-x-4">
+					<FormControl label={() => "Street 1:"}>
+						<Input
+							value={startupDetails?.location.street1}
+							onChange={(e) =>
+								setStartupDetails({
+									...startupDetails,
+									location: {
+										...startupDetails.location,
+										street1: e.target.value,
+									},
+								})
+							}
+							placeholder="Eg. 5071, Koramangala 6th block"
+							clearOnEscape
+							required
+							overrides={{
 								Root: {
 									style: ({ $theme }) => ({ width: "18rem" }),
 								},
 							}}
-					/>
-				</FormControl>
+						/>
+					</FormControl>
 
-				<FormControl label={() => "Street 2:"}>
-					<Input
-						value={startupDetails?.location.street2}
-						onChange={(e) =>
-							setStartupDetails({
-								...startupDetails,
-								location: {
-									...startupDetails.location,
-									street2: e.target.value,
-								},
-							})
-						}
-						placeholder="Eg. Kormanagala"
-						clearOnEscape
-						overrides={{
+					<FormControl label={() => "Street 2:"}>
+						<Input
+							value={startupDetails?.location.street2}
+							onChange={(e) =>
+								setStartupDetails({
+									...startupDetails,
+									location: {
+										...startupDetails.location,
+										street2: e.target.value,
+									},
+								})
+							}
+							placeholder="Eg. Kormanagala"
+							clearOnEscape
+							overrides={{
 								Root: {
 									style: ({ $theme }) => ({ width: "18rem" }),
 								},
 							}}
-					/>
-				</FormControl>
-				<FormControl label={() => "City:"}>
-					<Input
-						value={startupDetails?.location.city}
-						onChange={(e) =>
-							setStartupDetails({
-								...startupDetails,
-								location: { ...startupDetails.location, city: e.target.value },
-							})
-						}
-						placeholder="Eg. Bengaluru"
-						clearOnEscape
-						required
-						overrides={{
+						/>
+					</FormControl>
+					<FormControl label={() => "City:"}>
+						<Input
+							value={startupDetails?.location.city}
+							onChange={(e) =>
+								setStartupDetails({
+									...startupDetails,
+									location: {
+										...startupDetails.location,
+										city: e.target.value,
+									},
+								})
+							}
+							placeholder="Eg. Bengaluru"
+							clearOnEscape
+							required
+							overrides={{
 								Root: {
 									style: ({ $theme }) => ({ width: "18rem" }),
 								},
 							}}
-					/>
-				</FormControl>
+						/>
+					</FormControl>
 				</div>
 				<div>
-				<FormControl label={() => "State:"}>
-					<Input
-						value={startupDetails?.location.state}
-						onChange={(e) =>
-							setStartupDetails({
-								...startupDetails,
-								location: { ...startupDetails.location, state: e.target.value },
-							})
-						}
-						placeholder="Eg. Karnataka"
-						clearOnEscape
-						required
-						overrides={{
+					<FormControl label={() => "State:"}>
+						<Input
+							value={startupDetails?.location.state}
+							onChange={(e) =>
+								setStartupDetails({
+									...startupDetails,
+									location: {
+										...startupDetails.location,
+										state: e.target.value,
+									},
+								})
+							}
+							placeholder="Eg. Karnataka"
+							clearOnEscape
+							required
+							overrides={{
 								Root: {
 									style: ({ $theme }) => ({ width: "18rem" }),
 								},
 							}}
-					/>
-				</FormControl>
+						/>
+					</FormControl>
 
-				<FormControl label={() => "Postal Code:"}>
-					<Input
-						value={startupDetails?.location.postalCode}
-						onChange={(e) =>
-							setStartupDetails({
-								...startupDetails,
-								location: {
-									...startupDetails.location,
-									postalCode: e.target.value,
-								},
-							})
-						}
-						placeholder="Eg. 560047"
-						clearOnEscape
-						required
-						type="number"
-						overrides={{
+					<FormControl label={() => "Postal Code:"}>
+						<Input
+							value={startupDetails?.location.postalCode}
+							onChange={(e) =>
+								setStartupDetails({
+									...startupDetails,
+									location: {
+										...startupDetails.location,
+										postalCode: e.target.value,
+									},
+								})
+							}
+							placeholder="Eg. 560047"
+							clearOnEscape
+							required
+							type="number"
+							overrides={{
 								Root: {
 									style: ({ $theme }) => ({ width: "18rem" }),
 								},
 							}}
-					/>
-				</FormControl>
+						/>
+					</FormControl>
 
-				<FormControl label={() => "Country:"}>
-					<Input
-						value={startupDetails?.location.country}
-						disabled
-						clearOnEscape
-						required
-						overrides={{
+					<FormControl label={() => "Country:"}>
+						<Input
+							value={startupDetails?.location.country}
+							disabled
+							clearOnEscape
+							required
+							overrides={{
 								Root: {
 									style: ({ $theme }) => ({ width: "18rem" }),
 								},
 							}}
-					/>
-				</FormControl>
+						/>
+					</FormControl>
 				</div>
 			</div>
 
