@@ -4,6 +4,9 @@ import { Input } from "baseui/input";
 import { Textarea } from "baseui/textarea";
 import { Button, SHAPE } from "baseui/button";
 import { useRouter } from "next/router";
+import { Select } from "baseui/select";
+import { BusinessCategory, BusinessTypes } from "../../constants/BusinessTypes";
+import Autocomplete from "../AutoComplete";
 
 const StartupForm = ({
 	user,
@@ -34,6 +37,31 @@ const StartupForm = ({
 		gstNumber: user.entrepreneur?.startup.gstNumber || "",
 	});
 
+	const [businessType, setBusinessType] = useState(
+		user.entrepreneur?.startup.businessType
+			? [
+					BusinessTypes.find(
+						(business) =>
+							business.id === user.entrepreneur?.startup.businessType
+					),
+			  ]
+			: ""
+	);
+	const [businessCategory, setBusinessCategory] = useState(
+		user.entrepreneur?.startup.businessCategory
+			? [
+					BusinessCategory.find(
+						(business) =>
+							business.id === user.entrepreneur?.startup.businessCategory
+					),
+			  ]
+			: ""
+	);
+
+	const [subCategory, setSubCategory] = useState(
+		user.entrepreneur?.startup.businessSubCategory || ""
+	);
+
 	const getProgressIncrement = () => {
 		return 100 / steps;
 	};
@@ -52,7 +80,12 @@ const StartupForm = ({
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ ...startupDetails }),
+			body: JSON.stringify({
+				...startupDetails,
+				businessType: businessType[0].id,
+				businessCategory: businessCategory[0].id,
+				subCategory: subCategory,
+			}),
 		});
 		if (res.ok) {
 			setLoad(false);
@@ -195,6 +228,60 @@ const StartupForm = ({
 							}}
 						/>
 					</FormControl>
+				</div>
+			</div>
+
+			<div>
+				<p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">
+					Business Details:
+				</p>
+				<div className="flex flex-wrap gap-2 grid-cols-2">
+					<div className="mx-auto" style={{ width: "18rem" }}>
+						<FormControl label={() => "Bussiness Type: "}>
+							<Select
+								options={BusinessTypes}
+								value={businessType}
+								placeholder="Select Business Type"
+								onChange={(params) => {
+									setBusinessType(params.value);
+								}}
+								overrides={{
+									ControlContainer: {
+										style: ({ $theme }) => ({
+											borderRadius: "10px",
+											width: "18rem",
+										}),
+									},
+								}}
+							/>
+						</FormControl>
+						<FormControl label={() => "Bussiness Category: "}>
+							<Select
+								options={BusinessCategory}
+								required
+								value={businessCategory}
+								placeholder="Select Business Type"
+								onChange={(params) => {
+									setBusinessCategory(params.value);
+								}}
+								overrides={{
+									ControlContainer: {
+										style: ({ $theme }) => ({
+											borderRadius: "10px",
+											width: "18rem",
+										}),
+									},
+								}}
+							/>
+						</FormControl>
+						<FormControl label={() => "Sub Category"}>
+							<Autocomplete
+								mainCategory={businessCategory}
+								subCategory={subCategory}
+								setSubCategory={setSubCategory}
+							/>
+						</FormControl>
+					</div>
 				</div>
 			</div>
 
