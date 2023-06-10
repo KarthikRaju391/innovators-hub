@@ -289,97 +289,136 @@ const StartupForm = ({
 				<p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">
 					Startup Address:
 				</p>
-				<FormControl label={() => "Street 1:"}>
-					<Input
-						value={startupDetails?.location.street1}
-						onChange={(e) =>
-							setStartupDetails({
-								...startupDetails,
-								location: {
-									...startupDetails.location,
-									street1: e.target.value,
+				<div className="flex flex-wrap justify-around gap-x-4">
+					<FormControl label={() => "Street 1:"}>
+						<Input
+							value={startupDetails?.location.street1}
+							onChange={(e) =>
+								setStartupDetails({
+									...startupDetails,
+									location: {
+										...startupDetails.location,
+										street1: e.target.value,
+									},
+								})
+							}
+							placeholder="Eg. 5071, Koramangala 6th block"
+							clearOnEscape
+							required
+							overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
 								},
-							})
-						}
-						placeholder="Eg. 5071, Koramangala 6th block"
-						clearOnEscape
-						required
-					/>
-				</FormControl>
+							}}
+						/>
+					</FormControl>
 
-				<FormControl label={() => "Street 2:"}>
-					<Input
-						value={startupDetails?.location.street2}
-						onChange={(e) =>
-							setStartupDetails({
-								...startupDetails,
-								location: {
-									...startupDetails.location,
-									street2: e.target.value,
+					<FormControl label={() => "Street 2:"}>
+						<Input
+							value={startupDetails?.location.street2}
+							onChange={(e) =>
+								setStartupDetails({
+									...startupDetails,
+									location: {
+										...startupDetails.location,
+										street2: e.target.value,
+									},
+								})
+							}
+							placeholder="Eg. Kormanagala"
+							clearOnEscape
+							overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
 								},
-							})
-						}
-						placeholder="Eg. Kormanagala"
-						clearOnEscape
-					/>
-				</FormControl>
-				<FormControl label={() => "City:"}>
-					<Input
-						value={startupDetails?.location.city}
-						onChange={(e) =>
-							setStartupDetails({
-								...startupDetails,
-								location: { ...startupDetails.location, city: e.target.value },
-							})
-						}
-						placeholder="Eg. Bengaluru"
-						clearOnEscape
-						required
-					/>
-				</FormControl>
-
-				<FormControl label={() => "State:"}>
-					<Input
-						value={startupDetails?.location.state}
-						onChange={(e) =>
-							setStartupDetails({
-								...startupDetails,
-								location: { ...startupDetails.location, state: e.target.value },
-							})
-						}
-						placeholder="Eg. Karnataka"
-						clearOnEscape
-						required
-					/>
-				</FormControl>
-
-				<FormControl label={() => "Postal Code:"}>
-					<Input
-						value={startupDetails?.location.postalCode}
-						onChange={(e) =>
-							setStartupDetails({
-								...startupDetails,
-								location: {
-									...startupDetails.location,
-									postalCode: e.target.value,
+							}}
+						/>
+					</FormControl>
+					<FormControl label={() => "City:"}>
+						<Input
+							value={startupDetails?.location.city}
+							onChange={(e) =>
+								setStartupDetails({
+									...startupDetails,
+									location: {
+										...startupDetails.location,
+										city: e.target.value,
+									},
+								})
+							}
+							placeholder="Eg. Bengaluru"
+							clearOnEscape
+							required
+							overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
 								},
-							})
-						}
-						placeholder="Eg. 560047"
-						clearOnEscape
-						required
-						type="number"
-					/>
-				</FormControl>
+							}}
+						/>
+					</FormControl>
+				</div>
+				<div>
+					<FormControl label={() => "State:"}>
+						<Input
+							value={startupDetails?.location.state}
+							onChange={(e) =>
+								setStartupDetails({
+									...startupDetails,
+									location: {
+										...startupDetails.location,
+										state: e.target.value,
+									},
+								})
+							}
+							placeholder="Eg. Karnataka"
+							clearOnEscape
+							required
+							overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
+						/>
+					</FormControl>
 
-				<FormControl label={() => "Country:"}>
-					<Input
-						value={startupDetails?.location.country}
-						disabled
-						clearOnEscape
-						required
-					/>
-				</FormControl>
+					<FormControl label={() => "Postal Code:"}>
+						<Input
+							value={startupDetails?.location.postalCode}
+							onChange={(e) =>
+								setStartupDetails({
+									...startupDetails,
+									location: {
+										...startupDetails.location,
+										postalCode: e.target.value,
+									},
+								})
+							}
+							placeholder="Eg. 560047"
+							clearOnEscape
+							required
+							type="number"
+							overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
+						/>
+					</FormControl>
+
+					<FormControl label={() => "Country:"}>
+						<Input
+							value={startupDetails?.location.country}
+							disabled
+							clearOnEscape
+							required
+							overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
+						/>
+					</FormControl>
+				</div>
 			</div>
 
 			<div className="flex justify-center gap-4 grid-cols-2 flex-wrap  ">

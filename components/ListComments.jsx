@@ -1,5 +1,8 @@
 import { useState } from "react";
 import CommentForm from "./CommentForm";
+import MarkdownIt from 'markdown-it';
+
+const md = new MarkdownIt();
 
 function CommentActions({ commentId, replyCount }) {
     const [replying, setReplying] = useState(false)
@@ -17,11 +20,15 @@ function CommentActions({ commentId, replyCount }) {
 }
 
 function Comment({ comment }) {
+    
+    const html = md.render(comment.body);
+
     return (
             <div className=" my-2 mx-4 py-2 animate__animated animate__fadeInUp">
                 <div>
                     <h1>{comment.user.name}<span> | {new Date(comment.createdAt).toDateString()}</span></h1>
-                    <h2>{comment.body}</h2>
+                    {/* <Markdown>{comment.body}</Markdown> */}
+                    <div dangerouslySetInnerHTML={{ __html: html }} />
                 </div>
                 <CommentActions commentId={comment.id} replyCount={comment.children.length} />
 
