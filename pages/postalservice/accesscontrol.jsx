@@ -64,8 +64,8 @@ function createmanager() {
 			</div>
 
 			{data?.length > 0 ? (
-				<div className="grid justify-center overflow-x-auto">
-					<table className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
+				<div className="mx-4 overflow-x-auto">
+					<table className="mx-auto mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
 						<thead>
 							<tr className="animate__animated animate__fadeInUp">
 								<th>Email</th>
