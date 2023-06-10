@@ -32,6 +32,8 @@ function LoginHeader() {
         setIsOpen(true)
     }
 
+    var update = true
+
     return (
         <>
           {role?.includes("USER") && <SideNavUser open={isOpen} handleOpen={handleOpen}/>}
@@ -45,7 +47,10 @@ function LoginHeader() {
             <StyledNavigationList $align={ALIGN.center} >
               <StyledNavigationItem>
                   <StyledLink style={{cursor: "pointer"}} onClick={()=>router.push("/user/meetings")}>                    
+                    <div className="flex" >
                       {user}
+                      {update && <div className="bg-red-600 rounded-full h-2 w-2" />}
+                    </div>
                   </StyledLink>
                 </StyledNavigationItem>
             </StyledNavigationList>
