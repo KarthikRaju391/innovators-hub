@@ -170,15 +170,16 @@ model Startup {
 }
 
 model Venture {
-  id              String          @id @default(cuid())
-  investorId      String          @unique
+  id              String           @id @default(cuid())
+  investorId      String           @unique
   amountInvested  Float
-  investmentStage InvestmentStage
+  investmentStage InvestmentStage?
   projectId       String
-  investor        Investor        @relation(fields: [investorId], references: [id])
-  project         Project         @relation(fields: [projectId], references: [id])
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
+  investor        Investor         @relation(fields: [investorId], references: [id])
+  project         Project          @relation(fields: [projectId], references: [id])
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  transaction     Transaction?
 }
 
 model Project {
@@ -199,7 +200,7 @@ model Order {
   id             String           @id @default(cuid())
   userId         String
   quantity       Int
-  deliverTo      String
+  deliverTo      Json
   orderCost      Int
   startupIds     String[]
   deliveryStatus Status           @default(PENDING)
@@ -281,15 +282,17 @@ model ProductOnOrder {
 }
 
 model Transaction {
-  id                    String  @id @default(cuid())
+  id                    String   @id @default(cuid())
   razorpayOrderId       String
   razorpayPaymentId     String?
   razorpaySignature     String?
   razorpayPaymentLink   String?
   razorpayPaymentStatus String?
   razorpayPaymentAmount Int?
-  orderId               String? @unique
-  order                 Order?  @relation(fields: [orderId], references: [id])
+  orderId               String?  @unique
+  order                 Order?   @relation(fields: [orderId], references: [id])
+  ventureId             String?  @unique
+  venture               Venture? @relation(fields: [ventureId], references: [id])
 }
 
 model AccessToken {
@@ -304,10 +307,10 @@ model Meeting {
   id              String       @id @default(cuid())
   projectId       String
   project         Project      @relation(fields: [projectId], references: [id])
-  entrepreneurId  String
-  investor        Investor     @relation(fields: [investorEmail], references: [id])
+  entrepreneurId  String       @unique
+  investor        Investor     @relation(fields: [investorId], references: [id])
   entrepreneur    Entrepreneur @relation(fields: [entrepreneurId], references: [id])
-  investorEmail   String       @unique
+  investorId      String       @unique
   topic           String
   meetingTime     DateTime
   meetingLink     String

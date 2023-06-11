@@ -14,6 +14,18 @@ export const authOptions = {
 				session.user.role = user.role;
 				session.user.address = user.address;
 
+				if (user.role.includes("INVESTOR")) {
+					const investor = await prisma.investor.findUnique({
+						where: {
+							userId: user.id,
+						},
+						include: {
+							venture: true,
+						},
+					});
+					session.user.investorId = investor.id;
+				}
+
 				if (user.role.includes("ENTREPRENEUR")) {
 					const startup = await prisma.user.findUnique({
 						where: {

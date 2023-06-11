@@ -8,6 +8,9 @@ export default async (req, res) => {
 		},
 	});
 
+	if (!accessTokenId) {
+		return res.json({ validAccessToken: false });
+	}
 	const validAccessToken = await getValidAccessToken(accessTokenId.id);
 
 	return res.json({ validAccessToken });

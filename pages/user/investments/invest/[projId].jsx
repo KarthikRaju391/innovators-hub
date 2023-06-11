@@ -1,6 +1,8 @@
 import BackButton from "../../../../components/BackButton";
 import LoginHeader from "../../../../components/LoginHeader";
 import { Button } from "baseui/button";
+import { Input } from "baseui/input";
+import { SiRazorpay } from "react-icons/si";
 import { useEffect, useState } from "react";
 import { FaHandsHelping } from "react-icons/fa";
 import { useSession } from "next-auth/react";
@@ -14,11 +16,21 @@ import { fetcher } from "../../../../lib/fetcher";
 
 export default function Invest() {
 	const [meetingUrl, setMeetingUrl] = useState("");
-	const [isOpen, setIsOpen] = useState(false);
+	const [paymentSuccess, setPaymentSuccess] = useState(true);
 	const [load1, setLoad1] = useState(false);
+	const [modal, setModal] = useState(false); //
+	const [amount, setAmount] = useState("");
 	const [load2, setLoad2] = useState(false);
-	const session = useSession();
+	const [isOpen, setIsOpen] = useState(false);
+	const { data: session } = useSession();
 	const router = useRouter();
+
+	useEffect(() => {
+		const script = document.createElement("script");
+		script.src = "https://checkout.razorpay.com/v1/checkout.js";
+		script.async = true;
+		document.body.appendChild(script);
+	}, []);
 
 	const { projId } = router.query;
 
@@ -30,8 +42,98 @@ export default function Invest() {
 		setIsOpen(false);
 	};
 
-	const buyHandler = async () => {
-		console.log("invest");
+	const payHandler = async (e) => {
+		e.preventDefault();
+		setPaymentSuccess(false);
+		// const res = await fetch(`/api/cart/`);
+		// const cartData = await res.json();
+
+		setLoad1(true);
+
+		const res = await fetch(`/api/venture/`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ contributedAmount: amount, projectId: projId }),
+		});
+		const ventureRes = await res.json();
+
+		var options = {
+			key: process.env.KEY_ID, // Enter the Key ID generated from the Dashboard
+			amount: ventureRes.orderCost, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+			currency: "INR",
+			name: "Innovators Hub", //your business name
+			description: "Test Transaction",
+			// image: "https://example.com/your_logo",
+			order_id: ventureRes.transaction.razorpayOrderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+			handler: async function (response) {
+				// payment success modal
+
+				// venture clear
+				// await fetch(`/api/venture/`, {
+				// 	method: "DELETE",
+				// 	headers: {
+				// 		"Content-Type": "application/json",
+				// 	},
+				// 	body: JSON.stringify(ventureRes.id),
+				// });
+
+				const razorpayResponse = {
+					ventureId: ventureRes.id,
+					razorpay_payment_id: response.razorpay_payment_id,
+					razorpay_order_id: response.razorpay_order_id,
+					razorpay_signature: response.razorpay_signature,
+				};
+
+				const validation = await fetch(`/api/venture/`, {
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(razorpayResponse),
+				});
+
+				if (validation) {
+					alert("Payment Successful");
+					setPaymentSuccess(true);
+					// window.location.reload();
+				} else {
+					alert("Payment Failed");
+				}
+			},
+			prefill: {
+				name: session.user.name, //your customer's name
+				email: session.user.email, //your customer's email
+				contact: session.user.contact, //Provide the customer's phone number for better conversion rates
+			},
+			theme: {
+				color: "#3399cc",
+			},
+		};
+
+		var rzp1 = new Razorpay(options);
+		rzp1.on("payment.failed", async function (response) {
+			alert(response.error.code);
+			alert(response.error.description);
+			alert(response.error.source);
+			alert(response.error.step);
+			alert(response.error.reason);
+			alert(response.error.metadata.order_id);
+			alert(response.error.metadata.payment_id);
+			await fetch(`/api/venture/`, {
+				method: "DELETE",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ ventureId: ventureRes.id }),
+			});
+		});
+
+		rzp1.open();
+
+		setLoad1(false);
+		setModal(false);
 	};
 
 	const meethandler = async (meetingTime) => {
@@ -56,7 +158,7 @@ export default function Invest() {
 				},
 				body: JSON.stringify({
 					projectId: projId,
-					investorEmail: session.data?.user?.email,
+					investorId: session.user.investorId,
 					meetingTime,
 					accessToken: accessToken.validAccessToken,
 				}),
@@ -75,9 +177,11 @@ export default function Invest() {
 	if (!project) return <div>Project not found</div>;
 
 	var tblContent =
+		paymentSuccess &&
+		project.venture &&
 		project.venture.length > 0 &&
 		project.venture.map((vent) => (
-			<tr key={venture.id} className="row animate__animated animate__fadeInUp">
+			<tr key={vent.id} className="row animate__animated animate__fadeInUp">
 				{" "}
 				<td className="col">{vent.investor.user.name}</td>{" "}
 				<td className="col">{vent.amountInvested}</td>{" "}
@@ -88,6 +192,81 @@ export default function Invest() {
 		<>
 			<BackButton />
 			<LoginHeader />
+			<Modal
+				onClose={() => setModal(false)}
+				closeable
+				isOpen={modal}
+				animate
+				autoFocus
+				size={SIZE.default}
+				role={ROLE.dialog}
+			>
+				<ModalHeader>INVESTING</ModalHeader>
+				<ModalBody>
+					<p
+						className="text-sm cursor-pointer mb-2 text-center"
+						onClick={(e) => router.push("/termsandconditions")}
+					>
+						Please go through{" "}
+						<span className="underline">TERMS & CONDITIONS</span> before
+						investing.
+					</p>
+					<form
+						onSubmit={(e) => payHandler(e)}
+						className="flex flex-col justify-center items-center gap-4"
+					>
+						<Input
+							value={amount}
+							onChange={(e) => setAmount(e.target.value)}
+							placeholder="Amount"
+							type="number"
+							clearable
+							clearOnEscape
+							startEnhancer="₹"
+							autoComplete="on"
+							autoFocus
+							min={0}
+							required
+							overrides={{
+								Root: { style: ({ $theme }) => ({ width: 18 }) },
+							}}
+						/>
+						<div className="flex gap-4">
+							<p
+								className="cursor-pointer font-semibold text-lg text-fuchsia-600"
+								onClick={(e) => setAmount("500")}
+							>
+								500
+							</p>
+							<p
+								className="cursor-pointer font-semibold text-lg text-fuchsia-600"
+								onClick={(e) => setAmount("1000")}
+							>
+								1000
+							</p>
+							<p
+								className="cursor-pointer font-semibold text-lg text-fuchsia-600"
+								onClick={(e) => setAmount("2000")}
+							>
+								2000
+							</p>
+						</div>
+						<Button
+							type="Submit"
+							overrides={{
+								BaseButton: {
+									style: ({ $theme }) => ({
+										backgroundColor: $theme.colors.positive300,
+									}),
+								},
+							}}
+							startEnhancer={<SiRazorpay style={{ fontSize: "1.5rem" }} />}
+						>
+							Pay Now
+						</Button>
+					</form>
+				</ModalBody>
+			</Modal>
 			<Modal
 				onClose={() => setIsOpen(false)}
 				closeable

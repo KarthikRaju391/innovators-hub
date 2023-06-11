@@ -19,59 +19,63 @@ export default async function handle(req, res) {
 			// res.json(users);
 			return res.json({ message: "done" });
 		} else if (req.method === "POST") {
-			const orderItems = req.body;
-
-			// fetch the products for each productId in orderItems
-			const products = await prisma.product.findMany({
-				where: {
-					id: {
-						in: orderItems.map((item) => item.productId),
-					},
-				},
-			});
-
-			// calculate the total price of the order
-			const totalPrice = orderItems.reduce((acc, item) => {
-				const product = products.find((p) => p.id === item.productId);
-				return acc + product.price * item.quantity;
-			}, 0);
+			const { contributedAmount, projectId } = req.body;
 
 			var instance = new Razorpay({
 				key_id: process.env.KEY_ID,
 				key_secret: process.env.KEY_SECRET,
 			});
 
-			const orderResponse = await instance.orders.create({
-				amount: totalPrice * 100,
-				currency: "INR",
-			});
-
-			const createdOrder = await prisma.order.create({
-				data: {
-					user: {
-						connect: {
-							id: session.user.id,
+			// get the startup details of the project
+			const project = await prisma.project.findUnique({
+				where: {
+					id: projectId,
+				},
+				include: {
+					startup: {
+						include: {
+							entrepreneur: {
+								include: {
+									user: true,
+								},
+							},
 						},
 					},
-					quantity: orderItems.reduce((acc, item) => {
-						return acc + item.quantity;
-					}, 0),
-					deliverTo: session.user.address,
-					products: {
-						create: products.map((product) => ({
-							productId: product.id,
-							productName: product.name,
-							productPrice: product.price,
-							startupId: product.startupId,
-							productQuantity: orderItems.find(
-								(item) => item.productId === product.id
-							).quantity,
-						})),
+				},
+			});
+
+			const orderResponse = await instance.orders.create({
+				amount: contributedAmount * 100,
+				currency: "INR",
+				transfers: [
+					{
+						account: project.startup.linkedAccountId,
+						amount: contributedAmount * 100,
+						currency: "INR",
+						notes: {
+							company: project.startup.name,
+							name: project.startup.entrepreneur.user.name,
+						},
+						linked_account_notes: ["company"],
+						on_hold: 0,
+						// on_hold_until: 1671222870,
 					},
-					startupIds: {
-						set: [...new Set(products.map((product) => product.startupId))],
+				],
+			});
+
+			const createdVenture = await prisma.venture.create({
+				data: {
+					project: {
+						connect: {
+							id: projectId,
+						},
 					},
-					orderCost: totalPrice,
+					investor: {
+						connect: {
+							id: session.user.investorId,
+						},
+					},
+					amountInvested: parseFloat(contributedAmount),
 					transaction: {
 						create: {
 							razorpayOrderId: orderResponse.id,
@@ -80,28 +84,28 @@ export default async function handle(req, res) {
 				},
 				include: {
 					transaction: true,
-					products: true,
+					investor: true,
 				},
 			});
 
-			return res.json(createdOrder);
+			return res.json(createdVenture);
 		} else if (req.method === "PUT") {
 			const {
-				orderId,
+				ventureId,
 				razorpay_order_id,
 				razorpay_payment_id,
 				razorpay_signature,
 			} = req.body;
 			await prisma.transaction.update({
 				where: {
-					orderId: orderId,
+					ventureId: ventureId,
 				},
 				data: {
 					razorpayPaymentId: razorpay_payment_id,
 					razorpaySignature: razorpay_signature,
 				},
 				include: {
-					order: true,
+					venture: true,
 				},
 			});
 
@@ -112,13 +116,13 @@ export default async function handle(req, res) {
 			);
 			return res.json(resp);
 		} else if (req.method === "DELETE") {
-			const { orderId } = req.body;
-			await prisma.order.delete({
+			const { ventureId } = req.body;
+			await prisma.venture.delete({
 				where: {
-					id: orderId,
+					id: ventureId,
 				},
 			});
-			return res.json({ message: "Order deleted" });
+			return res.json({ message: "Venture deleted" });
 		}
 	} catch (error) {
 		console.log(error);

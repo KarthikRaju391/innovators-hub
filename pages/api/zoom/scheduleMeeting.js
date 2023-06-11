@@ -24,7 +24,7 @@ export default async (req, res) => {
 	});
 
 	if (req.method === "POST") {
-		const { investorEmail, meetingTime, projectId, accessToken } = req.body;
+		const { investorId, meetingTime, projectId, accessToken } = req.body;
 
 		// Get the access token from the session or a secure storage
 		// const accessTokenId = await prisma.accessToken.findFirst({
@@ -81,7 +81,7 @@ export default async (req, res) => {
 					},
 					investor: {
 						connect: {
-							email: investorEmail,
+							id: investorId,
 						},
 					},
 					entrepreneur: {
