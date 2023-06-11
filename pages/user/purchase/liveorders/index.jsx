@@ -40,9 +40,9 @@ function Products({products, initialCursor}) {
 		<>
 			<BackButton />
 			<LoginHeader />
-			<h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">
+			<p className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">
 				Live Orders
-			</h2>
+			</p>
 			<div className="flex justify-center flex-wrap gap-4 grid-cols-2">
 				{loadedProducts.map((i) => (
 					<ProductCard

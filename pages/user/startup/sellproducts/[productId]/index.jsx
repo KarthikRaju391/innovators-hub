@@ -37,7 +37,7 @@ function productId({ product }) {
 		<>
 			<BackButton />
 			<LoginHeader />
-			<h2 className="select-none flex my-[.5rem] py-[.5rem] text-3xl cursor-default justify-center gap-4">
+			<p className="select-none flex my-[.5rem] py-[.5rem] text-3xl cursor-default justify-center gap-4">
 				{product.name}{" "}
 				<span className="animate__animated animate__fadeInRight flex gap-4">
 					{" "}
@@ -60,7 +60,7 @@ function productId({ product }) {
 						/>
 					)}{" "}
 				</span>
-			</h2>
+			</p>
 			<div className="my-2 py-2 ml-5 pl-5 flex justify-center flex-wrap gap-2 grid-cols-2 animate__animated animate__fadeInUp">
 				{product.image.map(
 					(src, index) =>

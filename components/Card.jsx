@@ -16,11 +16,15 @@ function Card(props) {
         nowTheme = JSON.parse(localStorage.getItem("theme"));
       }
 
+      var head, para;
+
+      props.head.length < 23 ? head = props.head : head = props.head.substr(0,23)+"..."
+      props.para.length < 35 ? para = props.para : para = props.para.substr(0,35)+"..."
     return (
-      <div className = "animate__animated animate__fadeInLeft">
+      <div className = "animate__animated animate__fadeInLeft" title={props.head}>
         <MessageCard
-          heading={props.head || ""}
-          paragraph={props.para || ""}
+          heading={head || ""}
+          paragraph={para || ""}
           onClick={() => { props.url != undefined || props.url != null ? router.push(props.url) : router.push(router.asPath)}}
           //   image={{
           //     src: hamburger,

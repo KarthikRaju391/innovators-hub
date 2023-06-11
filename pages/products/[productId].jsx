@@ -8,6 +8,7 @@ import { GrCart } from "react-icons/gr";
 import { BsFillCreditCard2BackFill } from "react-icons/bs";
 import { useSession, signIn } from "next-auth/react";
 import { makeSerializable } from "../../lib/util";
+import { useRouter } from "next/router";
 
 function productId({ product }) {
 	const session = useSession();
@@ -15,6 +16,8 @@ function productId({ product }) {
 	const [isViewerOpen, setIsViewerOpen] = useState(false);
 	const [load1, setLoad1] = useState(false);
 	const [load2, setLoad2] = useState(false);
+
+	const router = useRouter()
 
 	const openImageViewer = useCallback((index) => {
 		setCurrentImage(index);
@@ -98,7 +101,7 @@ function productId({ product }) {
 								/>
 							)}
 						</div>
-						<div className="md:w-3/4 mx-auto md:py-20">
+						<div className="md:w-3/4 mx-auto md:py-20 cursor-default">
 							<h1 className="text-2xl text-left">{product.name}</h1>
 							{product.category && (
 								<>
@@ -111,14 +114,17 @@ function productId({ product }) {
 							<p className="font-medium text-left mt-2 break-all">
 								{product.description}
 							</p>
+							<p className="text-left mt-2 break-all cursor-pointer" onClick={()=>{router.push(`/user/startup/${product.startup.id}`)}}>
+								Startup - {product.startup.name}
+							</p>
 							{/* <p className="flex justify-start items-center mt-4">
 								<Star />
 								{product.rating.rate}
 							</p> */}
 							{/* <p className="text-left mt-2">{product.rating.count} reviews</p> */}
-							<h2 className="font-bold text-xl text-left mt-2">
+							<p className="font-bold text-xl text-left mt-2">
 								₹{product.price}
-							</h2>
+							</p>
 							<div className="flex">
 								<button
 									className="mt-4 bg-gray-800 hover:bg-gray-700 rounded-md text-slate-200 p-4"
@@ -132,9 +138,9 @@ function productId({ product }) {
 					</div>
 				)}
 			</div>
-			{/* <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">
+			{/* <p className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">
 				{product.name}
-			</h2>
+			</p>
 			<div className="my-2 py-2 ml-5 pl-5 flex justify-center flex-wrap gap-2 grid-cols-2 animate__animated animate__fadeInUp">
 				{product.image.map(
 					(src, index) =>

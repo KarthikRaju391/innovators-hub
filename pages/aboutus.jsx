@@ -16,7 +16,7 @@ function aboutus() {
             <SideNavUser open={isOpen} handleOpen={handleOpen}/>
             <Header/>
             <div className="">
-            <h2 className="select-none my-[1rem] py-[1rem] text-4xl cursor-default text-center" style={{fontFamily: "Syncopate"}}>About Us</h2>
+            <p className="select-none my-[1rem] py-[1rem] text-4xl cursor-default text-center" style={{fontFamily: "Syncopate"}}>About Us</p>
                 <p className="pl-[15%] mr-[2rem] text-lg font-semibold mb-[2rem] cursor-default">
                     I am excited to announce the launch of my new venture,
                     <br/><span className="font-bold tracking-wider text-2xl">Innovators' Hub -</span>

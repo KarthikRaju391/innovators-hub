@@ -56,7 +56,7 @@ function Products() {
         <>
             <BackButton/>
             <LoginHeader/>
-            <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">Orders History</h2>
+            <p className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">Orders History</p>
             <div className="flex justify-center flex-wrap gap-4 grid-cols-2">
                 {data.map(i => <ProductCard key={i.productId} data={i} url={`/user/purchase/ordershistory/${i.productId}`}/>)}
             </div>

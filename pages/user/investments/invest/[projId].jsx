@@ -281,7 +281,7 @@ export default function Invest() {
 					<DateForm closeOpen={closeOpen} meethandler={meethandler} />
 				</ModalBody>
 			</Modal>
-			<h2 className="select-none flex my-[.5rem] py-[.5rem] text-3xl cursor-default justify-center gap-4">
+			<p className="select-none flex my-[.5rem] py-[.5rem] text-3xl cursor-default justify-center gap-4">
 				{project.name}{" "}
 				{session.data?.user?.id === project.startup.entrepreneur.userId && (
 					<FiEdit
@@ -295,15 +295,15 @@ export default function Invest() {
 						}
 					/>
 				)}
-			</h2>
+			</p>
 
 			<div className="flex flex-wrap justify-around gap-4 mb-[1rem] pb-[1rem]">
 				<div>
 					<div>
-						<h2 className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center">
+						<p className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center">
 							{" "}
 							Project Details{" "}
-						</h2>
+						</p>
 						<div className="text-justify">
 							<p className="select-none mt-[.5rem] pt-[.5rem] text-lg cursor-default animate__animated animate__fadeInUp">
 								Startup: {project.startup.name}
@@ -322,10 +322,10 @@ export default function Invest() {
 					</div>
 					<br /> <br />
 					<div>
-						<h2 className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center">
+						<p className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center">
 							{" "}
 							Project Report Over View{" "}
-						</h2>
+						</p>
 						{/* add more */}
 					</div>
 					<br /> <br />
@@ -335,8 +335,8 @@ export default function Invest() {
 						</p>
 
 						{project.venture.length > 0 ? (
-							<div className="grid justify-center">
-								<table className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
+							<div className="mx-4 overflow-x-auto">
+								<table className="mx-auto mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
 									<thead>
 										<tr className="animate__animated animate__fadeInUp">
 											<th>Name</th>

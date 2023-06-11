@@ -10,13 +10,13 @@ function about() {
         <>
             <LoginHeader />
 			<BackButton />
-			<h2 className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">
+			<p className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">
 				About Project
-			</h2>
+			</p>
             <div className="flex flex-wrap justify-around gap-4 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
                 <div>
                     <div>
-                        <h2 className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center"> Project Details </h2>
+                        <p className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center"> Project Details </p>
                         <p className="select-none mt-[.5rem] pt-[.5rem] text-lg cursor-default animate__animated animate__fadeInUp">Startup: {"initial.startupName"}</p>
                         <p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">Investment Requirement:{"initial.investmentRequired"}</p>
                         <p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">Publish Date:{"initial.publishDate"}</p>
@@ -25,7 +25,7 @@ function about() {
                     </div>
                     <br/> <br/>
                     <div>
-                        <h2 className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center"> Project Report Over View </h2>
+                        <p className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center"> Project Report Over View </p>
                         {/* add more */}
                     </div>
                     <br/> <br/>

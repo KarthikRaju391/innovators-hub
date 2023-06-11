@@ -11,10 +11,12 @@ import SideNavUser from "../components/SideNav/SideNavUser";
 import classes from '../styles/header.module.css'
 import { useSession } from 'next-auth/react';
 import SideNavPostalAdmin from "./SideNav/SideNavPostalAdmin";
+import { useRouter } from "next/router";
 
 function LoginHeader() {
 
     const session = useSession()
+    const router = useRouter()
     // console.log(session.data)
     const user = (session?.data?.user.name) || ""
 
@@ -30,6 +32,8 @@ function LoginHeader() {
         setIsOpen(true)
     }
 
+    var update = true
+
     return (
         <>
           {role?.includes("USER") && <SideNavUser open={isOpen} handleOpen={handleOpen}/>}
@@ -37,13 +41,16 @@ function LoginHeader() {
           <HeaderNavigation className={classes.uls } style={{ borderRadius: "0" }}>
             <StyledNavigationList $align={ALIGN.left}>
               <StyledNavigationItem>
-                <StyledLink style={{fontSize: "1.5rem", textDecoration: "none", fontFamily:"Syncopate", fontWeight: "550", userSelect: "none"}}>Innovators' Hub</StyledLink>
+                <StyledLink style={{fontSize: "1.5rem", textDecoration: "none", fontFamily:"Syncopate", fontWeight: "550", userSelect: "none", cursor: "pointer"}} onClick={()=>router.push("/")}>Innovators' Hub</StyledLink>
               </StyledNavigationItem>
             </StyledNavigationList>
             <StyledNavigationList $align={ALIGN.center} >
               <StyledNavigationItem>
-                  <StyledLink style={{cursor: "default"}}>                    
+                  <StyledLink style={{cursor: "pointer"}} onClick={()=>router.push("/user/meetings")}>                    
+                    <div className="flex" >
                       {user}
+                      {update && <div className="bg-red-600 rounded-full h-2 w-2" />}
+                    </div>
                   </StyledLink>
                 </StyledNavigationItem>
             </StyledNavigationList>

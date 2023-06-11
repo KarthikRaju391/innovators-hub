@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
-import { Modal, ModalHeader, ModalBody, ModalFooter, ModalButton, SIZE, ROLE } from "baseui/modal";
-import { KIND as ButtonKind } from "baseui/button";
 import { Textarea } from "baseui/textarea";
 import { Input } from "baseui/input";
 import { FormControl } from "baseui/form-control";
 import { useRouter } from 'next/router';
+import { Button } from 'baseui/button';
 
-const AddPost = (props) => {
+const AddPost = () => {
 
     const router = useRouter()
 
@@ -17,7 +16,6 @@ const AddPost = (props) => {
         e.preventDefault();
 
         if (title === "" || body ===""){
-            props.closeOpen()
             return
         }
         
@@ -34,17 +32,15 @@ const AddPost = (props) => {
             },
             body: JSON.stringify(postData)
         })
-        props.closeOpen()
         setTitle("")
         setBody("")
         router.replace(router.asPath)
     }
 
     return (
-        <form onSubmit={(e) => handleSubmit(e)}>
-            <Modal onClose={props.closeOpen} closeable isOpen={props.isOpen} animate autoFocus size={SIZE.default} role={ROLE.dialog} >
-                <ModalHeader>Start Channel</ModalHeader>
-                <ModalBody>
+        <form onSubmit={(e) => handleSubmit(e)} className='w-[18rem] mx-auto select-none my-[.5rem] py-[.5rem] text-xl font-semibold cursor-default text-center'>
+        
+            <p>Start Channel</p>
                 
                 <FormControl label={() => "Enter Title: "} >
                             <Input
@@ -77,15 +73,9 @@ const AddPost = (props) => {
                                 clearOnEscape
                             />
                         </FormControl>
-                
-                </ModalBody>
-                <ModalFooter>
-                    <ModalButton kind={ButtonKind.tertiary} onClick={props.closeOpen} >
-                        Cancel
-                    </ModalButton>
-                        <ModalButton onClick={e => handleSubmit(e)}>Publish</ModalButton>
-                </ModalFooter>
-            </Modal>
+            <div className='flex justify-center'>
+                <Button type='submit'>Publish</Button>
+            </div>
         </form>
     )
 }

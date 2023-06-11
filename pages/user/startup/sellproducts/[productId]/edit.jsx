@@ -52,7 +52,7 @@ function edit() {
         <>
             <LoginHeader/>
             <BackButton/>
-            <h2 className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">Edit Product - {router.query.productId}</h2>
+            <p className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">Edit Product - {router.query.productId}</p>
 
             <form onSubmit={e=>submit(e)} className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
             

@@ -28,12 +28,12 @@ var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className={`row anim
     <>
         <BackButton/>
         <LoginHeader/>
-          <h2 className="select-none flex my-[.5rem] py-[.5rem] text-3xl cursor-default justify-center gap-4">{initial.projectName} </h2>
+          <p className="select-none flex my-[.5rem] py-[.5rem] text-3xl cursor-default justify-center gap-4">{initial.projectName} </p>
   
           <div className="flex flex-wrap justify-around gap-4 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
                 <div>
                     <div>
-                        <h2 className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center"> Project Details </h2>
+                        <p className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center"> Project Details </p>
                         <div className='text-justify'>
                           <p className="select-none mt-[.5rem] pt-[.5rem] text-lg cursor-default animate__animated animate__fadeInUp cursor-pointer" onClick={e=>router.push(`/user/startup/${initial.startupId}`)}>Startup: {initial.startupName}</p>
                           <p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">Investment Requirement:{initial.investmentRequired}</p>
@@ -44,7 +44,7 @@ var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className={`row anim
                     </div>
                     <br/> <br/>
                     <div>
-                        <h2 className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center"> Project Report Over View </h2>
+                        <p className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center"> Project Report Over View </p>
                         {/* add more */}
                     </div>
                     <br/> <br/>
@@ -52,8 +52,8 @@ var tblContent = initial?.backers?.map((e,i)=>( <tr key={i} className={`row anim
                         <p className='mt-5 cursor-default text-center text-lg underline'>List of backers</p>
 
                         {initial?.backers?.length > 0 ? (
-                        <div className='grid justify-center'>
-                        <table className='mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]'>
+                            <div className="mx-4 overflow-x-auto">
+								<table className="mx-auto mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
                             <thead>
                             <tr className='animate__animated animate__fadeInUp'>
                                 <th>Name</th>

@@ -12,9 +12,9 @@ export default function Edit({ project }) {
 		<>
 			<LoginHeader />
 			<BackButton />
-			<h2 className="select-none mt-[1rem] pt-[1rem] text-3xl cursor-default text-center">
+			<p className="select-none mt-[1rem] pt-[1rem] text-3xl cursor-default text-center">
 			Edit Project
-			</h2>
+			</p>
 			<p className="text-center mb-[1rem] pb-[1rem]">Project ID: {pid}</p>
 			<ProjectForm edit data={project} />
 		</>

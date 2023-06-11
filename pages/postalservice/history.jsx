@@ -23,11 +23,11 @@ function adminhistory() {
         <>
             <LoginHeader/>
             <BackButton/>
-            <h2 className="select-none mt-[1rem] pt-[1rem] text-3xl cursor-default text-center">History</h2>
+            <p className="select-none mt-[1rem] pt-[1rem] text-3xl cursor-default text-center">History</p>
 
             {data?.length > 0 ? (
-          <div className='grid justify-center overflow-x-auto'>
-          <table className='mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]'>
+          <div className="mx-4 overflow-x-auto">
+						<table className="mx-auto mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
             <thead>
               <tr className='animate__animated animate__fadeInUp'>
                 <th>Email</th>
