@@ -28,7 +28,7 @@ function Comment({ comment }) {
                 <div>
                     <h1>{comment.user.name}<span> | {new Date(comment.createdAt).toDateString()}</span></h1>
                     {/* <Markdown>{comment.body}</Markdown> */}
-                    <div dangerouslySetInnerHTML={{ __html: html }} />
+                    <div className="markdown" dangerouslySetInnerHTML={{ __html: html }} />
                 </div>
                 <CommentActions commentId={comment.id} replyCount={comment.children.length} />
 

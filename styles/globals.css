@@ -90,3 +90,13 @@ table tbody tr:hover {
 	color: #009879;
 }
 /* ---------------------------------------------------------- */
+.markdown > h1,h2,h3,h4,h5,h6,ul,ol,li {
+	all: revert;
+  }
+
+.button-type-image {
+	display: none;
+	visibility: hidden;
+	pointer-events: none;
+	cursor: default;
+}
