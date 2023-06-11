@@ -100,3 +100,10 @@ table tbody tr:hover {
 	pointer-events: none;
 	cursor: default;
 }
+
+.button-type-underline {
+	display: none;
+	visibility: hidden;
+	pointer-events: none;
+	cursor: default;
+}
