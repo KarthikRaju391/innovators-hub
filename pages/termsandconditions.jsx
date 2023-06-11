@@ -1,6 +1,7 @@
 import * as React from "react";
 import Header from "../components/Header";
 import SideNavUser from "../components/SideNav/SideNavUser";
+import Link from "next/link";
 
 function termsandconditions() {
 
@@ -14,7 +15,7 @@ function termsandconditions() {
         <>
             <SideNavUser open={isOpen} handleOpen={handleOpen}/>
             <Header/>
-            <h1 className="text-3xl mb-[2rem] text-center cursor-default">TERMS & CONDITIONS</h1>
+            <p className="text-3xl mb-[2rem] text-center cursor-default">TERMS & CONDITIONS</p>
                 <ol className="list-decimal mx-[6%] text-justify cursor-default mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
                     <li className="mb-[2rem]">
                         <p className="text-lg">Account Registration:</p>
@@ -130,6 +131,17 @@ function termsandconditions() {
                         <ul className="list-disc ml-[3%]">
                             <li className="mb-[1rem]">
                                 We reserve the right to suspend or terminate your account, restrict access to our website, or remove any content without prior notice or liability, for reasons including but not limited to violations of these Terms or applicable laws.
+                            </li>
+                        </ul>
+                    </li>
+                    <li className="mb-[1rem]">
+                        <p className="text-lg">Payment Gateway:</p>
+                        <ul className="list-disc ml-[3%]">
+                            <li className="mb-[1rem]">
+                                Privacy Policy - <a target="_blank" href={"https://merchant.razorpay.com/policy/M0AUB2n9QbJjyX/privacy"} rel="noopener noreferrer" style={{color: "#0000ee", textDecoration: "underline"}} >  https://merchant.razorpay.com/policy/M0AUB2n9QbJjyX/privacy </a>
+                            </li>
+                            <li className="mb-[1rem]">
+                                Terms and Conditions - <a target="_blank" href={"https://merchant.razorpay.com/policy/M0AUB2n9QbJjyX/terms"} rel="noopener noreferrer" style={{color: "#0000ee", textDecoration: "underline"}} >  https://merchant.razorpay.com/policy/M0AUB2n9QbJjyX/terms </a>
                             </li>
                         </ul>
                     </li>

@@ -26,7 +26,7 @@ function Comment({ comment }) {
     return (
             <div className=" my-2 mx-4 py-2 animate__animated animate__fadeInUp">
                 <div>
-                    <h1>{comment.user.name}<span> | {new Date(comment.createdAt).toDateString()}</span></h1>
+                    <p>{comment.user.name}<span> | {new Date(comment.createdAt).toDateString()}</span></p>
                     {/* <Markdown>{comment.body}</Markdown> */}
                     <div className="markdown" dangerouslySetInnerHTML={{ __html: html }} />
                 </div>

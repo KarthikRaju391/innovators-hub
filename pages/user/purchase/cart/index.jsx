@@ -117,7 +117,7 @@ function Products({ cart }) {
 			<BackButton />
 			<LoginHeader />
 			<div className="mt-4">
-				<h1 className="text-3xl font-bold mb-8 text-center">Shopping Cart</h1>
+				<p className="text-3xl font-bold mb-8 text-center">Shopping Cart</p>
 				{cart && cart.quantities.length > 0 ? (
 					<div>
 						<div className="w-3/4 mx-auto">
@@ -135,7 +135,7 @@ function Products({ cart }) {
 							</div>
 						</div>
 						<div className="w-3/4 mx-auto flex justify-between items-center border-t-2 mt-4 py-4">
-							<h1 className="text-3xl font-bold">Subtotal</h1>
+							<p className="text-3xl font-bold">Subtotal</p>
 							{/* <button onClick={clearCart}>Clear Cart</button> */}
 							<p className="text-2xl font-semibold">
 								₹{cart.totalCost.toFixed(2)}

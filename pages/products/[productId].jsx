@@ -8,6 +8,7 @@ import { GrCart } from "react-icons/gr";
 import { BsFillCreditCard2BackFill } from "react-icons/bs";
 import { useSession, signIn } from "next-auth/react";
 import { makeSerializable } from "../../lib/util";
+import { useRouter } from "next/router";
 
 function productId({ product }) {
 	const session = useSession();
@@ -15,6 +16,8 @@ function productId({ product }) {
 	const [isViewerOpen, setIsViewerOpen] = useState(false);
 	const [load1, setLoad1] = useState(false);
 	const [load2, setLoad2] = useState(false);
+
+	const router = useRouter()
 
 	const openImageViewer = useCallback((index) => {
 		setCurrentImage(index);
@@ -98,7 +101,7 @@ function productId({ product }) {
 								/>
 							)}
 						</div>
-						<div className="md:w-3/4 mx-auto md:py-20">
+						<div className="md:w-3/4 mx-auto md:py-20 cursor-default">
 							<h1 className="text-2xl text-left">{product.name}</h1>
 							{product.category && (
 								<>
@@ -110,6 +113,9 @@ function productId({ product }) {
 							)}
 							<p className="font-medium text-left mt-2 break-all">
 								{product.description}
+							</p>
+							<p className="text-left mt-2 break-all cursor-pointer" onClick={()=>{router.push(`/user/startup/${product.startup.id}`)}}>
+								Startup - {product.startup.name}
 							</p>
 							{/* <p className="flex justify-start items-center mt-4">
 								<Star />

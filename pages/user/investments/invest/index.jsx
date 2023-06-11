@@ -35,7 +35,7 @@ function investmenthistory() {
 					{isLoading ? (
 						<div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
 					) : (
-						<h1 className="text-2xl">No projects</h1>
+						<p className="text-2xl">No projects</p>
 					)}
 				</div>
 			)}

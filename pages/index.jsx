@@ -23,7 +23,7 @@ function Home() {
             <Header/>
             {/* <button className="text-2xl flex mx-auto" onClick={() => openDraw()}>Sign-In</button> */}
             <p className="select-none my-[1rem] py-[1rem] text-4xl cursor-default text-center" onClick={() => openDraw()} style={{fontFamily: "Syncopate"}}>Home</p>
-            <h3 className="pl-[15%] font-extrabold tracking-wider text-2xl pt-[.5rem] cursor-default">Come and maximize yourself <br/> because when you maximize, we maximize</h3>
+            <p className="pl-[15%] font-extrabold tracking-wider text-2xl pt-[.5rem] cursor-default">Come and maximize yourself <br/> because when you maximize, we maximize</p>
                 <br/>
                 <p className="pl-[15%] mr-[2rem] text-lg font-semibold mb-[2rem] cursor-default">
                     Our culture of care extends to our people, 
@@ -38,7 +38,7 @@ function Home() {
                     <br/>hopes, dreams and endeavors first - always. 
                 </p>
             <hr className="w-[90%] mx-auto mb-[1rem]"/>
-            <h1 className="text-3xl mb-[2rem] text-center cursor-default">CUSTOMER REVIEWS</h1>
+            <p className="text-3xl mb-[2rem] text-center cursor-default">CUSTOMER REVIEWS</p>
                 <div className="select-none cursor-default mb-[2rem] flex justify-around flex-wrap text-black">
 
                     <div class="box-border bg-white border border-gray-300 px-[2rem] pb-[2rem] mb-[1rem]">
