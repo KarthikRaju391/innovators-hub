@@ -38,7 +38,7 @@ function meetings() {
         <>
             <BackButton />
 			<LoginHeader />
-            <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center"> Meetings </h2>
+            <p className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center"> Meetings </p>
             <div>
             {meetings.length > 0 ? (
 							<div className="mx-4 overflow-x-auto">

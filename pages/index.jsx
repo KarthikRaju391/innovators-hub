@@ -22,7 +22,7 @@ function Home() {
             <SideNavUser open={isOpen} handleOpen={handleOpen}/>
             <Header/>
             {/* <button className="text-2xl flex mx-auto" onClick={() => openDraw()}>Sign-In</button> */}
-            <h2 className="select-none my-[1rem] py-[1rem] text-4xl cursor-default text-center" onClick={() => openDraw()} style={{fontFamily: "Syncopate"}}>Home</h2>
+            <p className="select-none my-[1rem] py-[1rem] text-4xl cursor-default text-center" onClick={() => openDraw()} style={{fontFamily: "Syncopate"}}>Home</p>
             <h3 className="pl-[15%] font-extrabold tracking-wider text-2xl pt-[.5rem] cursor-default">Come and maximize yourself <br/> because when you maximize, we maximize</h3>
                 <br/>
                 <p className="pl-[15%] mr-[2rem] text-lg font-semibold mb-[2rem] cursor-default">

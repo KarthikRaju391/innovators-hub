@@ -39,9 +39,9 @@ function createProject({ data }) {
 		<>
 			<LoginHeader />
 			<BackButton />
-			<h2 className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">
+			<p className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">
 				Create Project
-			</h2>
+			</p>
 			<ProjectForm />
 
 			<div className="border-2 border-zinc-800 rounded-3xl flex flex-wrap gap-4 mx-[2rem] px-[2rem] mt-4 min-h-[10rem] py-[2rem]">

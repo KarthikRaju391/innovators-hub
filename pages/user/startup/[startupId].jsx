@@ -23,9 +23,9 @@ function startupId() {
         <>
             <LoginHeader />
 			<BackButton />
-			<h2 className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">
+			<p className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">
 				{startup.name}
-			</h2>
+			</p>
 
             <div className="mb-[2rem]">
                 <h3 className="text-2xl cursor-default ml-[20%] font-semibold">About {startup.name}:</h3>

@@ -36,7 +36,7 @@ function index() {
     return (
         <>
             <LoginHeader/>
-            <h2 className="select-none mt-[1rem] pt-[1rem] mb-[1rem] pb-[1rem] text-3xl text cursor-default text-center">Postal Service</h2>
+            <p className="select-none mt-[1rem] pt-[1rem] mb-[1rem] pb-[1rem] text-3xl text cursor-default text-center">Postal Service</p>
 
             <div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2">
                 <Card head={"View Orders"} para={"Show List Of Orders"} url={"/postalservice/vieworders"}/>

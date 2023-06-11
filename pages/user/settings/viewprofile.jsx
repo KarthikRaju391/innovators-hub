@@ -11,9 +11,9 @@ function viewprofile({ user }) {
 		<div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
 			<BackButton />
 			<LoginHeader />
-			<h2 className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">
+			<p className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">
 				View Profile
-			</h2>
+			</p>
 			<div className="flex flex-col items-center">
 				<Avatar name={user.name || ""} size="10rem" src={user.image || ""} />
 				<p title="Name" className="animate__animated animate__fadeInUp text-2xl mb-1 cursor-default">{user.name}</p>

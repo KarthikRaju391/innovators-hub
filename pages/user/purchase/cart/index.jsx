@@ -137,9 +137,9 @@ function Products({ cart }) {
 						<div className="w-3/4 mx-auto flex justify-between items-center border-t-2 mt-4 py-4">
 							<h1 className="text-3xl font-bold">Subtotal</h1>
 							{/* <button onClick={clearCart}>Clear Cart</button> */}
-							<h2 className="text-2xl font-semibold">
+							<p className="text-2xl font-semibold">
 								₹{cart.totalCost.toFixed(2)}
-							</h2>
+							</p>
 						</div>
 						<div className="flex justify-center w-full">
 							<button

@@ -40,7 +40,7 @@ const AddPost = () => {
     return (
         <form onSubmit={(e) => handleSubmit(e)} className='w-[18rem] mx-auto select-none my-[.5rem] py-[.5rem] text-xl font-semibold cursor-default text-center'>
         
-            <h2>Start Channel</h2>
+            <p>Start Channel</p>
                 
                 <FormControl label={() => "Enter Title: "} >
                             <Input

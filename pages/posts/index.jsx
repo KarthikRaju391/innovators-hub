@@ -16,9 +16,9 @@ const Posts = ({ posts }) => {
 			<LoginHeader />
 			
 			<div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
-				<h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">
+				<p className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">
 					Innovators' Social Network
-				</h2>
+				</p>
 				<AddPost /> <hr className="w-[90%] mx-auto "/><br/>
 				<div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2">
 					{posts.map((post) => (

@@ -64,9 +64,9 @@ function createproduct() {
 		<>
 			<LoginHeader />
 			<BackButton />
-			<h2 className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">
+			<p className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">
 				Create Product
-			</h2>
+			</p>
 
 			<form
 				onSubmit={(e) => submit(e)}

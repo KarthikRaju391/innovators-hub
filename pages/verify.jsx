@@ -28,7 +28,7 @@ function verify() {
     return (
         <>
             <Header/>
-            <h2 className="select-none my-[1rem] py-[1rem] text-4xl cursor-default text-center" style={{fontFamily: "Syncopate"}}>Verify Transaction</h2>
+            <p className="select-none my-[1rem] py-[1rem] text-4xl cursor-default text-center" style={{fontFamily: "Syncopate"}}>Verify Transaction</p>
 
             <form onSubmit={e=>submit(e)} className="mb-[2rem] pb-[2rem] grid justify-center">
                 <FormControl label={() => "Transaction ID: "} >

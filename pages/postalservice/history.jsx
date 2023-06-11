@@ -23,7 +23,7 @@ function adminhistory() {
         <>
             <LoginHeader/>
             <BackButton/>
-            <h2 className="select-none mt-[1rem] pt-[1rem] text-3xl cursor-default text-center">History</h2>
+            <p className="select-none mt-[1rem] pt-[1rem] text-3xl cursor-default text-center">History</p>
 
             {data?.length > 0 ? (
           <div className="mx-4 overflow-x-auto">

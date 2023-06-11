@@ -114,9 +114,9 @@ function manage({ user }) {
 		<>
 			<LoginHeader />
 			<BackButton />
-			<h2 className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">
+			<p className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">
 				Manage Profile
-			</h2>
+			</p>
 			<ProgressBar value={progress} steps={steps} />
 			{progress < getProgressIncrement() && (
 				<form

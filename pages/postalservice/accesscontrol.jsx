@@ -56,9 +56,9 @@ function createmanager() {
 					<AccessForm closeOpen={closeOpen} />
 				</ModalBody>
 			</Modal>
-			<h2 className="select-none mt-[1rem] pt-[1rem] text-3xl cursor-default text-center">
+			<p className="select-none mt-[1rem] pt-[1rem] text-3xl cursor-default text-center">
 				Access Control
-			</h2>
+			</p>
 			<div className="flex justify-center my-[.5rem] py-[.5rem]">
 				<Button onClick={() => setIsOpen(true)}>Create Access</Button>
 			</div>

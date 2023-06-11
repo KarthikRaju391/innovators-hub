@@ -89,10 +89,10 @@ function ProjectReportForm({ projectReport = null }) {
 											{values.sections.map((section, sectionIndex) => (
 												<div key={sectionIndex}>
 													<div className="flex justify-between">
-														<h2>
+														<p>
 															Section{" "}
 															{sectionIndex > 0 ? sectionIndex + 1 : null}
-														</h2>
+														</p>
 														{sectionIndex > 0 && (
 															<button
 																type="button"
@@ -132,12 +132,12 @@ function ProjectReportForm({ projectReport = null }) {
 																		(contentBlock, contentIndex) => (
 																			<div key={contentIndex}>
 																				<div className="flex justify-between">
-																					<h2>
+																					<p>
 																						Content Block{" "}
 																						{contentIndex > 0
 																							? contentIndex + 1
 																							: null}
-																					</h2>
+																					</p>
 																					{contentIndex > 0 && (
 																						<button
 																							type="button"

@@ -116,9 +116,9 @@ function productId({ product }) {
 								{product.rating.rate}
 							</p> */}
 							{/* <p className="text-left mt-2">{product.rating.count} reviews</p> */}
-							<h2 className="font-bold text-xl text-left mt-2">
+							<p className="font-bold text-xl text-left mt-2">
 								₹{product.price}
-							</h2>
+							</p>
 							<div className="flex">
 								<button
 									className="mt-4 bg-gray-800 hover:bg-gray-700 rounded-md text-slate-200 p-4"
@@ -132,9 +132,9 @@ function productId({ product }) {
 					</div>
 				)}
 			</div>
-			{/* <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">
+			{/* <p className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">
 				{product.name}
-			</h2>
+			</p>
 			<div className="my-2 py-2 ml-5 pl-5 flex justify-center flex-wrap gap-2 grid-cols-2 animate__animated animate__fadeInUp">
 				{product.image.map(
 					(src, index) =>

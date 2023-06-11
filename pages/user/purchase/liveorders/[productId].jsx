@@ -37,9 +37,9 @@ function productId() {
 			<BackButton />
 			<LoginHeader />
             ProductId Page
-			{/* <h2 className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">
+			{/* <p className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">
 				{data.productName}
-			</h2>
+			</p>
 			<div className="my-2 py-2 ml-5 pl-5 flex justify-center flex-wrap gap-2 grid-cols-2 animate__animated animate__fadeInUp">
 				{data.images.map(
 					(src, index) =>
