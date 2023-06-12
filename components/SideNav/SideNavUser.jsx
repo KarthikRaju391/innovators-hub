@@ -11,10 +11,9 @@ function SideNavUser({open, handleOpen}) {
     const [activeItemId, setActiveItemId] = React.useState(router.pathname);
     // user role can be "user" or "investor" or "entrepreneur"
     const user={
-      type: ["user", "investor", "entrepreneur"] //  
+      type: session?.data?.user?.role //  
   }
 
-    
     var customerSidebar =[
       {title: "Dashboard", itemId: "/user"},
         {
@@ -57,18 +56,18 @@ function SideNavUser({open, handleOpen}) {
           { title: "Community Forum", itemId: "/posts" },
         ]
       }
-
-      if (user.type.includes("investor") && !user.type.includes("entrepreneur")){
+      
+      if (user.type.includes("INVESTOR") && !user.type.includes("ENTREPRENEUR")){
         customerSidebar.splice( 1, 0, investorSidebar )
       }
 
-      if (!user.type.includes("investor") && user.type.includes("entrepreneur")){
+      if (!user.type.includes("INVESTOR") && user.type.includes("ENTREPRENEUR")){
         startupSidebar.subNav.splice(0,0,{ title: "Venture Ideas", itemId: "/user/investments/venture" })
         startupSidebar.subNav.splice(6,0, { title: "Community Forum", itemId: "/posts" })
         customerSidebar.splice( 1, 0, startupSidebar )
       }
 
-      if (user.type.includes("investor") && user.type.includes("entrepreneur")){
+      if (user.type.includes("INVESTOR") && user.type.includes("ENTREPRENEUR")){
         customerSidebar.splice( 1, 0, startupSidebar, investorSidebar )
       }
 
