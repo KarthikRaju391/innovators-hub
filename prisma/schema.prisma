@@ -270,14 +270,14 @@ model VerificationToken {
 
 model ProductOnOrder {
   id              String  @id @default(cuid())
-  orderId         String  @unique
+  orderId         String
   productId       String
   productName     String
   productQuantity Int
   productPrice    Int
   startupId       String
   readyToShip     Boolean @default(false)
-  order           Order   @relation(fields: [orderId], references: [id])
+  order           Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
   startup         Startup @relation(fields: [startupId], references: [id])
 }
 

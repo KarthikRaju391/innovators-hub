@@ -40,6 +40,7 @@ export const authOptions = {
 						},
 					});
 					if (startup) {
+						session.user.entrepreneurId = startup.entrepreneur.id;
 						session.user.startupId = startup.entrepreneur.startup.id;
 					}
 				}
