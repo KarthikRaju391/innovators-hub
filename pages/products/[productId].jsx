@@ -115,7 +115,7 @@ function productId({ product }) {
 								{product.description}
 							</p>
 							<p className="text-left mt-2 break-all cursor-pointer" onClick={()=>{router.push(`/user/startup/${product.startup.id}`)}}>
-								Startup - {product.startup.name}
+								Startup - {product?.startup?.name}
 							</p>
 							{/* <p className="flex justify-start items-center mt-4">
 								<Star />
