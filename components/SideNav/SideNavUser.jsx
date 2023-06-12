@@ -57,17 +57,17 @@ function SideNavUser({open, handleOpen}) {
         ]
       }
       
-      if (user.type.includes("INVESTOR") && !user.type.includes("ENTREPRENEUR")){
+      if (user?.type?.includes("INVESTOR") && !user?.type?.includes("ENTREPRENEUR")){
         customerSidebar.splice( 1, 0, investorSidebar )
       }
 
-      if (!user.type.includes("INVESTOR") && user.type.includes("ENTREPRENEUR")){
+      if (!user?.type?.includes("INVESTOR") && user?.type?.includes("ENTREPRENEUR")){
         startupSidebar.subNav.splice(0,0,{ title: "Venture Ideas", itemId: "/user/investments/venture" })
         startupSidebar.subNav.splice(6,0, { title: "Community Forum", itemId: "/posts" })
         customerSidebar.splice( 1, 0, startupSidebar )
       }
 
-      if (user.type.includes("INVESTOR") && user.type.includes("ENTREPRENEUR")){
+      if (user?.type?.includes("INVESTOR") && user?.type?.includes("ENTREPRENEUR")){
         customerSidebar.splice( 1, 0, startupSidebar, investorSidebar )
       }
 
