@@ -7,6 +7,7 @@ import { makeSerializable } from "../../../lib/util";
 import BackButton from "../../../components/BackButton";
 
 function viewprofile({ user }) {
+	console.log(user)
 	return (
 		<div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
 			<BackButton />
@@ -21,10 +22,10 @@ function viewprofile({ user }) {
 				<div className="flex flex-col gap-2 md:flex-row mb-1"> 
 					<p title="Phone Number" className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r">{user.phoneNumber}</p>
 					<p title="Email ID" className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r">{user.email}</p>
-					{user.role.includes("INVESTOR") && <p title="PAN" className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r">{user.panNumber}</p> }
+					{user.role.includes("INVESTOR") && <p title="PAN" className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r">{user.investor.panNumber}</p> }
 					<p title="Gender" className="animate__animated animate__fadeInUp cursor-default mx-auto">{user.gender}</p>
 				</div>
-				<p title="Address" className="animate__animated animate__fadeInUp cursor-default">{user.address}</p>
+				<p title="Address" className="animate__animated animate__fadeInUp cursor-default">{user.address.street1 +" "+ user.address.street2 +" "+ user.address.city + " " + user.address.state + " " +  user.address.country + " " + user.address.postalCode }</p>
 			</div>
 
 			{user.role.includes("ENTREPRENEUR") && (
