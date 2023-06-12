@@ -10,13 +10,22 @@ export default async function handle(req, res) {
 	}
 	try {
 		if (req.method === "GET") {
-			const orders = await prisma.startup.findMany({
+			const startupData = await prisma.startup.findUnique({
+				where: {
+					id: req.query.sid,
+				},
 				include: {
 					products: true,
-					user: true,
+					entrepreneur: {
+						include: {
+							user: true,
+						},
+					},
+					project: true,
+					posts: true
 				},
 			});
-			return res.json(orders);
+			return res.json(startupData);
 		}
 	} catch (error) {
 		console.log(error);

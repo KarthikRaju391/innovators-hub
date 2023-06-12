@@ -20,7 +20,7 @@ const DynamicFieldButtons = React.memo(
 					className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
 				>
 					Add{" "}
-					{name === "Team Member"
+					{name === "Team Members"
 						? "Member"
 						: name === "Products and Services"
 						? "Product"
@@ -32,7 +32,7 @@ const DynamicFieldButtons = React.memo(
 					onClick={handleRemoveField}
 				>
 					Remove{" "}
-					{name === "Team Member"
+					{name === "Team Members"
 						? "Member"
 						: name === "Products and Services"
 						? "Product"

@@ -7,11 +7,12 @@ import { makeSerializable } from "../../../../lib/util";
 import { useRouter } from "next/router";
 import { getSession, useSession } from "next-auth/react";
 import { MdKeyboardArrowDown } from "react-icons/md";
+import { usePageLoading } from "../../../../lib/usePageLoading";
+import Loading from "../../../../components/Loading";
 
 function Products({ orders, initialCursor }) {
-	// show orders that are still "PENDING" or "COLLECTED"
-	// Fetch after order is created.
 	const router = useRouter();
+	const { isPageLoading } = usePageLoading();
 	const { data: session } = useSession();
 
 	const [cursor, setCursor] = useState(initialCursor);
@@ -60,17 +61,23 @@ function Products({ orders, initialCursor }) {
 				</td>
 				<td className="col">
 					{order.products.map((product) => (
-						<li className="list-none" key={product.id}>{product.productName}</li>
+						<li className="list-none" key={product.id}>
+							{product.productName}
+						</li>
 					))}
 				</td>
 				<td className="col">
 					{order.products.map((product) => (
-						<li className="list-none" key={product.id}>{product.startup.name}</li>
+						<li className="list-none" key={product.id}>
+							{product.startup.name}
+						</li>
 					))}
 				</td>
 				<td className="col">
 					{order.products.map((product) => (
-						<li className="list-none" key={product.id}>{product.productQuantity}</li>
+						<li className="list-none" key={product.id}>
+							{product.productQuantity}
+						</li>
 					))}
 				</td>
 				<td className="col">₹{order.orderCost}</td>
@@ -87,6 +94,8 @@ function Products({ orders, initialCursor }) {
 				</td>{" "}
 			</tr>
 		));
+
+	if (isPageLoading) return <Loading />;
 
 	return (
 		<>

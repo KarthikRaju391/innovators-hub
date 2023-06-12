@@ -8,16 +8,20 @@ import { GrCart } from "react-icons/gr";
 import { BsFillCreditCard2BackFill } from "react-icons/bs";
 import { useSession, signIn } from "next-auth/react";
 import { makeSerializable } from "../../lib/util";
+import { usePageLoading } from "../../lib/usePageLoading";
 import { useRouter } from "next/router";
+import Loading from "../../components/Loading";
 
 function productId({ product }) {
 	const session = useSession();
+	const { isPageLoading } = usePageLoading();
+
 	const [currentImage, setCurrentImage] = useState(0);
 	const [isViewerOpen, setIsViewerOpen] = useState(false);
 	const [load1, setLoad1] = useState(false);
 	const [load2, setLoad2] = useState(false);
 
-	const router = useRouter()
+	const router = useRouter();
 
 	const openImageViewer = useCallback((index) => {
 		setCurrentImage(index);
@@ -63,6 +67,8 @@ function productId({ product }) {
 		} else signIn();
 	};
 
+	if (isPageLoading) return <Loading />
+
 	return (
 		<>
 			<BackButton />
@@ -103,25 +109,25 @@ function productId({ product }) {
 						</div>
 						<div className="md:w-3/4 mx-auto md:py-20 cursor-default">
 							<h1 className="text-2xl text-left">{product.name}</h1>
+							<p>By {product.startup.name}</p>
 							{product.category && (
 								<>
 									<p className="font-light text-left cursor-default">
 										{product.category.map((item) => item.name).join(", ")}
 									</p>
-									{/* <br /> */}
 								</>
 							)}
 							<p className="font-medium text-left mt-2 break-all">
 								{product.description}
 							</p>
-							<p className="text-left mt-2 break-all cursor-pointer" onClick={()=>{router.push(`/user/startup/${product.startup.id}`)}}>
-								Startup - {product?.startup?.name}
+							<p
+								className="text-left mt-2 break-all cursor-pointer"
+								onClick={() => {
+									router.push(`/user/startup/${product.startup.id}`);
+								}}
+							>
+								Startup - {product.startup.name}
 							</p>
-							{/* <p className="flex justify-start items-center mt-4">
-								<Star />
-								{product.rating.rate}
-							</p> */}
-							{/* <p className="text-left mt-2">{product.rating.count} reviews</p> */}
 							<p className="font-bold text-xl text-left mt-2">
 								₹{product.price}
 							</p>
@@ -138,118 +144,6 @@ function productId({ product }) {
 					</div>
 				)}
 			</div>
-			{/* <p className="select-none my-[.5rem] py-[.5rem] text-3xl cursor-default text-center">
-				{product.name}
-			</p>
-			<div className="my-2 py-2 ml-5 pl-5 flex justify-center flex-wrap gap-2 grid-cols-2 animate__animated animate__fadeInUp">
-				{product.image.map(
-					(src, index) =>
-						src && (
-							<Image
-								src={src}
-								onClick={() => openImageViewer(index)}
-								width="400"
-								height="200"
-								key={index}
-								quality={100}
-								placeholder="blur"
-								blurDataURL="blur"
-								alt={product.name}
-							/>
-						)
-				)}
-
-				{isViewerOpen && (
-					<ImageViewer
-						src={product.image.filter((el) => el !== undefined)}
-						currentIndex={currentImage}
-						disableScroll={false}
-						closeOnClickOutside={true}
-						onClose={closeImageViewer}
-					/>
-				)}
-			</div>
-
-			{product.description && (
-				<>
-					<p className="mx-10 cursor-default break-all select-none text-center animate__animated animate__fadeInUp">
-						<span className="text-xl cursor-default select-none">
-							Description:
-						</span>{" "}
-						<br />
-						{product.description}
-					</p>
-					<br />
-				</>
-			)}
-			<div className="flex gap-2 flex-wrap mb-2 pb-5 justify-center animate__animated animate__fadeInUp">
-				{product.price && (
-					<>
-						<p className="mx-10 cursor-default select-none">
-							<span className="text-xl cursor-default select-none">Price:</span>{" "}
-							<br /> ₹{product.price}
-						</p>
-						<br />
-					</>
-				)}
-				{product.category && (
-					<>
-						<p className="mx-10 cursor-default select-none">
-							<span className="text-xl cursor-default select-none">
-								Category:
-							</span>{" "}
-							<br />
-							{product.category.map((item) => item.name).join(", ")}
-						</p>
-						<br />
-					</>
-				)}
-				{product.startup.name && (
-					<>
-						<p className="mx-10 cursor-default select-none">
-							<span className="text-xl cursor-default select-none">
-								Startup:
-							</span>{" "}
-							<br />
-							{product.startup.name}
-						</p>
-						<br />
-					</>
-				)}
-			</div>
-
-			<div className="flex justify-center gap-5 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
-				<Button
-					onClick={buyHandler}
-					isLoading={load1}
-					overrides={{
-						BaseButton: {
-							style: ({ $theme }) => ({
-								backgroundColor: $theme.colors.accent500,
-							}),
-						},
-					}}
-					startEnhancer={
-						<BsFillCreditCard2BackFill style={{ fontSize: "1.5rem" }} />
-					}
-				>
-					Buy Now
-				</Button>
-				<Button
-					onClick={cartHandler}
-					isLoading={load2}
-					overrides={{
-						BaseButton: {
-							style: ({ $theme }) => ({
-								backgroundColor: $theme.colors.positive400,
-							}),
-						},
-					}}
-					startEnhancer={<GrCart style={{ fontSize: "1.5rem" }} />}
-				>
-					Add To Cart
-				</Button>
-			</div> */}
 		</>
 	);
 }

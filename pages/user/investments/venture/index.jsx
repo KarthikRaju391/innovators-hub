@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../../api/auth/[...nextauth]";
 import { makeSerializable } from "../../../../lib/util";
 
-function investmenthistory({ projects }) {
+function investmenthistory({ ventures }) {
 	const initial = [
 		{
 			projectName: "Project Name",
@@ -28,12 +28,12 @@ function investmenthistory({ projects }) {
 					Venture
 				</p>
 				<div className="ml-[5%] pl-[5%] flex flex-wrap gap-4 grid-cols-2">
-					{projects.map((i) => (
+					{ventures.map((i) => (
 						<Card
-							head={i.name || "-"}
+							head={i.project.name || "-"}
 							key={i.id}
-							para={i.startup.name || "-"}
-							url={`/user/investments/venture/${i.projectId}`}
+							para={i.project.startup.name || "-"}
+							url={`/user/investments/venture/${i.id}`}
 						/>
 					))}
 				</div>
@@ -53,7 +53,7 @@ export async function getServerSideProps(context) {
 		};
 	}
 
-	const res = await fetch(`${process.env.NEXT_APP_URL}/api/project`, {
+	const res = await fetch(`${process.env.NEXT_APP_URL}/api/venture`, {
 		method: "GET",
 		headers: {
 			"Content-Type": "application/json",
@@ -61,11 +61,11 @@ export async function getServerSideProps(context) {
 		},
 	});
 
-	const projects = await res.json();
+	const ventures = await res.json();
 
 	return {
 		props: {
-			projects: makeSerializable(projects),
+			ventures: makeSerializable(ventures),
 		},
 	};
 }

@@ -16,8 +16,27 @@ export default async function handle(req, res) {
 	try {
 		if (req.method === "GET") {
 			// const users = await prisma.user.findMany({});
-			// res.json(users);
-			return res.json({ message: "done" });
+			const ventures = await prisma.venture.findMany({
+				where: {
+					investorId: session.user.investorId,
+				},
+				include: {
+					project: {
+						include: {
+							startup: {
+								include: {
+									entrepreneur: {
+										include: {
+											user: true,
+										},
+									},
+								},
+							},
+						},
+					},
+				},
+			});
+			return res.json(ventures);
 		} else if (req.method === "POST") {
 			const { contributedAmount, projectId } = req.body;
 
