@@ -72,7 +72,7 @@ function productId({ product }) {
 				{product && (
 					<div className="grid md:grid-cols-2">
 						<div className="flex justify-center flex-wrap gap-2 animate__animated animate__fadeInUp">
-							{product.image.map(
+							{product?.image?.map(
 								(src, index) =>
 									src &&
 									index === 0 && (
