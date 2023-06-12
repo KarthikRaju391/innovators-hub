@@ -13,6 +13,8 @@ import DateForm from "../../../../components/DateForm";
 import { useRouter } from "next/router";
 import useSWR from "swr";
 import { fetcher } from "../../../../lib/fetcher";
+import Loading from "../../../../components/Loading";
+import Error from "../../../../components/Error";
 
 export default function Invest() {
 	const [meetingUrl, setMeetingUrl] = useState("");
@@ -35,8 +37,6 @@ export default function Invest() {
 	const { projId } = router.query;
 
 	const { data: project, isLoading } = useSWR(`/api/invest/${projId}`, fetcher);
-
-	if (isLoading) return <div>Loading...</div>;
 
 	const closeOpen = () => {
 		setIsOpen(false);
@@ -174,7 +174,9 @@ export default function Invest() {
 		setLoad2(false);
 	};
 
-	if (!project) return <div>Project not found</div>;
+	if (isLoading) return <Loading />;
+
+	if (!project) return <Error />;
 
 	var tblContent =
 		paymentSuccess &&
@@ -184,8 +186,14 @@ export default function Invest() {
 			<tr key={vent.id} className="row animate__animated animate__fadeInUp">
 				{" "}
 				<td className="col">{vent.investor.user.name}</td>{" "}
-				<td className="col">{vent.amountInvested}</td>{" "}
-				<td className="col">{vent.createdAt}</td>
+				<td className="col">₹ {vent.amountInvested}</td>{" "}
+				<td className="col">
+					{new Date(vent.createdAt).toLocaleDateString("en-US", {
+						year: "numeric",
+						month: "long",
+						day: "numeric",
+					})}
+				</td>
 			</tr>
 		));
 	return (
@@ -304,29 +312,46 @@ export default function Invest() {
 							{" "}
 							Project Details{" "}
 						</p>
-						<div className="text-justify">
-							<p className="select-none mt-[.5rem] pt-[.5rem] text-lg cursor-default animate__animated animate__fadeInUp">
-								Startup: {project.startup.name}
+						<div className="text-justify mt-4 border-black border-2 cursor-pointer p-4 rounded-md">
+							<h1
+								onClick={() =>
+									router.push(`/user/investments/invest/${project.id}`)
+								}
+								className="text-xl font-semibold hover:opacity-70"
+							>
+								{project.name}
+							</h1>
+							<p
+								className="select-none text-md opacity-70 hover:opacity-100 animate__animated animate__fadeInUp cursor-pointer"
+								onClick={() =>
+									router.push(`/user/startup/${project.startup.id}`)
+								}
+							>
+								By {project.startup.name}
 							</p>
-							{/* <p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">
-								Investment Requirement:{initial.investmentRequired}
-							</p> */}
-							<p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">
-								Publish Date:{project.createdAt}
-							</p>
-							<p className="select-none text-lg cursor-default animate__animated animate__fadeInUp">
-								Contact:{project.startup.email}
-							</p>
+							<p className="text-md mt-2">{project.description}</p>
 						</div>
 						{/* add more */}
 					</div>
 					<br /> <br />
 					<div>
-						<p className="select-none mt-[1rem] pt-[1rem] text-2xl cursor-default text-center">
-							{" "}
-							Project Report Over View{" "}
-						</p>
-						{/* add more */}
+						<h2 className="select-none mt-[1rem] pt-[1rem] text-2xl text-center">
+							Recent Updates From {project.startup.name}
+						</h2>
+						{project.startup.posts ? (
+							<ul>
+								{project.startup.posts.map((post) => (
+									<li key={post.id}>
+										<p>{post.title}</p>
+										<p>{post.description}</p>
+									</li>
+								))}
+							</ul>
+						) : (
+							<p className="select-none text-xs mt-[1rem] pt-[1rem] text-center">
+								No Updates Yet
+							</p>
+						)}
 					</div>
 					<br /> <br />
 					<div>

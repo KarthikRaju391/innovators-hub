@@ -1,8 +1,10 @@
+import { Button } from "baseui/button";
 import BackButton from "../../components/BackButton";
 import LoginHeader from "../../components/LoginHeader";
 import ProductCard from "../../components/ProductCard";
 import { makeSerializable } from "../../lib/util";
 import { useState } from "react";
+import { MdKeyboardArrowDown } from "react-icons/md";
 
 function Products({ products, initialCursor }) {
 	const [cursor, setCursor] = useState(initialCursor);
@@ -50,13 +52,27 @@ function Products({ products, initialCursor }) {
 					/>
 				))}
 			</div>
-			<p
-				disabled={isAllLoaded ? true : false}
-				onClick={loadMoreProducts}
-				className="select-none cursor-pointer grid justify-center mt-2 pt-2 mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]"
-			>
-				{isLoadingMore && !isAllLoaded ? "Loading..." : "Load More"}
-			</p>
+			{!isAllLoaded && loadedProducts.length > 0 && (
+				<div className="flex mt-4 justify-center">
+					<Button
+						size="mini"
+						onClick={loadMoreProducts}
+						disabled={isLoadingMore}
+						overrides={{
+							BaseButton: {
+								style: ({ $theme }) => ({
+									borderRadius: $theme.sizing.scale600,
+								}),
+							},
+						}}
+						startEnhancer={
+							<MdKeyboardArrowDown style={{ fontSize: "1.5rem" }} />
+						}
+					>
+						{isLoadingMore ? "Loading..." : "Load More"}
+					</Button>
+				</div>
+			)}
 		</>
 	);
 }

@@ -101,7 +101,7 @@ function Dashboard() {
 							url={"/user/investments/invest"}
 						/>
 						<Card
-							head={" Ventures"}
+							head={"Ventures"}
 							para={"Previous Investments"}
 							url={"/user/investments/venture"}
 						/>

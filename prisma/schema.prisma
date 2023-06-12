@@ -124,7 +124,7 @@ model Product {
   id           String        @id @default(cuid())
   name         String
   description  String
-  startupId    String?
+  startupId    String?       @unique
   price        Int
   image        String[]
   createdAt    DateTime      @default(now())
@@ -152,7 +152,7 @@ model Startup {
   products            Product[]
   panNumber           String           @unique
   gstNumber           String
-  post                Post[]
+  posts               Post[]
   location            Json
   businessType        String?
   businessCategory    String?
@@ -292,6 +292,8 @@ model Transaction {
   orderId               String?  @unique
   order                 Order?   @relation(fields: [orderId], references: [id])
   ventureId             String?  @unique
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
   venture               Venture? @relation(fields: [ventureId], references: [id])
 }
 

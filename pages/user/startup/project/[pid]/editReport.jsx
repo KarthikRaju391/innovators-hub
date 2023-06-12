@@ -15,6 +15,7 @@ import { RiArrowGoBackLine, RiBookmarkFill } from "react-icons/ri";
 
 const Product = {
 	name: "Product",
+	level: 1,
 	fields: [
 		{
 			name: "Product Name",
@@ -49,6 +50,7 @@ const Product = {
 
 const CompetitiveAnalysis = {
 	name: "Competitor",
+	level: 2,
 	fields: [
 		{
 			name: "Competitor Name",
@@ -67,6 +69,7 @@ const CompetitiveAnalysis = {
 
 const TeamMember = {
 	name: "Team Member",
+	level: 1,
 	fields: [
 		{
 			name: "Name",

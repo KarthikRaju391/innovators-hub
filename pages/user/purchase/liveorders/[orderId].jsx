@@ -9,6 +9,8 @@ import dynamic from "next/dynamic";
 import { fetcher } from "../../../../lib/fetcher";
 import { useRouter } from "next/router";
 import OrderDetail from "../../../../components/OrderDetail";
+import Loading from "../../../../components/Loading";
+import Error from "../../../../components/Error";
 
 const MyAwesomeMap = dynamic(() => import("../../../../components/OrderMap"), {
 	ssr: false,
@@ -25,16 +27,12 @@ function orderId() {
 
 	if (error)
 		return (
-			<div className="flex justify-center items-center h-[50vh]">
-				<p className="text-2xl text-red-500">Error loading order</p>
-			</div>
+			<Error />
 		);
 
 	if (isLoading)
 		return (
-			<div className="flex justify-center items-center h-[50vh]">
-				<div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900"></div>
-			</div>
+			<Loading />	
 		);
 
 	return (

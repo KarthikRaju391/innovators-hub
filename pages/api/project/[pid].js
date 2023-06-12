@@ -19,7 +19,11 @@ export default async function handle(req, res) {
 					id: pid,
 				},
 				include: {
-					startup: true,
+					startup: {
+						include: {
+							posts: true,
+						},
+					},
 				},
 			});
 			return res.json(project);
