@@ -23,75 +23,97 @@ export default async function handle(req, res) {
 			});
 			return res.json(cart);
 		} else if (req.method === "PUT") {
-			const { cartItemId, quantity } = req.body;
-
-			const cart = await prisma.cart.findUnique({
+			const { cartData } = req.body;
+			const updatedCart = await prisma.cart.update({
 				where: { id: cid },
-				include: { products: true },
-			});
-
-			if (cart && cart.products.length === 0) {
-				await prisma.cart.delete({
-					where: { id: cart.id },
-				});
-			}
-
-			// Update the quantity field
-			const updatedCartQuant = await prisma.cartQuantity.update({
-				where: { productId: cartItemId },
-				data: { quantity },
-			});
-
-			// Recalculate the total cost of the cart
-			const cartQuantities = await prisma.cartQuantity.findMany({
-				where: { cartId: cid },
-				select: {
-					quantity: true,
-					product: { select: { price: true } },
-				},
-			});
-			const totalCost = cartQuantities.reduce(
-				(acc, cq) => acc + cq.quantity * cq.product.price,
-				0
-			);
-			await prisma.cart.update({
-				where: { id: cid },
-				data: { totalCost },
-			});
-
-			return res.json(updatedCartQuant);
-		} else if (req.method === "DELETE") {
-			const { cartItemId } = req.body;
-
-			const cart = await prisma.cart.findUnique({
-				where: { id: cid },
-				include: { products: true },
-			});
-
-			if (cart && cart.products.length === 0) {
-				await prisma.cart.delete({
-					where: { id: cart.id },
-				});
-			}
-
-			const cartQuantity = await prisma.cartQuantity.findUnique({
-				where: { productId: cartItemId },
-				include: { cart: true, product: true },
-			});
-
-			await prisma.cartQuantity.delete({
-				where: { productId: cartItemId },
-			});
-
-			// Remove the product from the cart's products array
-			await prisma.cart.update({
-				where: { id: cartQuantity.cartId },
 				data: {
-					products: {
-						disconnect: { id: cartItemId },
+					totalCost: cartData.totalCost,
+					quantities: {
+						updateMany: cartData.quantities.map((q) => ({
+							where: { id: q.id },
+							data: { quantity: q.quantity },
+						})),
 					},
 				},
 			});
+
+			res.status(200).json(updatedCart);
+
+			// update the whole cart with the cart items
+			// const updatedCart = await prisma.cart.update({
+			// 	where: { id: cid },
+			// 	data: {
+			// 		quantities: {
+			// 			update: {
+			// 				where: { id: cartItemId },
+			// 				data: { quantity },
+			// 			},
+			// 		},
+			// 	},
+			// });
+
+			// const cart = await prisma.cart.findUnique({
+			// 	where: { id: cid },
+			// 	include: { products: true },
+			// });
+
+			// if (cart && cart.products.length === 0) {
+			// 	await prisma.cart.delete({
+			// 		where: { id: cart.id },
+			// 	});
+			// }
+
+			// // Update the quantity field
+			// const updatedCartQuant = await prisma.cartQuantity.update({
+			// 	where: { productId: cartItemId },
+			// 	data: { quantity },
+			// });
+
+			// // Recalculate the total cost of the cart
+			// const cartQuantities = await prisma.cartQuantity.findMany({
+			// 	where: { cartId: cid },
+			// 	select: {
+			// 		quantity: true,
+			// 		product: { select: { price: true } },
+			// 	},
+			// });
+			// const totalCost = cartQuantities.reduce(
+			// 	(acc, cq) => acc + cq.quantity * cq.product.price,
+			// 	0
+			// );
+			// await prisma.cart.update({
+			// 	where: { id: cid },
+			// 	data: { totalCost },
+			// });
+
+			// return res.json(updatedCartQuant);
+		} else if (req.method === "DELETE") {
+			// const { cartItemId } = req.body;
+			// const cart = await prisma.cart.findUnique({
+			// 	where: { id: cid },
+			// 	include: { products: true },
+			// });
+			// if (cart && cart.products.length === 0) {
+			// 	await prisma.cart.delete({
+			// 		where: { id: cart.id },
+			// 	});
+			// }
+			// const cartQuantity = await prisma.cartQuantity.findUnique({
+			// 	where: { productId: cartItemId },
+			// 	include: { cart: true, product: true },
+			// });
+			// await prisma.cartQuantity.delete({
+			// 	where: { productId: cartItemId },
+			// });
+			// // Remove the product from the cart's products array
+			// await prisma.cart.update({
+			// 	where: { id: cartQuantity.cartId },
+			// 	data: {
+			// 		products: {
+			// 			disconnect: { id: cartItemId },
+			// 		},
+			// 	},
+			// });
 		}
 	} catch (error) {
 		console.log(error);

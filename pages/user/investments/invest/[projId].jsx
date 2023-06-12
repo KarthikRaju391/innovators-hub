@@ -1,5 +1,6 @@
 import BackButton from "../../../../components/BackButton";
 import LoginHeader from "../../../../components/LoginHeader";
+import PDFPreview from "../../../../components/PDFPreview";
 import { Button } from "baseui/button";
 import { Input } from "baseui/input";
 import { SiRazorpay } from "react-icons/si";
@@ -336,14 +337,19 @@ export default function Invest() {
 					<br /> <br />
 					<div>
 						<h2 className="select-none mt-[1rem] pt-[1rem] text-2xl text-center">
-							Recent Updates From {project.startup.name}
+							Recent Posts From {project.startup.name}
 						</h2>
-						{project.startup.posts ? (
-							<ul>
-								{project.startup.posts.map((post) => (
-									<li key={post.id}>
-										<p>{post.title}</p>
-										<p>{post.description}</p>
+						{project.startup.posts && project.startup.posts.length > 0 ? (
+							<ul className=" p-3 rounded-md">
+								{project.startup.posts.slice(0, 3).map((post) => (
+									<li
+										className="cursor-pointer"
+										onClick={() => router.push(`/posts/${post.permalink}`)}
+										key={post?.id}
+									>
+										<h3 className="text-lg font-semibold">{post?.title}</h3>
+										<p>{post?.body}</p>
+										<hr />
 									</li>
 								))}
 							</ul>
@@ -380,11 +386,7 @@ export default function Invest() {
 					</div>
 				</div>
 
-				<embed
-					className="min-w-[40%] h-[100vh]"
-					src={`data:application/pdf;base64,${""}`}
-				/>
-				{/* change the src according to requirement. if the report is in base64 the just add the paramater inside `${}` | else replace complete src */}
+				<PDFPreview data={project.projectReport} />
 			</div>
 
 			<div className="flex justify-center mt-3 pt-3 mb-[1rem] pb-[1rem] gap-x-[2rem]">

@@ -2,7 +2,7 @@ import BackButton from "../../../../components/BackButton";
 import LoginHeader from "../../../../components/LoginHeader";
 import { Button } from "baseui/button";
 import { FaMoneyCheckAlt } from "react-icons/fa";
-// import Razorpay from 
+// import Razorpay from
 import { useEffect, useState } from "react";
 import { makeSerializable } from "../../../../lib/util";
 import CartItems from "../../../../components/CartItems";
@@ -12,6 +12,11 @@ import Link from "next/link";
 function Products({ cart }) {
 	const [load1, setLoad1] = useState(false);
 	const { data: session } = useSession();
+	const [totalCost, setTotalCost] = useState(
+		cart && cart.totalCost ? cart.totalCost : 0
+	);
+	const [quantity, setQuantity] = useState(0);
+	const [cartData, setCartData] = useState(cart ? cart : {});
 
 	useEffect(() => {
 		const script = document.createElement("script");
@@ -20,10 +25,22 @@ function Products({ cart }) {
 		document.body.appendChild(script);
 	}, []);
 
+	const saveCartData = async () => {
+		const res = await fetch(`/api/cart/${cart.id}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({ cartData: cartData }),
+		});
+		const data = await res.json();
+		setCartData(data);
+	};
+
+	const handleSave = async () => {
+		await saveCartData();
+	};
 	const buyAllHandler = async () => {
-		const res = await fetch(`/api/cart/`);
-		const cartData = await res.json();
-		// all the items in the list should be added to the order list
 		setLoad1(true);
 		var items = cartData.quantities.map((i) => {
 			return { productId: i.productId, quantity: i.quantity };
@@ -113,58 +130,70 @@ function Products({ cart }) {
 		setLoad1(false);
 	};
 
+	if (!cart || cartData.quantities.length === 0) {
+		return (
+			<>
+				<BackButton />
+				<LoginHeader />
+				<div className="text-center mx-auto mt-10">
+					<Link
+						href={`/products`}
+						className="select-none my-[.5rem] text-3xl py-[30vh] h-[60vh] cursor-pointer"
+					>
+						Nothing in cart,{" "}
+						<span className="text-blue-400 underline underline-offset-[.5rem]">
+							continue shopping
+						</span>
+					</Link>
+				</div>
+			</>
+		);
+	}
+
 	return (
 		<>
 			<BackButton />
 			<LoginHeader />
 			<div className="mt-4">
-				<p className="text-3xl font-bold mb-8 text-center">Shopping Cart</p>
-				{cart && cart.quantities.length > 0 ? (
-					<div>
-						<div className="w-3/4 mx-auto">
-							<div>
-								{cart.quantities.map((i) => {
-									return (
-										<CartItems
-											key={i.product.id}
-											data={i}
-											cartId={cart.id}
-											url={`/user/purchase/cart/${i.productId}`}
-										/>
-									);
-								})}
-							</div>
-						</div>
-						<div className="w-3/4 mx-auto flex justify-between items-center border-t-2 mt-4 py-4">
-							<p className="text-3xl font-bold">Subtotal</p>
-							{/* <button onClick={clearCart}>Clear Cart</button> */}
-							<p className="text-2xl font-semibold">
-								₹{cart.totalCost.toFixed(2)}
-							</p>
-						</div>
-						<div className="flex justify-center w-full">
-							<button
-								onClick={buyAllHandler}
-								className="w-3/4 bg-gray-800 hover:bg-gray-700 py-4 text-xl text-slate-200"
-							>
-								Place Order
-								{/* {ordered ? "Order placed successfully!!" : "Place Order"} */}
-							</button>
+				<div className="mb-8 text-center font-bold">
+					<p className="text-3xl">Shopping Cart</p>
+					<span className="" onClick={handleSave}>
+						Save
+					</span>
+				</div>
+				<div>
+					<div className="w-3/4 mx-auto">
+						<div>
+							{cartData.quantities.map((i) => {
+								return (
+									<CartItems
+										key={i.product.id}
+										data={i}
+										cartId={cartData.id}
+										url={`/user/purchase/cart/${i.productId}`}
+										cartData={cartData}
+										setCartData={setCartData}
+										totalCost={totalCost}
+										setTotalCost={setTotalCost}
+									/>
+								);
+							})}
 						</div>
 					</div>
-				) : (
-					<div className="text-center mx-auto">
-						<Link
-							href={`/products`}
-							className="select-none my-[.5rem] text-3xl py-[30vh] h-[60vh] cursor-pointer"
+					<div className="w-3/4 mx-auto flex justify-between items-center border-t-2 mt-4 py-4">
+						<p className="text-3xl font-bold">Subtotal</p>
+						<p className="text-2xl font-semibold">₹{totalCost.toFixed(2)}</p>
+					</div>
+					<div className="flex justify-center w-full">
+						<button
+							onClick={buyAllHandler}
+							className="w-3/4 bg-gray-800 hover:bg-gray-700 py-4 text-xl text-slate-200"
 						>
-							Nothing in cart,{" "}
-							<span className="text-blue-400 underline underline-offset-[.5rem]">
-								continue shopping
-							</span>
-						</Link>
+							Place Order
+							{/* {ordered ? "Order placed successfully!!" : "Place Order"} */}
+						</button>
 					</div>
-				)}
+				</div>
 			</div>
 		</>
 	);
@@ -182,7 +211,6 @@ export async function getServerSideProps(context) {
 
 	const cart = await res.json();
 
-	console.log(cart);
 	return {
 		props: {
 			cart: makeSerializable(cart),

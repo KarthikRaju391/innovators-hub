@@ -1,5 +1,4 @@
 import prisma from "../../../lib/prisma";
-import { getValidAccessToken } from "../../../lib/util";
 
 export default async (req, res) => {
 	const project = await prisma.project.findUnique({
@@ -22,6 +21,7 @@ export default async (req, res) => {
 			},
 		},
 	});
+	
 
 	if (req.method === "POST") {
 		const { investorId, meetingTime, projectId, accessToken } = req.body;
@@ -60,7 +60,7 @@ export default async (req, res) => {
 			});
 
 			if (!response.ok) {
-				throw new Error(`HTTP error ${response.status}`);
+				throw new Error(`HTTP error ${response.status} `);
 			}
 
 			const data = await response.json();

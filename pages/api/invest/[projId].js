@@ -23,6 +23,7 @@ export default async function handle(req, res) {
 									user: true,
 								},
 							},
+							posts: true,
 						},
 					},
 					venture: {

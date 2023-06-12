@@ -18,11 +18,12 @@ function productId({ product }) {
 
 	const [currentImage, setCurrentImage] = useState(0);
 	const [isViewerOpen, setIsViewerOpen] = useState(false);
-	const [load1, setLoad1] = useState(false);
-	const [load2, setLoad2] = useState(false);
 
 	const router = useRouter();
 
+	if(!session.data) {
+		signIn();
+	}
 	const openImageViewer = useCallback((index) => {
 		setCurrentImage(index);
 		setIsViewerOpen(true);
@@ -31,15 +32,6 @@ function productId({ product }) {
 	const closeImageViewer = () => {
 		setCurrentImage(0);
 		setIsViewerOpen(false);
-	};
-
-	const buyHandler = async () => {
-		// payment related
-		if (session.data) {
-			setLoad1(true);
-			console.log(product.id);
-			setLoad1(false);
-		}
 	};
 
 	const cartHandler = async () => {
@@ -56,15 +48,10 @@ function productId({ product }) {
 		});
 
 		if (!res.ok) {
-			console.error("Error adding to cart");
+			alert("Error adding to cart");
 		} else {
 			await res.json();
 		}
-
-		if (session) {
-			setLoad2(true);
-			setLoad2(false);
-		} else signIn();
 	};
 
 	if (isPageLoading) return <Loading />

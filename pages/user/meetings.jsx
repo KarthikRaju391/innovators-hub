@@ -6,6 +6,7 @@ import { GiVideoConference } from "react-icons/gi";
 import { fetcher } from "../../lib/fetcher";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import Loading from "../../components/Loading";
 
 function meetings() {
 	const { data: session } = useSession();
@@ -15,29 +16,8 @@ function meetings() {
 		`/api/users/${session?.user.id}/meetings`,
 		fetcher
 	);
-	// var meetings = [
-	// 	{
-	// 		id: 1,
-	// 		requestedBy: "Harish",
-	// 		requestedTo: "Suresh",
-	// 		date: "18/06/2023",
-	// 		time: "12:00:00",
-	// 	},
-	// 	{
-	// 		id: 2,
-	// 		requestedBy: "Harish",
-	// 		requestedTo: "Girish",
-	// 		date: "18/06/2023",
-	// 		time: "12:00:00",
-	// 	},
-	// 	{
-	// 		id: 3,
-	// 		requestedBy: "Harish",
-	// 		requestedTo: "Ramesh",
-	// 		date: "18/06/2023",
-	// 		time: "12:00:00",
-	// 	},
-	// ];
+
+	if (isLoading) return <Loading />;
 
 	var tblContent =
 		meetings &&
@@ -107,7 +87,7 @@ function meetings() {
 					</div>
 				) : (
 					<p className="mt-2 cursor-default text-center mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
-						No Backers Yet
+						No Meetings Yet
 					</p>
 				)}
 			</div>

@@ -9,6 +9,7 @@ export default async (req, res) => {
 	});
 
 	if (!accessTokenId) {
+		console.log("No access token found");
 		return res.json({ validAccessToken: false });
 	}
 	const validAccessToken = await getValidAccessToken(accessTokenId.id);

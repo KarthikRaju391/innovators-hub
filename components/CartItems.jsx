@@ -2,55 +2,62 @@ import { useState } from "react";
 import { HiPlusCircle, HiMinusCircle } from "react-icons/hi";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import { useRouter } from "next/router";
+import { usePageLeave } from "../lib/usePageLeave";
 
 function CartItems(props) {
 	const [quantity, setQuantity] = useState(props.data.quantity);
 	const router = useRouter();
 
-	async function handleQuantityUpdate(quantity) {
-		if (quantity < 1) {
-			const res = await fetch(`/api/cart/${props.cartId}`, {
-				method: "DELETE",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					cartItemId: props.data.product.id,
-				}),
-			});
+	function calculateTotalCost(quantities) {
+		return quantities.reduce((total, currentItem) => {
+			const product = currentItem.product;
+			if (product) {
+				return total + currentItem.quantity * product.price;
+			}
+			return total;
+		}, 0);
+	}
 
-			await res.json();
-			router.replace(router.asPath);
-		} else {
-			//update request
-			const res = await fetch(`/api/cart/${props.cartId}`, {
-				method: "PUT",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					cartItemId: props.data.product.id,
-					quantity: quantity,
-				}),
-			});
-			const data = await res.json();
-			setQuantity(data.quantity);
+	function updateCartData(productId, updatedQuantity) {
+		const newCartData = { ...props.cartData };
+		const quantityIndex = newCartData.quantities.findIndex(
+			(q) => q.productId === productId
+		);
+
+		if (quantityIndex !== -1) {
+			newCartData.quantities[quantityIndex].quantity = updatedQuantity;
+			props.setTotalCost(calculateTotalCost(newCartData.quantities));
+			newCartData.totalCost = calculateTotalCost(newCartData.quantities);
+
+			props.setCartData(newCartData);
 		}
 	}
 
-	const deleteItem = async (productId) => {
-		const res = await fetch(`/api/cart/${props.cartId}`, {
-			method: "DELETE",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				cartItemId: productId,
-			}),
+	function handleQuantityUpdate(quantity) {
+		const productId = props.data.product.id;
+		if (quantity < 1) {
+			return;
+		} else if (quantity === 1) {
+			// ... code to handle deletion
+			setQuantity(1);
+			updateCartData(productId, 1);
+		} else {
+			// ... code to handle update
+			setQuantity(quantity);
+			updateCartData(productId, quantity);
+		}
+	}
+	const deleteItem = (productId) => {
+		const updatedQuantities = props.cartData.quantities.filter(
+			(i) => i.productId !== productId
+		);
+		const updatedTotalCost = calculateTotalCost(updatedQuantities);
+		props.setTotalCost(updatedTotalCost);
+		props.setCartData({
+			...props.cartData,
+			quantities: updatedQuantities,
+			totalCost: updatedTotalCost,
 		});
-
-		await res.json();
-		router.replace(router.asPath);
 	};
 
 	return (
