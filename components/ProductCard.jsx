@@ -43,9 +43,9 @@ function ProductCard(props) {
 					{showInfo && (
 					<div className="absolute inset-0 bg-violet-200 bg-opacity-90 flex justify-center items-center">
 						<div className="p-4 max-w-md w-full">
-							<p className="text-gray-700 font-semibold text-center text-lg break-all">Startup: {props.data.startup.name}</p>
-							<p className="text-gray-700 mb-2 truncate text-center break-all">Category: {props.data.category .map((item) => item.name) .join(", ")}</p>
-							<p className="text-gray-700 text-center break-all"> {props.data.description.length > 189 ? props.data.description.substr(0,202)+"..." : props.data.description }</p>
+							<p className="text-gray-700 font-semibold text-center text-lg break-all">Startup: {props?.data?.startup?.name}</p>
+							<p className="text-gray-700 mb-2 truncate text-center break-all">Category: {props?.data?.category .map((item) => item.name) .join(", ")}</p>
+							<p className="text-gray-700 text-center break-all"> {props?.data?.description?.length > 189 ? props?.data?.description.substr(0,202)+"..." : props?.data?.description }</p>
 						</div>
 					</div>
 					)}
@@ -53,14 +53,14 @@ function ProductCard(props) {
 				<div className="p-4 flex flex-col flex-grow h-[130px]">
 					<div className="flex gap-4 justify-between h-[63px]">
 					<h3 className="font-semibold text-xl mb-2 text-black overflow-hidden break-all">
-					{props.data.name}
+					{props?.data?.name}
 					</h3>
-					<p className="text-gray-700 text-lg mb-4">{"₹ " + props.data.price}</p>
+					<p className="text-gray-700 text-lg mb-4">{"₹ " + props?.data?.price}</p>
 					</div>
 					<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" 
 						onClick={() => {
-							props.url != undefined || props.url != null
-							? router.push(props.url)
+							props?.url != undefined || props?.url != null
+							? router.push(props?.url)
 							: router.push(router.asPath);
 						}}>
 					View Details
