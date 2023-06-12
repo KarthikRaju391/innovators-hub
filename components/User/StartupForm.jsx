@@ -285,11 +285,12 @@ const StartupForm = ({
 				</div>
 			</div>
 
-			<div className="w-1/2 mx-auto">
+			<div className="mx-auto">
 				<p className="select-none my-[1rem] py-[1rem] text-2xl cursor-default text-center">
 					Startup Address:
 				</p>
-				<div className="flex flex-wrap justify-around gap-x-4">
+				<div className="flex justify-around flex-wrap gap-2 grid-col2s-">
+				<div className="mx-auto" style={{ width: "18rem" }}>
 					<FormControl label={() => "Street 1:"}>
 						<Input
 							value={startupDetails?.location.street1}
@@ -357,7 +358,7 @@ const StartupForm = ({
 						/>
 					</FormControl>
 				</div>
-				<div>
+				<div className="mx-auto" style={{ width: "18rem" }}>
 					<FormControl label={() => "State:"}>
 						<Input
 							value={startupDetails?.location.state}
@@ -420,7 +421,7 @@ const StartupForm = ({
 					</FormControl>
 				</div>
 			</div>
-
+			</div>
 			<div className="flex justify-center gap-4 grid-cols-2 flex-wrap  ">
 				<Button
 					shape={SHAPE.pill}
