@@ -32,7 +32,7 @@ function orders({ products }) {
 		setParcelReady(true);
 	};
 
-	console.log(products)
+	console.log(products);
 
 	return (
 		<>
@@ -41,7 +41,7 @@ function orders({ products }) {
 			<p className="select-none my-[1rem] py-[1rem] text-3xl cursor-default text-center">
 				Orders
 			</p>
-			<div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem] animate__animated animate__fadeInUp">
+			<div className="mb-[3rem] w-3/4 mx-auto pb-[3rem] md:mb-[1rem] md:pb-[1rem] animate__animated animate__fadeInUp">
 				<Accordion
 					accordion
 					overrides={{
@@ -63,7 +63,12 @@ function orders({ products }) {
 								<p>Quantity: {product.productQuantity}</p>
 								<p>Price: {product.productPrice}</p>
 								<p>Deliver to: {product.order.user.name}</p>
-								<p>Location: {product.order.deliverTo}</p>
+								<p>
+									Location:{" "}
+									{product.order.deliverTo.street1 +
+										", " +
+										product.order.deliverTo.city}
+								</p>
 							</div>
 							<Button
 								onClick={() => handleParcelReady(product.id)}

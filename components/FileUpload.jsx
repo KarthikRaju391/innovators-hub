@@ -118,7 +118,7 @@ const FileUpload = ({
 							<p className="text-neutral-400 text-sm font-bold">
 								Drag'n'drop files, or click to select files
 							</p>
-							<button className="ml-[4.5rem] mt-3 font-semibold bg-neutral-400 py-1 px-3 rounded-2xl text-black">
+							<button type="button" className="ml-[4.5rem] mt-3 font-semibold bg-neutral-400 py-1 px-3 rounded-2xl text-black">
 								Browse File
 							</button>
 						</div>

@@ -24,18 +24,55 @@ export default async function handle(req, res) {
 			return res.json(cart);
 		} else if (req.method === "PUT") {
 			const { cartData } = req.body;
+
+			const existingCart = await prisma.cart.findUnique({
+				where: { id: cid },
+				include: {
+					quantities: true,
+				},
+			});
+
+			const currentProductIds = cartData.quantities.map((q) => q.productId);
+			const removedProductIds = existingCart.quantities
+				.filter((q) => !currentProductIds.includes(q.productId))
+				.map((q) => q.productId);
+
 			const updatedCart = await prisma.cart.update({
 				where: { id: cid },
 				data: {
 					totalCost: cartData.totalCost,
 					quantities: {
-						updateMany: cartData.quantities.map((q) => ({
-							where: { id: q.id },
-							data: { quantity: q.quantity },
-						})),
+						updateMany: cartData.quantities.map((q) => {
+							return {
+								where: { id: q.id },
+								data: {
+									quantity: q.quantity,
+								},
+							};
+						}),
+					},
+					products: {
+						disconnect: removedProductIds.map((id) => ({ id })),
+					},
+				},
+				include: {
+					quantities: {
+						include: {
+							product: true,
+						},
 					},
 				},
 			});
+			// await prisma.cartQuantity.deleteMany({
+			// 	where: {
+			// 		productId: {
+			// 			in: removedProductIds,
+			// 		},
+			// 	},
+			// 	product: {
+			// 		disconnect: removedProductIds.map((id) => ({ id })),
+			// 	}
+			// });
 
 			res.status(200).json(updatedCart);
 
@@ -87,34 +124,7 @@ export default async function handle(req, res) {
 			// });
 
 			// return res.json(updatedCartQuant);
-		} else if (req.method === "DELETE") {
-			// const { cartItemId } = req.body;
-			// const cart = await prisma.cart.findUnique({
-			// 	where: { id: cid },
-			// 	include: { products: true },
-			// });
-			// if (cart && cart.products.length === 0) {
-			// 	await prisma.cart.delete({
-			// 		where: { id: cart.id },
-			// 	});
-			// }
-			// const cartQuantity = await prisma.cartQuantity.findUnique({
-			// 	where: { productId: cartItemId },
-			// 	include: { cart: true, product: true },
-			// });
-			// await prisma.cartQuantity.delete({
-			// 	where: { productId: cartItemId },
-			// });
-			// // Remove the product from the cart's products array
-			// await prisma.cart.update({
-			// 	where: { id: cartQuantity.cartId },
-			// 	data: {
-			// 		products: {
-			// 			disconnect: { id: cartItemId },
-			// 		},
-			// 	},
-			// });
-		}
+		} 
 	} catch (error) {
 		console.log(error);
 		throw new Error(error);

@@ -56,8 +56,6 @@ export default async function handle(req, res) {
 			const {
 				productName,
 				productDescription,
-				productBuild,
-				quality,
 				price,
 				category,
 				images,

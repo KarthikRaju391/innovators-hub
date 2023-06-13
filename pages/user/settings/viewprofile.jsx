@@ -7,7 +7,7 @@ import { makeSerializable } from "../../../lib/util";
 import BackButton from "../../../components/BackButton";
 
 function viewprofile({ user }) {
-	console.log(user)
+	console.log(user);
 	return (
 		<div className="mb-[3rem] pb-[3rem] md:mb-[1rem] md:pb-[1rem]">
 			<BackButton />
@@ -17,29 +17,101 @@ function viewprofile({ user }) {
 			</p>
 			<div className="flex flex-col items-center">
 				<Avatar name={user.name || ""} size="10rem" src={user.image || ""} />
-				<p title="Name" className="animate__animated animate__fadeInUp text-2xl mb-1 cursor-default">{user.name}</p>
-				<p title="Bio" className="animate__animated animate__fadeInUp cursor-default mb-1">{user.bio}</p>
-				<div className="flex flex-col gap-2 md:flex-row mb-1"> 
-					<p title="Phone Number" className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r">{user.phoneNumber}</p>
-					<p title="Email ID" className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r">{user.email}</p>
-					{user.role.includes("INVESTOR") && <p title="PAN" className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r">{user.investor.panNumber}</p> }
-					<p title="Gender" className="animate__animated animate__fadeInUp cursor-default mx-auto">{user.gender}</p>
+				<p
+					title="Name"
+					className="animate__animated animate__fadeInUp text-2xl mb-1 cursor-default"
+				>
+					{user.name}
+				</p>
+				<p
+					title="Bio"
+					className="animate__animated animate__fadeInUp cursor-default mb-1"
+				>
+					{user.bio}
+				</p>
+				<div className="flex flex-col gap-2 md:flex-row mb-1">
+					<p
+						title="Phone Number"
+						className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r"
+					>
+						{user.phoneNumber}
+					</p>
+					<p
+						title="Email ID"
+						className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r"
+					>
+						{user.email}
+					</p>
+					{user.role.includes("INVESTOR") && (
+						<p
+							title="PAN"
+							className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r"
+						>
+							{user.investor.panNumber}
+						</p>
+					)}
+					<p
+						title="Gender"
+						className="animate__animated animate__fadeInUp cursor-default mx-auto"
+					>
+						{user.gender}
+					</p>
 				</div>
-				<p title="Address" className="animate__animated animate__fadeInUp cursor-default">{user.address.street1 +" "+ user.address.street2 +" "+ user.address.city + " " + user.address.state + " " +  user.address.country + " " + user.address.postalCode }</p>
+				<p
+					title="Address"
+					className="animate__animated animate__fadeInUp cursor-default"
+				>
+					{user.address.street1 +
+						", " +
+						user.address.city +
+						" " +
+						user.address.state +
+						" " +
+						user.address.country +
+						" " +
+						user.address.postalCode}
+				</p>
 			</div>
 
 			{user.role.includes("ENTREPRENEUR") && (
-			<div className="flex flex-col items-center mt-[1rem] pt-[1rem]">
-				<p  className="select-none text-2xl cursor-default text-center mb-1">
-					Startup Details:
-				</p>
-				<p title="Startup Name" className="animate__animated animate__fadeInUp text-2xl mb-1 cursor-default">{user.entrepreneur.startup.name}</p>
-				<div className="flex flex-col gap-2 md:flex-row mb-1"> 
-					<p title="GSTIN" className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r">{user.entrepreneur.startup.gstNumber}</p>
-					<p title="Startup PAN" className="animate__animated animate__fadeInUp cursor-default mx-auto">{user.entrepreneur.startup.panNumber}</p>
+				<div className="flex flex-col items-center mt-[1rem] pt-[1rem]">
+					<p className="select-none text-2xl cursor-default text-center mb-1">
+						Startup Details:
+					</p>
+					<p
+						title="Startup Name"
+						className="animate__animated animate__fadeInUp text-2xl mb-1 cursor-default"
+					>
+						{user.entrepreneur.startup.name}
+					</p>
+					<div className="flex flex-col gap-2 md:flex-row mb-1">
+						<p
+							title="GSTIN"
+							className="animate__animated animate__fadeInUp cursor-default mx-auto pr-2 md:border-r"
+						>
+							{user.entrepreneur.startup.gstNumber}
+						</p>
+						<p
+							title="Startup PAN"
+							className="animate__animated animate__fadeInUp cursor-default mx-auto"
+						>{user.entrepreneur.startup.panNumber}</p>
+					</div>
+					<p
+						title="Startup Address"
+						className="animate__animated animate__fadeInUp cursor-default"
+					>
+						{user.entrepreneur.startup.location.street1 +
+							", " +
+							user.entrepreneur.startup.location.city +
+							" " +
+							user.entrepreneur.startup.location.state +
+							" " +
+							user.entrepreneur.startup.location.country +
+							" " +
+							user.entrepreneur.startup.location.postalCode}
+					</p>
 				</div>
-				<p title="Startup Address" className="animate__animated animate__fadeInUp cursor-default">{user.entrepreneur.startup.location}</p>
-			</div>)}
+			)}
 		</div>
 	);
 }

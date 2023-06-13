@@ -69,17 +69,6 @@ export default function Invest() {
 			// image: "https://example.com/your_logo",
 			order_id: ventureRes.transaction.razorpayOrderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
 			handler: async function (response) {
-				// payment success modal
-
-				// venture clear
-				// await fetch(`/api/venture/`, {
-				// 	method: "DELETE",
-				// 	headers: {
-				// 		"Content-Type": "application/json",
-				// 	},
-				// 	body: JSON.stringify(ventureRes.id),
-				// });
-
 				const razorpayResponse = {
 					ventureId: ventureRes.id,
 					razorpay_payment_id: response.razorpay_payment_id,
@@ -98,7 +87,7 @@ export default function Invest() {
 				if (validation) {
 					alert("Payment Successful");
 					setPaymentSuccess(true);
-					// window.location.reload();
+					window.location.reload();
 				} else {
 					alert("Payment Failed");
 				}

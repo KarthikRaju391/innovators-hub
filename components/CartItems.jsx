@@ -2,7 +2,6 @@ import { useState } from "react";
 import { HiPlusCircle, HiMinusCircle } from "react-icons/hi";
 import { RiDeleteBin2Fill } from "react-icons/ri";
 import { useRouter } from "next/router";
-import { usePageLeave } from "../lib/usePageLeave";
 
 function CartItems(props) {
 	const [quantity, setQuantity] = useState(props.data.quantity);
@@ -30,6 +29,7 @@ function CartItems(props) {
 			newCartData.totalCost = calculateTotalCost(newCartData.quantities);
 
 			props.setCartData(newCartData);
+			props.handleSave(newCartData);
 		}
 	}
 
@@ -58,6 +58,7 @@ function CartItems(props) {
 			quantities: updatedQuantities,
 			totalCost: updatedTotalCost,
 		});
+		props.handleSave();
 	};
 
 	return (

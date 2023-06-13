@@ -25,12 +25,44 @@ export default async function handle(req, res) {
 			return res.json(product);
 		} else if (req.method === "PUT") {
 			console.log(req.body);
+			const { category, ...rest } = req.body;
+
+			// Fetch or create categories by name
+			const updatedCategories = await Promise.all(
+				category.map(async (cat) => {
+					const existingCategory = await prisma.category.findUnique({
+						where: {
+							name: cat.name,
+						},
+					});
+					if (existingCategory) {
+						return { id: existingCategory.id };
+					} else {
+						const newCategory = await prisma.category.create({
+							data: {
+								name: cat.name,
+							},
+						});
+						return { id: newCategory.id };
+					}
+				})
+			);
+
 			const product = await prisma.product.update({
 				where: {
 					id: pid,
 				},
-				data: req.body,
+				data: {
+					name: rest.productName,
+					description: rest.productDescription,
+					price: rest.price,
+					category: {
+						connect: updatedCategories,
+					},
+					image: rest.image,
+				},
 			});
+
 			return res.json(product);
 		} else if (req.method === "DELETE") {
 			const product = await prisma.product.delete({

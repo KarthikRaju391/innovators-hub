@@ -2,23 +2,19 @@ import React, { useState } from "react";
 import { subCategories } from "../constants/BusinessTypes";
 import { Input } from "baseui/input";
 
-const Autocomplete = ({ mainCategory, subCategory, setSubCategory }) => {
-	const [activeSuggestion, setActiveSuggestion] = useState("");
+const EmailAutocomplete = ({ emails, allowEmail, setAllowEmail }) => {
 	const [filteredSuggestions, setFilteredSuggestions] = useState([]);
 	const [showSuggestions, setShowSuggestions] = useState(false);
-	const [userInput, setUserInput] = useState("");
 
 	const handleChange = (e) => {
 		const userInput = e.currentTarget.value;
-		const filteredSuggestions = subCategories[mainCategory[0].id].filter(
+		const filteredSuggestions = emails.filter(
 			(suggestion) =>
 				suggestion.toLowerCase().indexOf(userInput.toLowerCase()) > -1
 		);
-		setSubCategory(userInput);
-		// setActiveSuggestion(userInput);
 		setFilteredSuggestions(filteredSuggestions);
 		setShowSuggestions(true);
-		setUserInput(userInput);
+		setAllowEmail(userInput)
 	};
 
 	// ... other methods
@@ -26,19 +22,19 @@ const Autocomplete = ({ mainCategory, subCategory, setSubCategory }) => {
 	return (
 		<div>
 			<Input
-				disabled={mainCategory ? false : true}
-				placeholder={mainCategory[0] && subCategories[mainCategory[0].id]}
-				value={subCategory}
+				disabled={emails.length < 1 ? true : false}
+				placeholder={emails.length < 1 ? "No emails found" : emails}
+				value={allowEmail}
 				onChange={(e) => handleChange(e)}
 			/>
-			{showSuggestions && userInput && (
+			{showSuggestions && allowEmail && (
 				<ul>
 					{filteredSuggestions.map((suggestion, index) => {
 						return (
 							<li
 								className="cursor-pointer"
 								onClick={() => {
-									setSubCategory(suggestion);
+									setAllowEmail(suggestion);
 									setFilteredSuggestions([]);
 								}}
 								key={index}
@@ -53,4 +49,4 @@ const Autocomplete = ({ mainCategory, subCategory, setSubCategory }) => {
 	);
 };
 
-export default Autocomplete;
+export default EmailAutocomplete;

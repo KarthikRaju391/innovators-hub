@@ -8,15 +8,18 @@ import { makeSerializable } from "../../../../lib/util";
 import CartItems from "../../../../components/CartItems";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { usePageLeave } from "../../../../lib/usePageLeave";
 
 function Products({ cart }) {
+	const router = useRouter();
 	const [load1, setLoad1] = useState(false);
 	const { data: session } = useSession();
 	const [totalCost, setTotalCost] = useState(
 		cart && cart.totalCost ? cart.totalCost : 0
 	);
-	const [quantity, setQuantity] = useState(0);
-	const [cartData, setCartData] = useState(cart ? cart : {});
+	// const [cartData, setCartData] = useState(cart ? cart : {});
+	const [cartData, setCartData] = useState(cart ? cart : { quantities: [] });
 
 	useEffect(() => {
 		const script = document.createElement("script");
@@ -25,21 +28,23 @@ function Products({ cart }) {
 		document.body.appendChild(script);
 	}, []);
 
-	const saveCartData = async () => {
+	const saveCartData = async (cartData) => {
 		const res = await fetch(`/api/cart/${cart.id}`, {
 			method: "PUT",
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ cartData: cartData }),
+			body: JSON.stringify({cartData: cartData}),
 		});
 		const data = await res.json();
-		setCartData(data);
+		return data;
 	};
 
-	const handleSave = async () => {
-		await saveCartData();
+	const handleSave = async (data) => {
+		const updatedCartData = await saveCartData(data);
+		setCartData(updatedCartData);
 	};
+
 	const buyAllHandler = async () => {
 		setLoad1(true);
 		var items = cartData.quantities.map((i) => {
@@ -130,7 +135,13 @@ function Products({ cart }) {
 		setLoad1(false);
 	};
 
-	if (!cart || cartData.quantities.length === 0) {
+	if (
+		!cart ||
+		!cartData ||
+		!cart.quantities ||
+		!cartData.quantities ||
+		!cartData.quantities.length > 0
+	) {
 		return (
 			<>
 				<BackButton />
@@ -157,14 +168,11 @@ function Products({ cart }) {
 			<div className="mt-4">
 				<div className="mb-8 text-center font-bold">
 					<p className="text-3xl">Shopping Cart</p>
-					<span className="" onClick={handleSave}>
-						Save
-					</span>
 				</div>
 				<div>
 					<div className="w-3/4 mx-auto">
 						<div>
-							{cartData.quantities.map((i) => {
+							{cartData?.quantities.map((i) => {
 								return (
 									<CartItems
 										key={i.product.id}
@@ -175,6 +183,7 @@ function Products({ cart }) {
 										setCartData={setCartData}
 										totalCost={totalCost}
 										setTotalCost={setTotalCost}
+										handleSave={handleSave}
 									/>
 								);
 							})}

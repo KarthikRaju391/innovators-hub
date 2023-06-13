@@ -79,7 +79,7 @@ model Investor {
   website          String?
   panNumber        String?
   panVerified      Boolean?  @default(false)
-  venture          Venture?
+  venture          Venture[]
   userId           String    @unique
   user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   meeting          Meeting[]
@@ -124,7 +124,7 @@ model Product {
   id           String        @id @default(cuid())
   name         String
   description  String
-  startupId    String?       @unique
+  startupId    String?
   price        Int
   image        String[]
   createdAt    DateTime      @default(now())
@@ -171,7 +171,7 @@ model Startup {
 
 model Venture {
   id              String           @id @default(cuid())
-  investorId      String           @unique
+  investorId      String          
   amountInvested  Float
   investmentStage InvestmentStage?
   projectId       String
@@ -180,6 +180,8 @@ model Venture {
   createdAt       DateTime         @default(now())
   updatedAt       DateTime         @updatedAt
   transaction     Transaction?
+
+  @@unique([projectId, investorId])
 }
 
 model Project {
@@ -310,16 +312,18 @@ model Meeting {
   id              String       @id @default(cuid())
   projectId       String
   project         Project      @relation(fields: [projectId], references: [id])
-  entrepreneurId  String       @unique
+  entrepreneurId  String
   investor        Investor     @relation(fields: [investorId], references: [id])
   entrepreneur    Entrepreneur @relation(fields: [entrepreneurId], references: [id])
-  investorId      String       @unique
+  investorId      String
   topic           String
   meetingTime     DateTime
   meetingLink     String
   meetingDuration Int
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
+
+  @@unique([projectId, entrepreneurId, investorId])
 }
 
 enum userRole {

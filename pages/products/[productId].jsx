@@ -21,9 +21,10 @@ function productId({ product }) {
 
 	const router = useRouter();
 
-	if(!session.data) {
+	if (!session) {
 		signIn();
 	}
+
 	const openImageViewer = useCallback((index) => {
 		setCurrentImage(index);
 		setIsViewerOpen(true);
@@ -54,7 +55,7 @@ function productId({ product }) {
 		}
 	};
 
-	if (isPageLoading) return <Loading />
+	if (isPageLoading) return <Loading />;
 
 	return (
 		<>
@@ -96,7 +97,13 @@ function productId({ product }) {
 						</div>
 						<div className="md:w-3/4 mx-auto md:py-20 cursor-default">
 							<h1 className="text-2xl text-left">{product.name}</h1>
-							<p>By {product.startup.name}</p>
+							<p
+								onClick={() => {
+									router.push(`/user/startup/${product.startup.id}`);
+								}}
+							>
+								By {product.startup.name}
+							</p>
 							{product.category && (
 								<>
 									<p className="font-light text-left cursor-default">
@@ -106,14 +113,6 @@ function productId({ product }) {
 							)}
 							<p className="font-medium text-left mt-2 break-all">
 								{product.description}
-							</p>
-							<p
-								className="text-left mt-2 break-all cursor-pointer"
-								onClick={() => {
-									router.push(`/user/startup/${product.startup.id}`);
-								}}
-							>
-								Startup - {product.startup.name}
 							</p>
 							<p className="font-bold text-xl text-left mt-2">
 								₹{product.price}

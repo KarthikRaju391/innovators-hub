@@ -4,7 +4,7 @@ import { authOptions } from "../../auth/[...nextauth]";
 
 export default async function handle(req, res) {
 	const session = await getServerSession(req, res, authOptions);
-	
+
 	if (!session) {
 		res.status(401).json({ error: "Not authenticated" });
 		return;
@@ -13,7 +13,15 @@ export default async function handle(req, res) {
 	try {
 		const { deliveryStatus } = req.query;
 		const orders = await prisma.order.findMany({
-			where: { deliveryStatus: deliveryStatus.toUpperCase() },
+			where: {
+				...(deliveryStatus
+					? {
+							deliveryStatus: {
+								equals: deliveryStatus.toUpperCase(),
+							},
+					  }
+					: {}),
+			},
 		});
 
 		const products = await prisma.productOnOrder.findMany({

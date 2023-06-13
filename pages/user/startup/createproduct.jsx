@@ -56,8 +56,9 @@ function createproduct() {
 				body: JSON.stringify(productData),
 			});
 			router.back();
+		} else {
+			alert("Inserting image 1 is compulsory"); //modal
 		}
-		// else alert("Inserting image 1 is compulsory"); //modal
 	};
 
 	return (
@@ -102,25 +103,6 @@ function createproduct() {
 							/>
 						</FormControl>
 
-						<FormControl label={() => "Product Build: "}>
-							<Textarea
-								value={build}
-								required
-								onChange={(e) => setBuild(e.target.value)}
-								placeholder={`Instead of a garden hose any hose of similar size can be used, Instead of an adapter any other method for attaching the foot valve to the hose can be used as long as an appropriate seal is made between the two, Any other hook can be used as opposed to the open eye-hook, Instead of the nylon cord any other rope could be used, Any other bolts could be used instead of carriage bolts, Any other 2" pipe could be used instead of the PVC schedule 40 pipe, Any other pipe cap could be used as long as it fits the appropriate pipe being used`}
-								clearOnEscape
-							/>
-						</FormControl>
-
-						<FormControl label={() => "Product Quality: "}>
-							<Textarea
-								value={quality}
-								onChange={(e) => setQuality(e.target.value)}
-								placeholder={`Safe and suitable for human use due to a purification property of the soil.`}
-								clearOnEscape
-							/>
-						</FormControl>
-
 						<FormControl label={() => "Price Of The Product: "}>
 							<Input
 								value={price}
@@ -156,6 +138,20 @@ function createproduct() {
 							productImages={productImages}
 							setProductImages={setProductImages}
 						/>
+						{productImages?.map((image, i) => (
+							<div key={i} className="flex justify-between items-center">
+								<img src={image} alt="Product Image" width="100" height="100" />
+								<MdOutlineDeleteForever
+									onClick={() =>
+										setProductImages(
+											productImages.filter((img, index) => index !== i)
+										)
+									}
+									className="cursor-pointer"
+									size={30}
+								/>
+							</div>
+						))}
 						{/* <FormControl
 							label={() => "Image 1 Of The Product: "}
 							caption={() => "Required*"}

@@ -3,7 +3,11 @@ import { Select } from "baseui/select";
 import { FormControl } from "baseui/form-control";
 import { Input } from "baseui/input";
 import { Button, SHAPE } from "baseui/button";
+import useSWR from "swr";
+import { fetcher } from "../lib/fetcher";
 import { useRouter } from "next/router";
+import Loading from "./Loading";
+import EmailAutocomplete from "./EmailAutoComplete";
 
 function AccessForm(props) {
 	// handle POST request to set access
@@ -28,30 +32,22 @@ function AccessForm(props) {
 		props.closeOpen();
 	};
 
+	const { data: emails, isLoading } = useSWR("/api/users/", fetcher);
+
+	const emailList = emails?.map((email) => email.email);
+
 	const accessdrop = [
 		{ label: "Edit", id: "Edit" },
 		{ label: "View", id: "View" },
 	];
 
+	if (isLoading) return <Loading />;
+
 	return (
 		<form className="mb-[1rem] pb-[1rem]" onSubmit={assignHandleSubmit}>
 			<div className="mx-auto" style={{ width: "18rem" }}>
 				<FormControl label={() => "Email: "}>
-					<Input
-						value={allowEmail}
-						onChange={(e) => setAllowEmail(e.target.value)}
-						placeholder="Eg. suresh@gmail.com"
-						clearable
-						required
-						type="email"
-						pattern='^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$'
-						clearOnEscape
-						overrides={{
-							Root: {
-								style: ({ $theme }) => ({ width: "18rem" }),
-							},
-						}}
-					/>
+					<EmailAutocomplete emails={emailList} allowEmail={allowEmail} setAllowEmail={setAllowEmail}/>
 				</FormControl>
 
 				<FormControl label={() => "Access Type:"}>

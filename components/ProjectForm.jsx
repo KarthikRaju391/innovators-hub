@@ -4,17 +4,21 @@ import { useRouter } from "next/router";
 import { Input } from "baseui/input";
 import { Textarea } from "baseui/textarea";
 import FileInput from "../components/FileInput";
-import { MdOutlineDeleteForever, MdOutlineTipsAndUpdates } from "react-icons/md";
+import {
+	MdOutlineDeleteForever,
+	MdOutlineTipsAndUpdates,
+} from "react-icons/md";
 import { Button, SHAPE } from "baseui/button";
 import { HiDocumentAdd, HiPencilAlt } from "react-icons/hi";
-import { RxUpdate } from 'react-icons/rx';
+import { RxUpdate } from "react-icons/rx";
+import FileUpload from "./FileUpload";
 
 const ProjectForm = ({ edit = false, data = {} }) => {
 	const { updated, updateProject, project, setUpdated } =
 		useContext(SubmitContext);
 
 	const router = useRouter();
-	const [img, setImg] = useState("")
+	const [projectImages, setProjectImages] = useState(data.image || []);
 	const [load, setLoad] = React.useState(false);
 
 	useEffect(() => {
@@ -70,7 +74,7 @@ const ProjectForm = ({ edit = false, data = {} }) => {
 	};
 
 	const handleReport = async () => {
-		setLoad(true)
+		setLoad(true);
 		if (edit) {
 			if (data.projectReport.length > 0) {
 				updateProject({
@@ -82,23 +86,23 @@ const ProjectForm = ({ edit = false, data = {} }) => {
 			}
 		} else {
 			if (project.projectName && project.projectDescription) {
-                const {project} = await addProject();
+				const { project } = await addProject();
 				router.push(`/user/startup/project/${project.id}/editReport`);
 			} else {
 				alert("Please fill out the form before adding a project report");
 			}
 		}
-		setLoad(false)
+		setLoad(false);
 	};
-
-	
 
 	return (
 		<form
 			onSubmit={handleSubmit}
 			className="flex flex-col items-center justify-center"
 		>
-			<label htmlFor="projectName" className="font-semibold">Project Name</label>
+			<label htmlFor="projectName" className="font-semibold">
+				Project Name
+			</label>
 			<Input
 				name="projectName"
 				id="projectName"
@@ -115,20 +119,17 @@ const ProjectForm = ({ edit = false, data = {} }) => {
 					},
 				}}
 			/>
-			{/* <input
-				type="text"
-				name="projectName"
-				id="projectName"
-				value={project.projectName}
-				onChange={(e) => updateProject({ projectName: e.target.value })}
-			/> */}
-			<label htmlFor="projectDescription" className="font-semibold mt-4">Project Description</label>
+			<label htmlFor="projectDescription" className="font-semibold mt-4">
+				Project Description
+			</label>
 			<div className="w-[18rem]">
 				<Textarea
 					name="projectDescription"
 					id="projectDescription"
 					value={project.projectDescription}
-					onChange={(e) => updateProject({ projectDescription: e.target.value })}
+					onChange={(e) =>
+						updateProject({ projectDescription: e.target.value })
+					}
 					placeholder={`Reduce the space required by plants to grow by growing them on walls.`}
 					clearOnEscape
 				/>
@@ -140,60 +141,76 @@ const ProjectForm = ({ edit = false, data = {} }) => {
 				value={project.projectDescription}
 				onChange={(e) => updateProject({ projectDescription: e.target.value })}
 			/> */}
-			<label htmlFor="projectImage" className="font-semibold mt-4">Project Image</label>
+			<label htmlFor="projectImage" className="font-semibold mt-4">
+				Project Image
+			</label>
 			{/* <input type="file" name="projectImage" id="projectImage" /> */}
-			<FileInput name="projectImage" id="projectImage" file={img} setFiles={setImg} type={"image/*"} />
-			<p className="flex justify-center gap-4 text-sm underline mb-5">{img && <>{img.path} <MdOutlineDeleteForever title="Delete Image" style={{fontSize: "1.5rem",}} onClick={()=>{setImg("")}} /></>}</p>
-			{/* <button onClick={handleReport} type="button">
-				{edit || data?.projectReport?.length > 0
-					? "Edit Project Report"
-					: "Add Project Report"}
-			</button> */}
-			{/* <button type="submit">
-				{edit ? "Update Project" : "Create Project"}
-			</button> */}
+			<div className="mx-auto" style={{ width: "18rem" }}>
+				<FileUpload
+					productImages={projectImages}
+					setProductImages={setProjectImages}
+				/>
+				{projectImages?.map((image, i) => (
+					<div key={i} className="flex justify-between items-center">
+						<img src={image} alt="Product Image" width="100" height="100" />
+						<MdOutlineDeleteForever
+							onClick={() =>
+								setProjectImages(
+									projectImages.filter((img, index) => index !== i)
+								)
+							}
+							className="cursor-pointer"
+							size={30}
+						/>
+					</div>
+				))}
+			</div>
 			<div className="flex gap-4">
-			<Button
-				type="button"
-				onClick={handleReport}
-				isLoading={load}
-				overrides={{
-					BaseButton: {
-						style: ({ $theme }) => ({
-							backgroundColor: $theme.colors.accent500,
-						}),
-					},
-				}}
-				startEnhancer={
-					edit || data?.projectReport?.length > 0 
-					? <HiPencilAlt style={{ fontSize: "1.5rem" }} />
-					: <HiDocumentAdd style={{ fontSize: "1.5rem" }} />
-				}
-			>
+				<Button
+					type="button"
+					onClick={handleReport}
+					isLoading={load}
+					overrides={{
+						BaseButton: {
+							style: ({ $theme }) => ({
+								backgroundColor: $theme.colors.accent500,
+							}),
+						},
+					}}
+					startEnhancer={
+						edit || data?.projectReport?.length > 0 ? (
+							<HiPencilAlt style={{ fontSize: "1.5rem" }} />
+						) : (
+							<HiDocumentAdd style={{ fontSize: "1.5rem" }} />
+						)
+					}
+				>
 					{edit || data?.projectReport?.length > 0
-					? "Edit Project Report"
-					: "Add Project Report"}
-			</Button>
+						? "Edit Project Report"
+						: "Add Project Report"}
+				</Button>
 
-			<Button
-				type="button"
-				onClick={handleReport}
-				isLoading={load}
-				overrides={{
-					BaseButton: {
-						style: ({ $theme }) => ({
-							backgroundColor: $theme.colors.accent500,
-						}),
-					},
-				}}
-				startEnhancer={
-					edit || data?.projectReport?.length > 0 
-					? <RxUpdate style={{ fontSize: "1.5rem" }} />
-					: <MdOutlineTipsAndUpdates style={{ fontSize: "1.5rem" }} />
-				}
-			>
-			{edit ? "Update Project" : "Create Project"}
-			</Button>
+				<Button
+					type="button"
+					onClick={handleReport}
+					isLoading={load}
+					overrides={{
+						BaseButton: {
+							style: ({ $theme }) => ({
+								backgroundColor: $theme.colors.accent500,
+							}),
+						},
+					}}
+					startEnhancer={
+						edit || data?.projectReport?.length > 0 ? (
+							<RxUpdate style={{ fontSize: "1.5rem" }} />
+						) : (
+							<MdOutlineTipsAndUpdates style={{ fontSize: "1.5rem" }} />
+						)
+					}
+				>
+					{edit ? "Update Project" : "Create Project"}
+				</Button>
 			</div>
 		</form>
 	);

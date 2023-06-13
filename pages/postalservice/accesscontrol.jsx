@@ -8,8 +8,10 @@ import AccessForm from "../../components/AccessForm";
 import { TiUserDelete } from "react-icons/ti";
 import { Button } from "baseui/button";
 import { fetcher } from "../../lib/fetcher";
+import { useRouter } from "next/router";
 
 function createmanager() {
+	const router = useRouter();
 	const [isOpen, setIsOpen] = React.useState(false);
 	const { data, error, isLoading } = useSWR("/api/postalService/", fetcher);
 
@@ -21,6 +23,21 @@ function createmanager() {
 		console.log(data, "orders data");
 	}
 
+	const handleRevokeAccess = async (emailId) => {
+		//submit Allot Access form from here
+		const res = await fetch(`/api/postalService/`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify({
+				email: emailId,
+			}),
+		});
+		await res.json();
+		router.replace(router.asPath);
+	};
+
 	const closeOpen = () => {
 		setIsOpen(false);
 	};
@@ -31,7 +48,7 @@ function createmanager() {
 			<td className="col">{e.email}</td> <td className="col">{e.accessType}</td>{" "}
 			<td
 				className="col flex justify-center cursor-pointer"
-				onClick={() => console.log(e)}
+				onClick={() => handleRevokeAccess(e.email)}
 			>
 				<TiUserDelete fontSize={"1.2rem"} />
 			</td>{" "}

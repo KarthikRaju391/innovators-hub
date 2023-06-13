@@ -55,8 +55,10 @@ function viewmanager() {
 	var tblContent = data?.map((product, i) => (
 		<tr key={i} className={`row animate__animated animate__fadeInUp`}>
 			{" "}
-			<td className="col">{product.startup.location}</td>{" "}
-			<td className="col">{product.order.deliverTo}</td>{" "}
+			<td className="col">{product.startup.location.street1+", "+product.startup.location.city}</td>{" "}
+			<td className="col">
+				{product.order.deliverTo.street1 + ", " + product.order.deliverTo.city}
+			</td>{" "}
 			<td className="col">
 				{new Date(product.order.createdAt).toLocaleDateString()}
 			</td>{" "}
@@ -128,52 +130,3 @@ function viewmanager() {
 }
 
 export default viewmanager;
-
-// var data = [
-// 	{
-// 		startupAddress: "Bangalore",
-// 		customerAddress: "Manglore",
-// 		date: "27-02-2023",
-// 		productName: "Hand Pump",
-// 		startupPhone: "8489531221",
-// 		customerPhone: "6362232130",
-// 	},
-// 	{
-// 		startupAddress: "Bangalore",
-// 		customerAddress: "Tumkur",
-// 		date: "27-01-2023",
-// 		productName: "Books",
-// 		startupPhone: "7654329843",
-// 		customerPhone: "9844722941",
-// 	},
-// 	{
-// 		startupAddress: "Bangalore",
-// 		customerAddress: "Hampi",
-// 		date: "27-12-2022",
-// 		productName: "Phone",
-// 		startupPhone: "9596232453",
-// 		customerPhone: "9038541752",
-// 	},
-// 	{
-// 		startupAddress: "Bangalore",
-// 		customerAddress: "Bellari",
-// 		date: "27-11-2022",
-// 		productName: "Laptop",
-// 		startupPhone: "8489531221",
-// 		customerPhone: "6362232130",
-// 	},
-// 	{
-// 		startupAddress: "Bangalore",
-// 		customerAddress: "Dharwad",
-// 		date: "27-10-2022",
-// 		productName: "Charger",
-// 		startupPhone: "8489531221",
-// 		customerPhone: "6362232130",
-// 	},
-// ];
-
-// data?.sort((a, b) => {
-// 	const dateA = new Date(a.date.split("-").reverse().join("-"));
-// 	const dateB = new Date(b.date.split("-").reverse().join("-"));
-// 	return dateA.getTime() - dateB.getTime();
-// });

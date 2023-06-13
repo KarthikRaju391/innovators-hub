@@ -38,11 +38,7 @@ function meetings() {
 					})}
 				</td>{" "}
 				<td className="col">
-					{new Date(meet.meetingTime).toLocaleTimeString("en-US", {
-						hour: "numeric",
-						minute: "numeric",
-						hour12: true,
-					})}
+					{new Date(meet.meetingTime).getUTCHours() + ":" + new Date(meet.meetingTime).getMinutes()}
 				</td>{" "}
 				<td className="col">
 					<Button
