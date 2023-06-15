@@ -1,8 +1,9 @@
 import dynamic from "next/dynamic";
 import React from "react";
+import Loading from "../../components/Loading";
 
 const UserDashboard = dynamic(() => import("../../components/Dashboard"), {
-	loading: () => <p className="text-center">Loading...</p>,
+	loading: () => <Loading />,
 	ssr: false,
 });
 

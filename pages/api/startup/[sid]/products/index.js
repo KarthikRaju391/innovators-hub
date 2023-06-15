@@ -15,7 +15,7 @@ export default async function handle(req, res) {
 		if (req.method === "GET") {
 			const { sid, cursor } = req.query;
 
-			const take = 4;
+			const take = 6;
 
 			const where = {
 				startupId: sid,

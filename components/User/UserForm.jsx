@@ -59,10 +59,10 @@ const UserForm = ({ user, progress, setProgress, load, setLoad, steps }) => {
 		if (res.ok) {
 			setLoad(false);
 			if (progress + getProgressIncrement() === 100) {
-				router.back();
+				window.location.href = "/user";
 			} else {
 				setProgress(progress + getProgressIncrement());
-				router.replace(router.asPath)
+				router.replace(router.asPath);
 			}
 		} else {
 			setLoad(false);
@@ -154,7 +154,7 @@ const UserForm = ({ user, progress, setProgress, load, setLoad, steps }) => {
 							}}
 						/>
 					</FormControl>
-					
+
 					<FormControl label={() => "Gender:"}>
 						<Select
 							options={genderdrop}

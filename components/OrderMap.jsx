@@ -3,8 +3,8 @@ import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet'
 
 export default function OrderMap() {
 
-    var position = [13.007517,77.491970]
-    var speed = 50
+    var position = [12.964190, 77.50439]
+    var speed = 0
     //geoData.lat, geoData.lng
   
   return (

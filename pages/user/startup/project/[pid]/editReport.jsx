@@ -12,6 +12,8 @@ import BackButton from "../../../../../components/BackButton";
 import LoginHeader from "../../../../../components/LoginHeader";
 import { Button } from "baseui/button";
 import { RiArrowGoBackLine, RiBookmarkFill } from "react-icons/ri";
+import { usePageLoading } from "../../../../../lib/usePageLoading";
+import Loading from "../../../../../components/Loading";
 
 const Product = {
 	name: "Product",
@@ -198,6 +200,8 @@ const DynamicForm = () => {
 		project.projectReport.length > 0 ? project.projectReport : initialValues
 	);
 
+	const { isPageLoading } = usePageLoading();
+
 	const [updated, setUpdated] = useState(false);
 	const [load, setLoad] = React.useState(false);
 
@@ -241,9 +245,13 @@ const DynamicForm = () => {
 		router.back();
 	};
 
+	if (isPageLoading) {
+		return <Loading />;
+	}
+
 	return (
 		<>
-			<LoginHeader />
+			<LoginHeader />4
 			<BackButton />
 
 			<div>

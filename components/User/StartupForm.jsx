@@ -89,7 +89,7 @@ const StartupForm = ({
 		});
 		if (res.ok) {
 			setLoad(false);
-			router.back();
+			window.location.href = "/user";
 		} else {
 			setLoad(false);
 			alert("User Details not updated");

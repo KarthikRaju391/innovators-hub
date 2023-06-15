@@ -53,7 +53,7 @@ const InvestorForm = ({
 			setLoad(false);
 			// check if this is the last step
 			if (progress + getProgressIncrement() === 100) {
-				router.back();
+				window.location.href = "/user";
 			} else {
 				setProgress(progress + getProgressIncrement());
 			}
@@ -74,92 +74,16 @@ const InvestorForm = ({
 
 			<div className="flex flex-wrap justify-around gap-x-4">
 				<div className="">
-				<FormControl label={() => "Email: "}>
-					<Input
-						value={investorDetails.email}
-						onChange={(e) => {
-							setInvestorDetails({
-								...investorDetails,
-								email: e.target.value,
-							});
-						}}
-						placeholder="investor@gmail.com"
-						autoFocus
-						clearable
-						required
-						clearOnEscape
-						disabled={!investorRole}
-						overrides={{
-							Root: {
-								style: ({ $theme }) => ({ width: "18rem" }),
-							},
-						}}
-					/>
-				</FormControl>
-
-				<FormControl
-					label={() => "Personal PAN Card Number: "}
-					caption={() =>
-						"10-digit alphanumeric code issued by the Income Tax Department of India"
-					}
-				>
-					<Input
-						value={investorDetails.panNumber}
-						onChange={(e) => {
-							setInvestorDetails({
-								...investorDetails,
-								panNumber: e.target.value,
-							});
-						}}
-						placeholder="XXXXXXXXXX"
-						pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
-						clearable
-						disabled={!investorRole}
-						required
-						clearOnEscape
-						overrides={{
-							Root: {
-								style: ({ $theme }) => ({ width: "18rem" }),
-							},
-						}}
-					/>
-				</FormControl>
-				</div>
-				<div>
-				<FormControl label={() => "Investor Type: "}>
-					<Select
-						options={[
-							{ label: "Individual", id: "Individual" },
-							{ label: "Angel", id: "Angel" },
-							{ label: "Venture Capitalist", id: "Venture Capitalist" },
-						]}
-						value={type}
-						onChange={(params) => {
-							setType(params.value);
-						}}
-						disabled={!investorRole}
-						required
-						clearable
-						clearOnEscape
-						overrides={{
-							Root: {
-								style: ({ $theme }) => ({ width: "18rem" }),
-							},
-						}}
-					/>
-				</FormControl>
-
-				{type[0].id === "Venture Capitalist" && (
-					<FormControl label={() => "Organization Name: "}>
+					<FormControl label={() => "Email: "}>
 						<Input
-							value={investorDetails.organizationName}
+							value={investorDetails.email}
 							onChange={(e) => {
 								setInvestorDetails({
 									...investorDetails,
-									organizationName: e.target.value,
+									email: e.target.value,
 								});
 							}}
-							placeholder="Eg. Infotech Solutions"
+							placeholder="investor@gmail.com"
 							autoFocus
 							clearable
 							required
@@ -172,30 +96,106 @@ const InvestorForm = ({
 							}}
 						/>
 					</FormControl>
-				)}
-				
-				<FormControl label={() => "Website: "}>
-					<Input
-						value={investorDetails.website}
-						onChange={(e) => {
-							setInvestorDetails({
-								...investorDetails,
-								website: e.target.value,
-							});
-						}}
-						placeholder="Eg. www.infotech.com"
-						autoFocus
-						clearable
-						required
-						clearOnEscape
-						disabled={!investorRole}
-						overrides={{
-							Root: {
-								style: ({ $theme }) => ({ width: "18rem" }),
-							},
-						}}
-					/>
-				</FormControl>
+
+					<FormControl
+						label={() => "Personal PAN Card Number: "}
+						caption={() =>
+							"10-digit alphanumeric code issued by the Income Tax Department of India"
+						}
+					>
+						<Input
+							value={investorDetails.panNumber}
+							onChange={(e) => {
+								setInvestorDetails({
+									...investorDetails,
+									panNumber: e.target.value,
+								});
+							}}
+							placeholder="XXXXXXXXXX"
+							pattern="[A-Z]{5}[0-9]{4}[A-Z]{1}"
+							clearable
+							disabled={!investorRole}
+							required
+							clearOnEscape
+							overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
+						/>
+					</FormControl>
+				</div>
+				<div>
+					<FormControl label={() => "Investor Type: "}>
+						<Select
+							options={[
+								{ label: "Individual", id: "Individual" },
+								{ label: "Angel", id: "Angel" },
+								{ label: "Venture Capitalist", id: "Venture Capitalist" },
+							]}
+							value={type}
+							onChange={(params) => {
+								setType(params.value);
+							}}
+							disabled={!investorRole}
+							required
+							clearable
+							clearOnEscape
+							overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
+						/>
+					</FormControl>
+
+					{type[0].id === "Venture Capitalist" && (
+						<FormControl label={() => "Organization Name: "}>
+							<Input
+								value={investorDetails.organizationName}
+								onChange={(e) => {
+									setInvestorDetails({
+										...investorDetails,
+										organizationName: e.target.value,
+									});
+								}}
+								placeholder="Eg. Infotech Solutions"
+								autoFocus
+								clearable
+								required
+								clearOnEscape
+								disabled={!investorRole}
+								overrides={{
+									Root: {
+										style: ({ $theme }) => ({ width: "18rem" }),
+									},
+								}}
+							/>
+						</FormControl>
+					)}
+
+					<FormControl label={() => "Website: "}>
+						<Input
+							value={investorDetails.website}
+							onChange={(e) => {
+								setInvestorDetails({
+									...investorDetails,
+									website: e.target.value,
+								});
+							}}
+							placeholder="Eg. www.infotech.com"
+							autoFocus
+							clearable
+							required
+							clearOnEscape
+							disabled={!investorRole}
+							overrides={{
+								Root: {
+									style: ({ $theme }) => ({ width: "18rem" }),
+								},
+							}}
+						/>
+					</FormControl>
 				</div>
 			</div>
 

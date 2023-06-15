@@ -44,7 +44,10 @@ function Header() {
 						</li>
 					)}
 					{session && session.user.role.includes("ADMIN") && (
-						<li onClick={() => router.push("/postalservice")} className={classes.lis}>
+						<li
+							onClick={() => router.push("/postalservice")}
+							className={classes.lis}
+						>
 							Admin
 						</li>
 					)}
