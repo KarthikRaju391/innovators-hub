@@ -11,40 +11,23 @@ export default async function handle(req, res) {
 	}
 
 	try {
-		const { deliveryStatus } = req.query;
 		const orders = await prisma.order.findMany({
 			where: {
-				...(deliveryStatus
-					? {
-							deliveryStatus: {
-								equals: deliveryStatus.toUpperCase(),
-							},
-					  }
-					: {}),
-			},
-		});
-
-		const products = await prisma.productOnOrder.findMany({
-			where: {
-				orderId: {
-					in: orders.map((order) => order.id),
+				deliveryStatus: {
+					not: "PENDING",
 				},
 			},
 			include: {
-				startup: true,
-				order: {
+				products: {
 					include: {
-						user: {
-							select: {
-								phoneNumber: true,
-							},
-						},
+						startup: true,
 					},
 				},
+				user: true,
 			},
 		});
 
-		return res.status(200).json(products);
+		return res.status(200).json(orders);
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({ error: "Internal Server Error" });

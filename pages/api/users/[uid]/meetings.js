@@ -24,6 +24,9 @@ export default async function handler(req, res) {
 							entrepreneurId: session.user.entrepreneurId,
 						},
 					],
+					meetingTime: {
+						gte: new Date(),
+					},
 				},
 				include: {
 					project: {
@@ -59,6 +62,9 @@ export default async function handler(req, res) {
 			meetings = await prisma.meeting.findMany({
 				where: {
 					investorId: session.user.investorId,
+					meetingTime: {
+						gte: new Date(),
+					},
 				},
 				include: {
 					project: {
@@ -94,6 +100,9 @@ export default async function handler(req, res) {
 			meetings = await prisma.meeting.findMany({
 				where: {
 					entrepreneurId: session.user.entrepreneurId,
+					meetingTime: {
+						gt: new Date(),
+					},
 				},
 				include: {
 					project: {

@@ -82,7 +82,7 @@ const ProjectForm = ({ edit = false, data = {} }) => {
 				});
 				router.push(`/user/startup/project/${data.id}/editReport`);
 			} else {
-				router.push(`/user/startup/project/pdfGenerator`);
+				router.push(`/user/startup/project/${data.id}/editReport`);
 			}
 		} else {
 			if (project.projectName && project.projectDescription) {

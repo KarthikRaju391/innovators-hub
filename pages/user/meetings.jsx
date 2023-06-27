@@ -38,7 +38,9 @@ function meetings() {
 					})}
 				</td>{" "}
 				<td className="col">
-					{new Date(meet.meetingTime).getUTCHours() + ":" + new Date(meet.meetingTime).getMinutes()}
+					{new Date(meet.meetingTime).getUTCHours() +
+						":" +
+						new Date(meet.meetingTime).getUTCMinutes()}
 				</td>{" "}
 				<td className="col">
 					<Button

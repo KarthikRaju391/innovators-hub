@@ -4,7 +4,6 @@ import LoginHeader from "../../../../../components/LoginHeader";
 import BackButton from "../../../../../components/BackButton";
 
 export default function Edit({ project }) {
-	console.log(project);
 	const router = useRouter();
 	const { pid } = router.query;
 

@@ -14,12 +14,12 @@ import SideNavPostalAdmin from "./SideNav/SideNavPostalAdmin";
 import { useRouter } from "next/router";
 
 function LoginHeader() {
-	const session = useSession();
+	const { data: session } = useSession();
 	const router = useRouter();
 	// console.log(session.data)
-	const user = session?.data?.user.name || "";
+	const user = session.user.name || "";
 
-	const role = session?.data?.user?.role; //"user" or "investor" or "entrepreneur" or JUST "admin"
+	const role = session.user.role; //"user" or "investor" or "entrepreneur" or JUST "admin"
 
 	const [isOpen, setIsOpen] = React.useState(false);
 
@@ -27,11 +27,11 @@ function LoginHeader() {
 		setIsOpen(false);
 	};
 
+	console.log(session, 'session')
+
 	var openDraw = () => {
 		setIsOpen(true);
 	};
-
-	var update = true;
 
 	return (
 		<>
@@ -67,7 +67,7 @@ function LoginHeader() {
 						>
 							<div className="flex">
 								{user}
-								{update && <div className="bg-red-600 rounded-full h-2 w-2" />}
+								{session.user.meetings && <div className="bg-red-600 rounded-full h-2 w-2" />}
 							</div>
 						</StyledLink>
 					</StyledNavigationItem>

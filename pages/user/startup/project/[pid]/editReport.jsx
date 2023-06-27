@@ -225,7 +225,6 @@ const DynamicForm = () => {
 		const data = editReport(values);
 		setUpdated(true);
 		updateProject({ projectReport: [] });
-		console.log(data);
 	};
 
 	useEffect(() => {
@@ -251,7 +250,7 @@ const DynamicForm = () => {
 
 	return (
 		<>
-			<LoginHeader />4
+			<LoginHeader />
 			<BackButton />
 
 			<div>

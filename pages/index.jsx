@@ -9,6 +9,7 @@ import { CgQuote } from "react-icons/cg";
 
 function Home() {
 	const [isOpen, setIsOpen] = React.useState(false);
+	const [posts, setPosts] = React.useState([]);
 	const router = useRouter();
 	const { isPageLoading } = usePageLoading();
 
@@ -19,6 +20,30 @@ function Home() {
 	var openDraw = () => {
 		setIsOpen(true);
 	};
+
+	const fetchTopStories = async () => {
+		// Fetch the top 100 story IDs
+		const response = await fetch(
+			"https://hacker-news.firebaseio.com/v0/topstories.json"
+		);
+		const topStoryIds = await response.json();
+
+		// Fetch the details of the top 10 stories
+		const top10StoryIds = topStoryIds.slice(0, 10);
+		const top10Stories = await Promise.all(
+			top10StoryIds.map(async (id) => {
+				const storyResponse = await fetch(
+					`https://hacker-news.firebaseio.com/v0/item/${id}.json`
+				);
+				return storyResponse.json();
+			})
+		);
+		setPosts(top10Stories);
+	};
+
+	React.useEffect(() => {
+		fetchTopStories();
+	}, []);
 
 	if (isPageLoading) return <Loading />;
 
@@ -59,7 +84,23 @@ function Home() {
 				hopes, dreams and endeavors first - always.
 			</p>
 			<hr className="w-[90%] mx-auto mb-[1rem]" />
-			<p className="text-3xl mb-[2rem] text-center cursor-default">
+			<p className="text-3xl text-center cursor-default">
+				LATEST TECH NEWS
+			</p>
+			<div className="w-3/4 mx-auto rounded-lg shadow-md">
+				{posts.map((post) => (
+					<div className="bg-white p-6">
+						<h2 className="text-xl font-bold mb-2">
+							<a href={post.url} target="_blank" rel="noopener noreferrer">
+								{post.title}
+							</a>
+						</h2>
+						<p className="text-gray-600">Author: {post.by}</p>
+					</div>
+				))}
+			</div>
+			{/* <hr className="w-[90%] mx-auto mb-[1rem]" /> */}
+			<p className="text-3xl mb-[2rem] mt-4 text-center cursor-default">
 				CUSTOMER REVIEWS
 			</p>
 			<div className="select-none cursor-default mb-[2rem] flex justify-around flex-wrap text-black">

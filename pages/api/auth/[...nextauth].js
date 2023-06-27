@@ -21,9 +21,13 @@ export const authOptions = {
 						},
 						include: {
 							venture: true,
+							meeting: true,
 						},
 					});
 					session.user.investorId = investor.id;
+					if (investor.meeting.length > 0) {
+						session.user.meetings = true;
+					}
 				}
 
 				if (user.role.includes("ENTREPRENEUR")) {
@@ -35,6 +39,7 @@ export const authOptions = {
 							entrepreneur: {
 								include: {
 									startup: true,
+									meeting: true,
 								},
 							},
 						},
@@ -42,6 +47,9 @@ export const authOptions = {
 					if (startup) {
 						session.user.entrepreneurId = startup.entrepreneur.id;
 						session.user.startupId = startup.entrepreneur.startup.id;
+					}
+					if (startup.entrepreneur.meeting.length > 0) {
+						session.user.meetings = true;
 					}
 				}
 			}

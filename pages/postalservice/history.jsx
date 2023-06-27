@@ -1,5 +1,3 @@
-import { useRouter } from "next/router";
-import { useState } from "react";
 import BackButton from "../../components/BackButton";
 import LoginHeader from "../../components/LoginHeader";
 import { fetcher } from "../../lib/fetcher";
@@ -20,26 +18,15 @@ function adminhistory() {
 		isLoading: postalServiceIsLoading,
 	} = useSWR("/api/postalService", fetcher);
 
-	const [orderCollected, setOrderCollected] = useState(false);
-	const [orderDelivered, setOrderDelivered] = useState(false);
-
 	if (orderIsLoading || postalServiceIsLoading) return <Loading />;
-
-	// var data = [
-	//     {email: 'a@g.co', date: "27-02-2023", action: "Collected"},
-	//     {email: 'b@g.co', date: "27-01-2023", action: "Delivered"},
-	//     {email: 'c@g.co', date: "27-12-2022", action: "Access Granted"},
-	//     {email: 'd@g.co', date: "27-11-2022", action: "Access Revoked"},
-	//     {email: 'e@g.co', date: "27-10-2022", action: "Collected"},
-	// ]
 
 	var data = [];
 
 	orders?.forEach((order) => {
 		data.push({
-			email: order.startup.email,
-			date: order.order.updatedAt,
-			action: order.order.deliveryStatus,
+			email: order.user.email,
+			date: order.updatedAt,
+			action: order.deliveryStatus,
 		});
 	});
 	postalService?.forEach((user) => {

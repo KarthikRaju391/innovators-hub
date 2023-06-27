@@ -5,15 +5,14 @@ import { fetcher } from "../../lib/fetcher";
 import useSWR from "swr";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { getUniqueLocationsForOrder } from "../../lib/getUniqueLocationsForOrder";
+import { getUniqueEmailsForOrder } from "../../lib/getUniqueStartupEmails";
 
 function viewmanager() {
 	const { data, error, isLoading } = useSWR(
-		"/api/postalService/orders?deliveryStatus=Ready",
+		"/api/postalService/orders",
 		fetcher
 	);
-
-	const [orderCollected, setOrderCollected] = useState(false);
-	const [orderDelivered, setOrderDelivered] = useState(false);
 
 	const router = useRouter();
 
@@ -25,8 +24,9 @@ function viewmanager() {
 		console.log(data, "orders data");
 	}
 
+	// create a set of startup locations
+
 	const handleCollected = async (orderId) => {
-		setOrderCollected(true);
 		const res = await fetch(`/api/postalService/orders/${orderId}`, {
 			method: "PUT",
 			headers: {
@@ -40,7 +40,6 @@ function viewmanager() {
 	};
 
 	const handleDelivered = async (orderId) => {
-		setOrderDelivered(true);
 		const res = await fetch(`/api/postalService/orders/${orderId}`, {
 			method: "PUT",
 			headers: {
@@ -52,43 +51,61 @@ function viewmanager() {
 		router.replace(router.asPath);
 	};
 
-	var tblContent = data?.map((product, i) => (
-		<tr key={i} className={`row animate__animated animate__fadeInUp`}>
-			{" "}
-			<td className="col">{product.startup.location.street1+", "+product.startup.location.city}</td>{" "}
-			<td className="col">
-				{product.order.deliverTo.street1 + ", " + product.order.deliverTo.city}
-			</td>{" "}
-			<td className="col">
-				{new Date(product.order.createdAt).toLocaleDateString()}
-			</td>{" "}
-			<td className="col">{product.productName}</td>{" "}
-			<td className="col">{product.startup.email}</td>{" "}
-			<td className="col">{product.order.user.phoneNumber}</td>{" "}
-			<td className="col">
-				<Button
-					onClick={() => handleCollected(product.order.id)}
-					disabled={
-						orderCollected || product.order.deliveryStatus === "Collected"
-					}
-					size={SIZE.compact}
-				>
-					Collected
-				</Button>
-			</td>{" "}
-			<td className="col">
-				<Button
-					onClick={() => handleDelivered(product.order.id)}
-					disabled={
-						orderDelivered || product.order.deliveryStatus === "Delivered"
-					}
-					size={SIZE.compact}
-				>
-					Delivered
-				</Button>
-			</td>{" "}
-		</tr>
-	));
+	var tblContent = data?.map((order, i) => {
+		const uniqueLocations = getUniqueLocationsForOrder(order);
+		const uniqueEmails = getUniqueEmailsForOrder(order);
+		return (
+			<tr key={i} className={`row animate__animated animate__fadeInUp`}>
+				{" "}
+				<td className="col">
+					{uniqueLocations.map((location) => (
+						<li className="list-none">{location}</li>
+					))}
+				</td>{" "}
+				<td className="col">
+					{order.deliverTo.street1 + ", " + order.deliverTo.city}
+				</td>{" "}
+				<td className="col">
+					{new Date(order.createdAt).toLocaleDateString("en-US", {
+						year: "2-digit",
+						month: "2-digit",
+						day: "numeric",
+					})}
+				</td>{" "}
+				<td className="col">
+					{order.products.map((product) => (
+						<li className="list-none">
+							{product.productName} - {product.productQuantity}
+						</li>
+					))}
+				</td>{" "}
+				<td className="col">
+					{uniqueEmails.map((email) => (
+						<li className="list-none">{email}</li>
+					))}
+				</td>{" "}
+				<td className="col">{order.user.phoneNumber}</td>{" "}
+				<td className="col">
+					<Button
+						onClick={() => handleCollected(order.id)}
+						disabled={order.deliveryStatus === "COLLECTED"}
+						size={SIZE.compact}
+					>
+						Collected
+					</Button>
+				</td>{" "}
+				<td className="col">
+					<Button
+						onClick={() => handleDelivered(product.order.id)}
+						disabled={order.deliveryStatus === "DELIVERED"}
+						size={SIZE.compact}
+					>
+						Delivered
+					</Button>
+				</td>{" "}
+			</tr>
+		);
+	});
 
 	return (
 		<>

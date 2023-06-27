@@ -5,9 +5,10 @@ import { Button, SIZE, SHAPE } from "baseui/button";
 import { makeSerializable } from "../../../lib/util";
 import { getSession, useSession } from "next-auth/react";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 function orders({ products }) {
-	const [parcelReady, setParcelReady] = useState(false);
+	const router = useRouter();
 	const { data: session } = useSession();
 
 	var currentTheme;
@@ -29,10 +30,8 @@ function orders({ products }) {
 			}
 		);
 		await res.json();
-		setParcelReady(true);
+		router.replace(router.asPath);
 	};
-
-	console.log(products);
 
 	return (
 		<>
@@ -73,10 +72,10 @@ function orders({ products }) {
 							<Button
 								onClick={() => handleParcelReady(product.id)}
 								size={SIZE.compact}
-								disabled={parcelReady || product.readyToShip}
+								disabled={product.readyToShip}
 								shape={SHAPE.pill}
 							>
-								{parcelReady || product.readyToShip ? "Ready" : "Parcel Ready"}
+								{product.readyToShip ? "Ready" : "Parcel Ready"}
 							</Button>
 						</Panel>
 					))}
