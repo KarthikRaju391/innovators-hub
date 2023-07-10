@@ -17,9 +17,9 @@ function LoginHeader() {
 	const { data: session } = useSession();
 	const router = useRouter();
 	// console.log(session.data)
-	const user = session.user.name || "";
+	const user = session?.user.name || "";
 
-	const role = session.user.role; //"user" or "investor" or "entrepreneur" or JUST "admin"
+	const role = session?.user.role; //"user" or "investor" or "entrepreneur" or JUST "admin"
 
 	const [isOpen, setIsOpen] = React.useState(false);
 
@@ -27,11 +27,13 @@ function LoginHeader() {
 		setIsOpen(false);
 	};
 
-	console.log(session, 'session')
-
 	var openDraw = () => {
 		setIsOpen(true);
 	};
+
+	if(!session) {
+		return null;
+	}
 
 	return (
 		<>

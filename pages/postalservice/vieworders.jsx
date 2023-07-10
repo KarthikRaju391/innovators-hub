@@ -4,7 +4,6 @@ import { Button, SIZE } from "baseui/button";
 import { fetcher } from "../../lib/fetcher";
 import useSWR from "swr";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { getUniqueLocationsForOrder } from "../../lib/getUniqueLocationsForOrder";
 import { getUniqueEmailsForOrder } from "../../lib/getUniqueStartupEmails";
 
@@ -35,7 +34,7 @@ function viewmanager() {
 			body: JSON.stringify({ deliveryStatus: "Collected" }),
 		});
 
-		const data = await res.json();
+		await res.json();
 		router.replace(router.asPath);
 	};
 
@@ -47,7 +46,7 @@ function viewmanager() {
 			},
 			body: JSON.stringify({ deliveryStatus: "Delivered" }),
 		});
-		const data = await res.json();
+		await res.json();
 		router.replace(router.asPath);
 	};
 
