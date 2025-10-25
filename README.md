@@ -45,7 +45,7 @@ A platform for builders to showcase vibe-coded POCs, build a community of suppor
 ### Backend & Database
 
 - **Next.js API Routes**: Serverless API endpoints
-- **Prisma**: Database ORM with PostgreSQL
+- **Drizzle ORM**: Database ORM with PostgreSQL
 - **Supabase**: Authentication and real-time features
 - **NextAuth.js**: Authentication framework
 
@@ -112,8 +112,7 @@ GITHUB_TOKEN="..."
 4. Set up the database:
 
 ```bash
-npx prisma migrate dev
-npx prisma generate
+npm run db:push
 ```
 
 5. Run the development server:
@@ -166,7 +165,7 @@ innovators-hub/
 ├── pages/               # Next.js pages and API routes
 │   ├── api/            # API endpoints
 │   └── ...             # Page components
-├── prisma/             # Database schema and migrations
+├── src/lib/db/        # Database schema and connection
 ├── public/             # Static assets
 ├── styles/             # Global styles
 ├── PRODUCT_SPEC.md     # Detailed product specification
