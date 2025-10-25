@@ -62,13 +62,13 @@ Three tiers:
    - Shows up as "Hype Supporter" on project
    - Access to all public content
 
-2. **Early Access Supporter** ( one-time)
+2. **Early Access Supporter** ($5 one-time)
    - All Hype Supporter benefits +
    - Early access to new versions (1 week before public)
    - Access to supporter-exclusive journey posts
    - Shows up as "Early Access Supporter" on project
 
-3. **Champion Supporter** (5 one-time)
+3. **Champion Supporter** ($15 one-time)
    - All Early Access Supporter benefits +
    - Direct messaging with creator (optional—creator enables/disables)
    - Featured badge on project page
