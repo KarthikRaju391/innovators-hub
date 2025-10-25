@@ -62,13 +62,13 @@ Three tiers:
    - Shows up as "Hype Supporter" on project
    - Access to all public content
 
-2. **Early Access Supporter** ($5 one-time)
+2. **Early Access Supporter** ( one-time)
    - All Hype Supporter benefits +
    - Early access to new versions (1 week before public)
    - Access to supporter-exclusive journey posts
    - Shows up as "Early Access Supporter" on project
 
-3. **Champion Supporter** ($15 one-time)
+3. **Champion Supporter** (5 one-time)
    - All Early Access Supporter benefits +
    - Direct messaging with creator (optional—creator enables/disables)
    - Featured badge on project page
@@ -132,124 +132,9 @@ Three tiers:
 
 ---
 
-## Data Model (Prisma Schema)
+## Data Model (Drizzle ORM Schema)
 
-```prisma
-model User {
-  id            String @id @default(cuid())
-  email         String @unique
-  name          String?
-  bio           String?
-  avatar        String?
-  createdAt     DateTime @default(now())
-  
-  projects      Project[]
-  journeyPosts  JourneyPost[]
-  discussions   Discussion[]
-  comments      Comment[]
-  supporters    Supporter[]
-  supportedBy   Supporter[] @relation("supporter")
-}
 
-model Project {
-  id            String @id @default(cuid())
-  title         String
-  description   String
-  demoUrl       String?
-  repoUrl       String
-  techStack     String[] // ["Next.js", "TypeScript", etc.]
-  aiToolTags    String[] // ["Claude Code", "Cursor", etc.]
-  creator       User @relation(fields: [creatorId], references: [id])
-  creatorId     String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  
-  versions      Version[]
-  journeyPosts  JourneyPost[]
-  discussions   Discussion[]
-  supporters    Supporter[]
-  upvotes       Int @default(0)
-}
-
-model Version {
-  id            String @id @default(cuid())
-  versionNumber String // "v1", "v2", etc.
-  project       Project @relation(fields: [projectId], references: [id])
-  projectId     String
-  releaseNotes  String? // Auto-pulled from README
-  isPublic      Boolean @default(true)
-  releasedAt    DateTime @default(now())
-}
-
-model JourneyPost {
-  id            String @id @default(cuid())
-  content       String
-  creator       User @relation(fields: [creatorId], references: [id])
-  creatorId     String
-  project       Project @relation(fields: [projectId], references: [id])
-  projectId     String
-  isPublic      Boolean @default(true) // false = supporters-only
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-}
-
-model Discussion {
-  id            String @id @default(cuid())
-  title         String
-  content       String
-  project       Project @relation(fields: [projectId], references: [id])
-  projectId     String
-  author        User @relation(fields: [authorId], references: [id])
-  authorId      String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  
-  comments      Comment[]
-  upvotes       Int @default(0)
-}
-
-model Comment {
-  id            String @id @default(cuid())
-  content       String
-  author        User @relation(fields: [authorId], references: [id])
-  authorId      String
-  discussion    Discussion @relation(fields: [discussionId], references: [id])
-  discussionId  String
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  
-  upvotes       Int @default(0)
-}
-
-model Supporter {
-  id            String @id @default(cuid())
-  supporter     User @relation("supporter", fields: [supporterId], references: [id])
-  supporterId   String
-  creator       User @relation(fields: [creatorId], references: [id])
-  creatorId     String
-  project       Project @relation(fields: [projectId], references: [id])
-  projectId     String
-  tier          String // "hype", "early-access", "champion"
-  startDate     DateTime @default(now())
-  endDate       DateTime? // For subscription expiry
-  amountPaid    Int? // In cents (for one-time or monthly)
-  isActive      Boolean @default(true)
-  
-  @@unique([supporterId, projectId])
-}
-
-model Transaction {
-  id            String @id @default(cuid())
-  supporter     Supporter @relation(fields: [supporterId], references: [id])
-  supporterId   String
-  amount        Int // In cents
-  tier          String
-  paymentType   String // "one-time" or "subscription"
-  razorpayId    String @unique
-  status        String // "completed", "failed", "pending"
-  createdAt     DateTime @default(now())
-}
-```
 
 ---
 
@@ -277,7 +162,7 @@ model Transaction {
 ## Next Steps
 
 1. ✅ Finalize product spec (this document)
-2. 🔄 Update Prisma schema
+2. 🔄 Create Drizzle schema files in codebase
 3. 🔄 Design UI/UX flows (creator journey, project page, supporter view)
 4. 🔄 API endpoints design
 5. 🔄 Begin implementation
