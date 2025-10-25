@@ -92,3 +92,11 @@ import { signIn, signOut, useSession } from "next-auth/react";
 - Never log sensitive data (API keys, user credentials)
 - Validate user input on both client and server
 - Use proper authentication checks in API routes
+
+## Communication Guidelines
+
+### Concision Over Grammar
+Either while writing commit messages or suggesting a plan, always sacrifice grammar for the sake of concision.
+
+### Clarify Unresolved Questions
+If there are any unresolved questions in ANY query from the user, make sure to ask them.
