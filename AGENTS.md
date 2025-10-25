@@ -9,6 +9,25 @@
 
 No test framework is currently configured. Run linting after code changes.
 
+## Git Commit Conventions
+
+Use conventional commit format: `type(scope): description`
+
+### Commit Types
+- **feat**: A new feature
+- **fix**: A bug fix
+- **docs**: Documentation only changes
+- **style**: Changes that do not affect the meaning of the code (formatting, etc.)
+- **refactor**: A code change that neither fixes a bug nor adds a feature
+- **test**: Adding missing tests or correcting existing tests
+- **chore**: Changes to the build process or auxiliary tools
+
+### Examples
+- `feat(auth): add user login functionality`
+- `fix(api): resolve null pointer in user endpoint`
+- `refactor(db): migrate from Prisma to Drizzle ORM`
+- `docs(readme): update installation instructions`
+
 ## Code Style Guidelines
 
 ### Imports
