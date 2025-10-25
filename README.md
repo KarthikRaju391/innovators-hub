@@ -10,10 +10,10 @@ A platform for builders to showcase vibe-coded POCs, build a community of suppor
 - **Project Showcase**: Publish vibe-coded POCs with demo links, GitHub repos, and AI tools used
 - **Version Tracking**: Auto-pull release notes from README; supporters get early access (1 week before public)
 - **Journey Posts**: Share your building process—what you learned, roadblocks, ideas for next version (public or supporter-exclusive)
-- **Supporters**: Monetize via 3 tiers:
+- **Supporters**: Monetize via 3 tiers (one-time payment):
   - Hype Supporter (free) - Shows support, starts discussions
-  - Early Access Supporter ($5/mo) - Early version access + exclusive posts
-  - Champion Supporter ($15/mo) - Direct creator messaging + featured badge
+  - Early Access Supporter ($5) - Early version access + exclusive posts
+  - Champion Supporter ($15) - Direct creator messaging + featured badge
 - **Creator Profile**: Portfolio of projects, supporter count, AI tools used, journey timeline
 
 ### For Community
