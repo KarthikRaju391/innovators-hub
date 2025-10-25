@@ -28,6 +28,21 @@ Use conventional commit format: `type(scope): description`
 - `refactor(db): migrate from Prisma to Drizzle ORM`
 - `docs(readme): update installation instructions`
 
+## Branching Strategy
+
+### Branch Types
+- **main**: Production-ready code
+- **release/sit**: Staging/integration branch - all changes merged here first
+- **feature/**: Feature branches (e.g., `feature/user-auth`)
+- **docs/**: Documentation branches (e.g., `docs/api-reference`)
+- **fix/**: Bug fix branches (e.g., `fix/login-issue`)
+
+### Workflow
+1. Create feature branches from `main`
+2. Develop and commit changes using conventional commits
+3. Merge feature branches to `release/sit` for integration testing
+4. After testing, merge `release/sit` to `main` for production
+
 ## Code Style Guidelines
 
 ### Imports
