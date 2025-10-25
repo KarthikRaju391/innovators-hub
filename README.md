@@ -1,31 +1,32 @@
 # Innovators' Hub
 
-A comprehensive platform designed to empower early-stage entrepreneurs by providing a crowdfunding solution for innovative projects and an e-commerce marketplace for startup products. Built with modern technologies, Innovators' Hub facilitates connections between entrepreneurs, investors, and the community, enabling startups to thrive through funding and product sales.
+A platform for builders to showcase vibe-coded POCs, build a community of supporters, iterate in public, and get real feedback on their ideas.
+
+**Think: Product Hunt + Patreon + Dev.to for solo developers and builders.**
 
 ## Features
 
-### For Entrepreneurs
-- **Project Showcase**: Display your vibe-coded projects, prototypes, and MVPs with detailed descriptions, tech stacks, and demo links.
-- **Startup Registration**: Register your startup with essential details like PAN, GST, location, and business categorization.
-- **Product Marketplace**: List and sell your startup's products directly through the platform.
-- **Community Engagement**: Create posts and engage with the community through comments and discussions.
+### For Builders/Creators
+- **Project Showcase**: Publish vibe-coded POCs with demo links, GitHub repos, and AI tools used
+- **Version Tracking**: Auto-pull release notes from README; supporters get early access (1 week before public)
+- **Journey Posts**: Share your building process—what you learned, roadblocks, ideas for next version (public or supporter-exclusive)
+- **Supporters**: Monetize via 3 tiers:
+  - Hype Supporter (free) - Shows support, starts discussions
+  - Early Access Supporter ($5/mo) - Early version access + exclusive posts
+  - Champion Supporter ($15/mo) - Direct creator messaging + featured badge
+- **Creator Profile**: Portfolio of projects, supporter count, AI tools used, journey timeline
 
-### For Investors
-- **Project Discovery**: Browse and explore innovative projects across various categories and investment stages.
-- **Investment Opportunities**: Fund projects at different stages (Seed, Angel, Series A, etc.) and track your investments.
-- **Meeting Scheduling**: Arrange meetings with entrepreneurs to discuss potential investments.
+### For Community
+- **Discussions**: Threaded discussions under projects (supporters + creators can start, everyone can comment)
+- **Discovery**: Filter by AI tool tags (Claude Code, Cursor, etc.), tech stack, trending, supporters
+- **Feedback**: Upvote projects, comment, and support builders you believe in
 
-### For Users
-- **Product Shopping**: Discover and purchase products from innovative startups with secure Razorpay integration.
-- **Community Forum**: Participate in discussions, read posts, and provide feedback on projects.
-- **Latest Tech News**: Stay updated with the latest technology news from Hacker News.
+### For Platform
+- **AI Tool Tags**: Specific tool attribution ("Built with Claude Code") with clickable discovery
+- **Community-Driven**: Engagement-based visibility (discussions, upvotes, supporter count)
+- **Notifications**: Stay updated on new versions, journey posts, and discussion replies
 
-### Platform Features
-- **Secure Authentication**: User registration and login with email/phone verification using Supabase.
-- **Order Management**: Track orders from purchase to delivery, integrated with Indian Postal Service.
-- **Payment Processing**: Secure payments through Razorpay for both investments and product purchases.
-- **File Storage**: Firebase integration for storing images and project files.
-- **Responsive Design**: Mobile-friendly interface built with Tailwind CSS and Radix UI components.
+---
 
 ## Tech Stack
 
@@ -44,15 +45,16 @@ A comprehensive platform designed to empower early-stage entrepreneurs by provid
 - **NextAuth.js**: Authentication framework
 
 ### Integrations
-- **Razorpay**: Payment gateway
-- **Firebase**: File storage
-- **Hacker News API**: Latest tech news
-- **Indian Postal Service**: Product delivery
+- **Razorpay**: Payment gateway (supporter tiers)
+- **Firebase**: File storage (project images)
+- **GitHub API**: Auto-fetch README for release notes
 
 ### DevOps & Tools
 - **TypeScript**: Type-safe JavaScript
 - **ESLint**: Code linting
 - **Autoprefixer + PostCSS**: CSS processing
+
+---
 
 ## Getting Started
 
@@ -62,6 +64,7 @@ A comprehensive platform designed to empower early-stage entrepreneurs by provid
 - Supabase account
 - Razorpay account
 - Firebase project
+- GitHub OAuth token (for README fetching)
 
 ### Installation
 
@@ -92,6 +95,7 @@ FIREBASE_PROJECT_ID="..."
 FIREBASE_STORAGE_BUCKET="..."
 FIREBASE_MESSAGING_SENDER_ID="..."
 FIREBASE_APP_ID="..."
+GITHUB_TOKEN="..."
 ```
 
 4. Set up the database:
@@ -105,25 +109,36 @@ npx prisma generate
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Usage
+---
 
-### For Entrepreneurs
-1. Register as an entrepreneur and create your startup profile.
-2. Add projects with descriptions, tech stacks, and demo links.
-3. List products for sale in the marketplace.
-4. Engage with investors through scheduled meetings.
+## User Flows
 
-### For Investors
-1. Browse projects and filter by category or investment stage.
-2. Invest in promising projects through the platform.
-3. Schedule meetings with entrepreneurs for detailed discussions.
+### Creator: Publishing a Project
+1. Sign up / log in
+2. Create new project (title, description, demo link, repo link)
+3. Select AI tools used (tags)
+4. Publish
+5. Share with community
+6. Post journey updates (public or supporter-exclusive)
+7. Release new versions (supporters get 1-week early access)
+8. Monitor discussions and respond
 
-### For Users
-1. Explore products from various startups and add to cart.
-2. Complete purchases with secure Razorpay payments.
-3. Participate in the community forum and provide feedback.
+### Supporter: Finding & Supporting
+1. Browse projects by AI tool tag, trending, or tech stack
+2. View project, read discussions, check journey posts
+3. Choose support tier (Hype / Early Access / Champion)
+4. Get early access to versions and exclusive content
+5. Participate in discussions
+
+---
+
+## Documentation
+
+See [PRODUCT_SPEC.md](./PRODUCT_SPEC.md) for detailed feature spec, data model, and roadmap.
+
+---
 
 ## Project Structure
 
@@ -139,17 +154,63 @@ innovators-hub/
 ├── prisma/             # Database schema and migrations
 ├── public/             # Static assets
 ├── styles/             # Global styles
+├── PRODUCT_SPEC.md     # Detailed product specification
 └── ...
 ```
 
+---
+
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Contributions welcome! Please:
+1. Create a feature branch: `git checkout -b feature/your-feature`
+2. Commit your changes: `git commit -m "Add your feature"`
+3. Push to branch: `git push origin feature/your-feature`
+4. Open a Pull Request
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+
+---
 
 ## License
 
-This project is private and proprietary.
+MIT License - See [LICENSE.md](./LICENSE.md)
+
+---
 
 ## Support
 
-For support, please contact the development team or create an issue in the repository.
+- **Issues**: Create an issue on GitHub
+- **Discussions**: Start a discussion in the GitHub Discussions tab
+- **Email**: innovators-hub-team@example.com
+
+---
+
+## Roadmap
+
+### Phase 1 (MVP)
+- ✅ Product spec finalized
+- 🔄 Core schema and API
+- 🔄 Project showcase pages
+- 🔄 Support tier system (Razorpay integration)
+- 🔄 Discussions and comments
+- 🔄 Journey posts
+- 🔄 Creator profiles
+
+### Phase 2
+- Analytics dashboard for creators
+- GitHub-to-project sync automation
+- AI tool badge customization
+- Community recommendations
+- Search and advanced filtering
+
+### Phase 3
+- Mobile app
+- Email digests
+- Creator collaboration features
+- Analytics and insights
+- Community events/hackathons
+
+---
+
+## Built with ❤️ for builders
