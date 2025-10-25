@@ -1,27 +1,155 @@
-# Next.js + Tailwind CSS Example
+# Innovators' Hub
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v3.2)](https://tailwindcss.com/blog/tailwindcss-v3-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+A comprehensive platform designed to empower early-stage entrepreneurs by providing a crowdfunding solution for innovative projects and an e-commerce marketplace for startup products. Built with modern technologies, Innovators' Hub facilitates connections between entrepreneurs, investors, and the community, enabling startups to thrive through funding and product sales.
 
-## Deploy your own
+## Features
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example) or preview live with [StackBlitz](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+### For Entrepreneurs
+- **Project Showcase**: Display your vibe-coded projects, prototypes, and MVPs with detailed descriptions, tech stacks, and demo links.
+- **Startup Registration**: Register your startup with essential details like PAN, GST, location, and business categorization.
+- **Product Marketplace**: List and sell your startup's products directly through the platform.
+- **Community Engagement**: Create posts and engage with the community through comments and discussions.
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
+### For Investors
+- **Project Discovery**: Browse and explore innovative projects across various categories and investment stages.
+- **Investment Opportunities**: Fund projects at different stages (Seed, Angel, Series A, etc.) and track your investments.
+- **Meeting Scheduling**: Arrange meetings with entrepreneurs to discuss potential investments.
 
-## How to use
+### For Users
+- **Product Shopping**: Discover and purchase products from innovative startups with secure Razorpay integration.
+- **Community Forum**: Participate in discussions, read posts, and provide feedback on projects.
+- **Latest Tech News**: Stay updated with the latest technology news from Hacker News.
 
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init), [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/), or [pnpm](https://pnpm.io) to bootstrap the example:
+### Platform Features
+- **Secure Authentication**: User registration and login with email/phone verification using Supabase.
+- **Order Management**: Track orders from purchase to delivery, integrated with Indian Postal Service.
+- **Payment Processing**: Secure payments through Razorpay for both investments and product purchases.
+- **File Storage**: Firebase integration for storing images and project files.
+- **Responsive Design**: Mobile-friendly interface built with Tailwind CSS and Radix UI components.
 
+## Tech Stack
+
+### Frontend
+- **Next.js 14**: React framework for server-side rendering and routing
+- **React 18**: UI library
+- **Tailwind CSS**: Utility-first CSS framework
+- **Radix UI**: Accessible UI components
+- **Lucide React**: Icon library
+- **React Hook Form + Zod**: Form handling and validation
+
+### Backend & Database
+- **Next.js API Routes**: Serverless API endpoints
+- **Prisma**: Database ORM with PostgreSQL
+- **Supabase**: Authentication and real-time features
+- **NextAuth.js**: Authentication framework
+
+### Integrations
+- **Razorpay**: Payment gateway
+- **Firebase**: File storage
+- **Hacker News API**: Latest tech news
+- **Indian Postal Service**: Product delivery
+
+### DevOps & Tools
+- **TypeScript**: Type-safe JavaScript
+- **ESLint**: Code linting
+- **Autoprefixer + PostCSS**: CSS processing
+
+## Getting Started
+
+### Prerequisites
+- Node.js 18+
+- PostgreSQL database
+- Supabase account
+- Razorpay account
+- Firebase project
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
+git clone https://github.com/KarthikRaju391/innovators-hub.git
+cd innovators-hub
 ```
 
+2. Install dependencies:
 ```bash
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
+npm install
 ```
 
-```bash
-pnpm create next-app --example with-tailwindcss with-tailwindcss-app
+3. Set up environment variables:
+Create a `.env.local` file with the following variables:
+```
+DATABASE_URL="postgresql://..."
+NEXTAUTH_SECRET="..."
+NEXTAUTH_URL="http://localhost:3000"
+SUPABASE_URL="..."
+SUPABASE_ANON_KEY="..."
+RAZORPAY_KEY_ID="..."
+RAZORPAY_KEY_SECRET="..."
+FIREBASE_API_KEY="..."
+FIREBASE_AUTH_DOMAIN="..."
+FIREBASE_PROJECT_ID="..."
+FIREBASE_STORAGE_BUCKET="..."
+FIREBASE_MESSAGING_SENDER_ID="..."
+FIREBASE_APP_ID="..."
 ```
 
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+4. Set up the database:
+```bash
+npx prisma migrate dev
+npx prisma generate
+```
+
+5. Run the development server:
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the application.
+
+## Usage
+
+### For Entrepreneurs
+1. Register as an entrepreneur and create your startup profile.
+2. Add projects with descriptions, tech stacks, and demo links.
+3. List products for sale in the marketplace.
+4. Engage with investors through scheduled meetings.
+
+### For Investors
+1. Browse projects and filter by category or investment stage.
+2. Invest in promising projects through the platform.
+3. Schedule meetings with entrepreneurs for detailed discussions.
+
+### For Users
+1. Explore products from various startups and add to cart.
+2. Complete purchases with secure Razorpay payments.
+3. Participate in the community forum and provide feedback.
+
+## Project Structure
+
+```
+innovators-hub/
+├── components/          # Reusable React components
+├── constants/           # Application constants
+├── context/             # React context providers
+├── lib/                 # Utility functions and custom hooks
+├── pages/               # Next.js pages and API routes
+│   ├── api/            # API endpoints
+│   └── ...             # Page components
+├── prisma/             # Database schema and migrations
+├── public/             # Static assets
+├── styles/             # Global styles
+└── ...
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is private and proprietary.
+
+## Support
+
+For support, please contact the development team or create an issue in the repository.
