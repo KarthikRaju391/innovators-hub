@@ -120,3 +120,38 @@ export const supportersRelations = relations(supporters, ({ one, many }) => ({
   project: one(projects, { fields: [supporters.projectId], references: [projects.id] }),
   transactions: many(transactions),
 }));
+
+// Database type for Supabase
+export type Database = {
+  public: {
+    Tables: {
+      users: {
+        Row: {
+          id: string
+          email: string
+          name: string | null
+          bio: string | null
+          avatar: string | null
+          created_at: string
+        }
+        Insert: {
+          id: string
+          email: string
+          name?: string | null
+          bio?: string | null
+          avatar?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          email?: string
+          name?: string | null
+          bio?: string | null
+          avatar?: string | null
+          created_at?: string
+        }
+      }
+      // Add other tables as needed for login flow
+    }
+  }
+}
