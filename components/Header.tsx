@@ -2,6 +2,8 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { createBrowserClient } from '@supabase/ssr';
 import type { User } from '@supabase/supabase-js';
+import UserMenu from "./UserMenu";
+import { Sparkles } from "lucide-react";
 
 const supabase = createBrowserClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -39,65 +41,65 @@ function Header() {
 		router.push('/');
 	};
 
-	if (loading) {
-		return (
-			<nav className="bg-white border-b shadow-sm flex justify-between items-center px-4 py-2">
-				<div className="text-xl font-bold">
-					Innovators' Hub
-				</div>
-				<div className="text-sm text-gray-500">Loading...</div>
-			</nav>
-		);
-	}
-
 	return (
-		<nav className="bg-white border-b shadow-sm flex justify-between items-center px-4 py-2">
-			<div className="text-xl font-bold">
-				Innovators' Hub
-			</div>
-			<ul className="flex space-x-6">
-				<div className="flex space-x-4">
-					<li className="hover:text-blue-500 cursor-pointer" onClick={() => router.push('/')}>
-						Home
-					</li>
-					<li className="hover:text-blue-500 cursor-pointer" onClick={() => router.push('/aboutus')}>
-						About Us
-					</li>
-				</div>
-				<div className="flex space-x-4">
-					{user ? (
-						<>
-							<li className="text-gray-700">
-								Welcome, {user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0]}
-							</li>
-							<li className="hover:text-blue-500 cursor-pointer" onClick={handleLogout}>
-								Logout
-							</li>
-						</>
-					) : (
-						<li className="hover:text-blue-500 cursor-pointer" onClick={() => router.push('/login')}>
-							Login
-						</li>
-					)}
-				</div>
-			</ul>
-		</nav>
+		<nav className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-40">
+			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div className="flex justify-between items-center h-16">
+					{/* Logo */}
+					<div
+						className="flex items-center gap-2 cursor-pointer group"
+						onClick={() => router.push('/')}
+					>
+						<div className="w-8 h-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+							<Sparkles className="w-5 h-5 text-white" />
+						</div>
+						<span className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+							Innovators' Hub
+						</span>
+					</div>
 
-		// <div className={"flex flex-col md:flex-row " + `${classes.naver}`}>
-		//   <div className={"flex-none " + `${classes.name}`}>
-		//   Innovators' Hub
-		//   </div>
-		//   <div className="flex-1 w-100">
-		//   </div>
-		//   <div className="flex-1 w-32">
-		//     <ul className='flex flex-wrap'>
-		//       <li className={classes.lis}>Home</li>
-		//       <li className={classes.lis}>Contact us</li>
-		//       <li className={classes.lis}>Verify</li>
-		//       <li className={classes.lis}>Get Started</li>
-		//     </ul>
-		//   </div>
-		// </div>
+					{/* Navigation */}
+					<div className="flex items-center gap-6">
+						<button
+							onClick={() => router.push('/')}
+							className={`text-sm font-medium transition-colors ${
+								router.pathname === '/'
+									? 'text-indigo-600'
+									: 'text-gray-700 hover:text-indigo-600'
+							}`}
+						>
+							Explore
+						</button>
+
+						{user && (
+							<button
+								onClick={() => router.push('/dashboard')}
+								className={`text-sm font-medium transition-colors ${
+									router.pathname.startsWith('/dashboard')
+										? 'text-indigo-600'
+										: 'text-gray-700 hover:text-indigo-600'
+								}`}
+							>
+								Dashboard
+							</button>
+						)}
+
+						{loading ? (
+							<div className="w-8 h-8 rounded-full bg-gray-200 animate-pulse" />
+						) : user ? (
+							<UserMenu user={user} onLogout={handleLogout} />
+						) : (
+							<button
+								onClick={() => router.push('/login')}
+								className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
+							>
+								Sign In
+							</button>
+						)}
+					</div>
+				</div>
+			</div>
+		</nav>
 	);
 }
 

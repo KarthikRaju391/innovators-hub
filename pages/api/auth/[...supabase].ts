@@ -58,6 +58,29 @@ export default async function handler(
           return res.redirect('/login?error=code_exchange_failed')
         }
 
+        // Ensure user exists in our database
+        if (data.session?.user) {
+          try {
+            const existingUser = await db
+              .select()
+              .from(users)
+              .where(eq(users.id, data.session.user.id))
+              .limit(1);
+
+            if (existingUser.length === 0) {
+              await db.insert(users).values({
+                id: data.session.user.id,
+                email: data.session.user.email!,
+                name: data.session.user.user_metadata?.full_name || data.session.user.user_metadata?.name,
+                avatar: data.session.user.user_metadata?.avatar_url,
+              });
+              console.log('New OAuth user created:', data.session.user.email);
+            }
+          } catch (error) {
+            console.error('Error syncing OAuth user:', error);
+          }
+        }
+
         // Redirect to home page after successful auth
         return res.redirect('/')
       } catch (error) {

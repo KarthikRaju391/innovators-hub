@@ -8,6 +8,11 @@ export const users = pgTable('users', {
   name: text('name'),
   bio: text('bio'),
   avatar: text('avatar'),
+  role: text('role').default('USER').notNull(),
+  githubUrl: text('github_url'),
+  twitterUrl: text('twitter_url'),
+  websiteUrl: text('website_url'),
+  linkedinUrl: text('linkedin_url'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
@@ -65,9 +70,9 @@ export const comments = pgTable('comments', {
   content: text('content').notNull(),
   authorId: text('author_id').notNull().references(() => users.id),
   discussionId: text('discussion_id').notNull().references(() => discussions.id),
+  parentId: text('parent_id'),
   upvotes: integer('upvotes').default(0).notNull(),
   createdAt: timestamp('created_at').defaultNow().notNull(),
-  updatedAt: timestamp('updated_at').defaultNow().notNull(),
 });
 
 // Supporters table
@@ -132,6 +137,7 @@ export type Database = {
           name: string | null
           bio: string | null
           avatar: string | null
+          role: string
           created_at: string
         }
         Insert: {
@@ -140,6 +146,7 @@ export type Database = {
           name?: string | null
           bio?: string | null
           avatar?: string | null
+          role?: string
           created_at?: string
         }
         Update: {
@@ -148,6 +155,7 @@ export type Database = {
           name?: string | null
           bio?: string | null
           avatar?: string | null
+          role?: string
           created_at?: string
         }
       }
