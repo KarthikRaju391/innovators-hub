@@ -1,6 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { createServerClient } from '@supabase/ssr';
-import { cookies } from 'next/headers';
+import { db } from '../../../src/lib/db';
+import { users } from '../../../src/lib/db/schema';
+import { eq } from 'drizzle-orm';
 
 export default async function handler(
   req: NextApiRequest,
@@ -35,26 +37,24 @@ export default async function handler(
     const { name, bio, githubUrl, twitterUrl, websiteUrl, linkedinUrl } = req.body;
 
     try {
-      const { data, error } = await supabase
-        .from('users')
-        .update({
+      const updatedUser = await db
+        .update(users)
+        .set({
           name,
           bio,
-          github_url: githubUrl,
-          twitter_url: twitterUrl,
-          website_url: websiteUrl,
-          linkedin_url: linkedinUrl,
+          githubUrl,
+          twitterUrl,
+          websiteUrl,
+          linkedinUrl,
         })
-        .eq('id', session.user.id)
-        .select()
-        .single();
+        .where(eq(users.id, session.user.id))
+        .returning();
 
-      if (error) {
-        console.error('Error updating profile:', error);
-        return res.status(500).json({ message: 'Failed to update profile' });
+      if (updatedUser.length === 0) {
+        return res.status(404).json({ message: 'User not found' });
       }
 
-      return res.status(200).json(data);
+      return res.status(200).json(updatedUser[0]);
     } catch (error) {
       console.error('Error updating profile:', error);
       return res.status(500).json({ message: 'Internal server error' });

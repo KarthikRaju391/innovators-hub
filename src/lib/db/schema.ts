@@ -1,4 +1,4 @@
-import { pgTable, text, integer, boolean, timestamp, jsonb, uniqueIndex } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, boolean, timestamp, jsonb, uniqueIndex, index } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 // Users table
@@ -13,6 +13,8 @@ export const users = pgTable('users', {
   twitterUrl: text('twitter_url'),
   websiteUrl: text('website_url'),
   linkedinUrl: text('linkedin_url'),
+  streak: integer('streak').default(0).notNull(),
+  lastPostDate: timestamp('last_post_date'),
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
@@ -75,6 +77,19 @@ export const comments = pgTable('comments', {
   createdAt: timestamp('created_at').defaultNow().notNull(),
 });
 
+// Reactions table
+export const reactions = pgTable('reactions', {
+  id: text('id').primaryKey(),
+  userId: text('user_id').notNull().references(() => users.id),
+  targetId: text('target_id').notNull(), // Polymorphic ID
+  targetType: text('target_type').notNull(), // 'project', 'discussion', 'comment', 'journey_post'
+  type: text('type').notNull(), // 'ship_it', 'galaxy_brain', 'pixel_perfect', 'bug_hunter'
+  createdAt: timestamp('created_at').defaultNow().notNull(),
+}, (table) => ({
+  targetIdx: index('reactions_target_idx').on(table.targetId, table.targetType),
+  userTargetIdx: uniqueIndex('reactions_user_target_idx').on(table.userId, table.targetId, table.targetType),
+}));
+
 // Supporters table
 export const supporters = pgTable('supporters', {
   id: text('id').primaryKey(),
@@ -109,6 +124,7 @@ export const usersRelations = relations(users, ({ many }) => ({
   discussions: many(discussions),
   comments: many(comments),
   supportedProjects: many(supporters),
+  reactions: many(reactions),
 }));
 
 export const projectsRelations = relations(projects, ({ one, many }) => ({
@@ -117,6 +133,10 @@ export const projectsRelations = relations(projects, ({ one, many }) => ({
   journeyPosts: many(journeyPosts),
   discussions: many(discussions),
   supporters: many(supporters),
+}));
+
+export const reactionsRelations = relations(reactions, ({ one }) => ({
+  user: one(users, { fields: [reactions.userId], references: [users.id] }),
 }));
 
 export const supportersRelations = relations(supporters, ({ one, many }) => ({
@@ -138,6 +158,8 @@ export type Database = {
           bio: string | null
           avatar: string | null
           role: string
+          streak: number
+          last_post_date: string | null
           created_at: string
         }
         Insert: {
@@ -147,6 +169,8 @@ export type Database = {
           bio?: string | null
           avatar?: string | null
           role?: string
+          streak?: number
+          last_post_date?: string | null
           created_at?: string
         }
         Update: {
@@ -156,6 +180,8 @@ export type Database = {
           bio?: string | null
           avatar?: string | null
           role?: string
+          streak?: number
+          last_post_date?: string | null
           created_at?: string
         }
       }

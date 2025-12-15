@@ -10,8 +10,8 @@ import type { User } from '@supabase/supabase-js';
 import { Sparkles, Rocket, Heart } from "lucide-react";
 
 const supabase = createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+	process.env.NEXT_PUBLIC_SUPABASE_URL!,
+	process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 );
 
 function Home() {
@@ -176,6 +176,7 @@ function Home() {
 						tech={filters.tech}
 						sort={filters.sort}
 						searchQuery={filters.searchQuery}
+						currentUserId={user?.id}
 					/>
 				</div>
 			</div>

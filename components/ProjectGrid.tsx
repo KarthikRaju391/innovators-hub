@@ -25,9 +25,10 @@ interface ProjectGridProps {
   tech?: string;
   sort?: string;
   searchQuery?: string;
+  currentUserId?: string;
 }
 
-function ProjectGrid({ tag, tech, sort = 'new', searchQuery }: ProjectGridProps) {
+function ProjectGrid({ tag, tech, sort = 'new', searchQuery, currentUserId }: ProjectGridProps) {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -128,7 +129,7 @@ function ProjectGrid({ tag, tech, sort = 'new', searchQuery }: ProjectGridProps)
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       {projects.map((project) => (
-        <ProjectCard key={project.id} project={project} />
+        <ProjectCard key={project.id} project={project} currentUserId={currentUserId} />
       ))}
     </div>
   );
